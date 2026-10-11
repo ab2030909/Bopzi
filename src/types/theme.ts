@@ -43,37 +43,37 @@ export interface ThemeConfig {
 export const THEMES: Record<ThemeId, ThemeConfig> = {
   'party-pop': {
     id: 'party-pop',
-    name: 'Street Pop',
-    description: 'Fresh Gen-Z streetwear graffiti vibes — crisp off-white canvas, neon lime, hyper-violet, and hot pink.',
-    tagline: 'Graffiti drips & high-voltage street energy',
-    badge: 'GEN-Z VIBE',
+    name: 'Party Pop',
+    description: 'Bright, playful and full of energy.',
+    tagline: 'Vibrant vibes & bouncy celebrations',
+    badge: 'DEFAULT',
     colors: {
-      primary: '#7C3AED', // Electric Purple
+      primary: '#7C3AED', // Royal Purple
       primaryHover: '#6D28D9',
-      secondary: '#10B981', // Neon Acid Green
-      accent: '#FF007F', // Hot Neon Pink
-      background: '#FAFAF7', // Crisp Designer Off-White
+      secondary: '#22C55E', // Bright Green
+      accent: '#EC4899', // Hot Pink
+      background: '#FFFFFF', // Clean white
       surface: '#FFFFFF',
-      surfaceHover: '#F4F4F0',
-      border: '#121212', // Bold ink brutalist borders
-      text: '#121212', // Deep ink black
-      textMuted: '#52525B',
-      cardBg: 'rgba(255, 255, 255, 0.95)',
-      answerRed: '#FF0055',
-      answerBlue: '#2563EB',
-      answerYellow: '#FACC15',
-      answerGreen: '#10B981',
+      surfaceHover: '#F8FAFC',
+      border: '#E2E8F0',
+      text: '#0F172A',
+      textMuted: '#64748B',
+      cardBg: '#FFFFFF',
+      answerRed: '#EF4444',
+      answerBlue: '#3B82F6',
+      answerYellow: '#EAB308',
+      answerGreen: '#22C55E',
     },
     mascot: {
-      name: 'Blip Tag',
-      role: 'Street Mascot & Tag Master',
-      tagline: 'Spray it, say it, win it!',
+      name: 'Blip',
+      role: 'The Party Champion',
+      tagline: 'Ready to pop some brains!',
       color: '#7C3AED',
     },
-    cardRadius: 'rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_#121212]',
-    buttonClass: 'rounded-xl border-2 border-black font-black shadow-[4px_4px_0px_0px_#121212] hover:shadow-[6px_6px_0px_0px_#121212] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-[2px_2px_0px_0px_#121212] transition-all',
+    cardRadius: 'rounded-3xl border border-slate-200/80 shadow-sm',
+    buttonClass: 'rounded-full font-bold shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all',
     glowEffect: false,
-    starsOrGrid: 'grid',
+    starsOrGrid: 'none',
   },
   'neon-arcade': {
     id: 'neon-arcade',
