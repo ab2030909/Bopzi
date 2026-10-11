@@ -2,8 +2,8 @@
 
 @layer base {
   :root {
-    --background: #0f0926;
-    --foreground: #ffffff;
+    --background: #fafaf7;
+    --foreground: #121212;
   }
 
   body {
@@ -15,7 +15,55 @@
   }
 }
 
+/* Neo-Brutalist & Street Graffiti shadows */
+.shadow-brutal-sm {
+  box-shadow: 2px 2px 0px 0px #121212;
+}
+
+.shadow-brutal {
+  box-shadow: 4px 4px 0px 0px #121212;
+}
+
+.shadow-brutal-lg {
+  box-shadow: 6px 6px 0px 0px #121212;
+}
+
+.shadow-brutal-xl {
+  box-shadow: 8px 8px 0px 0px #121212;
+}
+
+.shadow-brutal-green {
+  box-shadow: 5px 5px 0px 0px #10b981;
+}
+
+.shadow-brutal-pink {
+  box-shadow: 5px 5px 0px 0px #ff007f;
+}
+
+.shadow-brutal-purple {
+  box-shadow: 5px 5px 0px 0px #7c3aed;
+}
+
 /* Animations */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes bounce-gentle {
   0%, 100% {
     transform: translateY(0);
@@ -30,10 +78,10 @@
     transform: rotate(0deg) scale(1);
   }
   25% {
-    transform: rotate(-10deg) scale(1.05);
+    transform: rotate(-8deg) scale(1.05);
   }
   75% {
-    transform: rotate(10deg) scale(1.05);
+    transform: rotate(8deg) scale(1.05);
   }
 }
 
@@ -54,21 +102,10 @@
     transform: scale(0.9);
   }
   50% {
-    transform: scale(1.15);
+    transform: scale(1.12);
   }
   100% {
     transform: scale(1);
-  }
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.6;
-    filter: drop-shadow(0 0 15px currentColor);
-  }
-  50% {
-    opacity: 1;
-    filter: drop-shadow(0 0 30px currentColor);
   }
 }
 
@@ -86,8 +123,4 @@
 
 .animate-pop {
   animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
 }

@@ -60,7 +60,16 @@ export function ThemeProvider({
         }}
       >
         {/* Dynamic Theme Background Patterns */}
-        {theme.starsOrGrid === 'grid' && (
+        {themeId === 'party-pop' && (
+          <>
+            <div className="fixed inset-0 pointer-events-none opacity-[0.06] bg-[radial-gradient(#121212_1.5px,transparent_1.5px)] [background-size:20px_20px]" />
+            {/* Ambient neon street spray orbs */}
+            <div className="fixed -top-40 -left-40 w-96 h-96 rounded-full bg-[#10B981]/15 blur-3xl pointer-events-none" />
+            <div className="fixed top-1/3 -right-40 w-96 h-96 rounded-full bg-[#FF007F]/15 blur-3xl pointer-events-none" />
+            <div className="fixed -bottom-40 left-1/3 w-96 h-96 rounded-full bg-[#7C3AED]/15 blur-3xl pointer-events-none" />
+          </>
+        )}
+        {themeId !== 'party-pop' && theme.starsOrGrid === 'grid' && (
           <div
             className="fixed inset-0 pointer-events-none opacity-20"
             style={{
@@ -69,10 +78,10 @@ export function ThemeProvider({
             }}
           />
         )}
-        {theme.starsOrGrid === 'stars' && (
+        {themeId !== 'party-pop' && theme.starsOrGrid === 'stars' && (
           <div className="fixed inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:24px_24px]" />
         )}
-        {theme.starsOrGrid === 'confetti' && (
+        {themeId !== 'party-pop' && theme.starsOrGrid === 'confetti' && (
           <div className="fixed inset-0 pointer-events-none opacity-10 bg-[radial-gradient(#f43f5e_2px,transparent_2px),radial-gradient(#facc15_2px,transparent_2px)] [background-size:48px_48px] [background-position:0_0,24px_24px]" />
         )}
         <div className="relative z-10 flex-1 flex flex-col">{children}</div>
