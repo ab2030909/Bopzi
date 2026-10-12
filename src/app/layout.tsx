@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import React, { Suspense } from 'react';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { Navbar } from '@/components/layout/Navbar';
@@ -27,7 +28,9 @@ export default function RootLayout({
       </head>
       <body className="antialiased selection:bg-purple-500 selection:text-white">
         <ThemeProvider>
-          <Navbar />
+          <Suspense fallback={<div className="h-16 w-full bg-white/95 border-b border-slate-100" />}>
+            <Navbar />
+          </Suspense>
           <main className="flex-1 flex flex-col">{children}</main>
         </ThemeProvider>
       </body>
