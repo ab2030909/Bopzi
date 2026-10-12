@@ -1,5 +1,5 @@
 /**
- * Server-authoritative scoring engine for Anti Kahoot.
+ * Server-authoritative scoring engine for Bopzi.
  * Deterministic, tamper-proof calculations.
  */
 

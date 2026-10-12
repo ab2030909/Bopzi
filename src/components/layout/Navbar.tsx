@@ -1,27 +1,47 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Gamepad2, ArrowRight, User } from 'lucide-react';
 import { sounds } from '@/lib/audio';
 
 export function Navbar() {
+  const pathname = usePathname();
+  const isJoinPage = pathname === '/join';
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        {/* Brand Logo matching reference screenshot */}
-        <Link href="/" className="flex items-center space-x-1 group select-none">
-          <div className="relative flex flex-col">
-            {/* Golden Crown on top of ANTI */}
-            <div className="absolute -top-3.5 left-2 text-[#F59E0B] text-base animate-bounce-gentle">
-              👑
-            </div>
-            <div className="flex items-baseline font-black tracking-tight text-2xl sm:text-3xl">
-              <span className="text-[#3B127A]">ANTI</span>
-              <span className="text-[#EC4899] ml-1">KAHOOT</span>
-            </div>
-          </div>
-        </Link>
+    <>
+      {/* On join page: top edge invisible hover detector to open menu when user moves mouse to top */}
+      {isJoinPage && (
+        <div
+          onMouseEnter={() => setHovered(true)}
+          className="fixed top-0 left-0 right-0 h-4 z-[60]"
+          aria-hidden="true"
+        />
+      )}
+
+      <header
+        onMouseEnter={() => isJoinPage && setHovered(true)}
+        onMouseLeave={() => isJoinPage && setHovered(false)}
+        className={`${
+          isJoinPage
+            ? `fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
+                hovered ? 'translate-y-0 shadow-2xl' : '-translate-y-full'
+              }`
+            : 'sticky top-0 z-50'
+        } bg-white/95 backdrop-blur-md border-b border-slate-100`}
+      >
+        <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          {/* Brand Logo matching official uploaded logo asset */}
+          <Link href="/" className="flex items-center space-x-2 group select-none">
+            <img
+              src="/images/logo.png"
+              alt="Bopzi Official Logo"
+              className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform"
+            />
+          </Link>
 
         {/* Center Nav Links matching screenshot */}
         <nav className="hidden md:flex items-center space-x-1 sm:space-x-2">
@@ -90,5 +110,6 @@ export function Navbar() {
         </div>
       </div>
     </header>
+    </>
   );
 }

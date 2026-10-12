@@ -83,38 +83,41 @@ function JoinContent() {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4 sm:p-6 my-auto">
+    <div className="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+      {/* Immersive Cyberpunk Arena Background Image - Clear, crisp, no blur or shade */}
+      <img
+        src="/images/join-bg.jpg"
+        alt="Bopzi Arena Background"
+        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
+      />
+
+      {/* Main Join Game Card - Compact, Sleek, White-Purplish Shaded Glassmorphism */}
       <div
-        className="w-full max-w-md p-6 sm:p-8 rounded-3xl border shadow-2xl relative backdrop-blur-xl"
-        style={{
-          backgroundColor: theme.colors.cardBg,
-          borderColor: theme.colors.border,
-        }}
+        className="w-full max-w-sm sm:max-w-[370px] p-5 sm:p-6 rounded-[28px] border border-white/80 shadow-[0_20px_50px_rgba(88,28,135,0.28)] relative backdrop-blur-2xl bg-white/90 text-slate-800 z-10"
       >
-        <div className="text-center mb-6">
+        <div className="text-center mb-4">
           <div
-            className="w-14 h-14 rounded-2xl mx-auto flex items-center justify-center font-black text-2xl text-white shadow-lg mb-3"
-            style={{ backgroundColor: theme.colors.primary }}
+            className="w-11 h-11 rounded-2xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-md shadow-purple-500/30 mb-2.5 bg-gradient-to-tr from-[#7C3AED] to-[#EC4899]"
           >
             ⚡
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white">Join Live Game</h1>
-          <p className="text-xs sm:text-sm text-slate-300 mt-1">
-            Enter your PIN and nickname to jump straight into the arena!
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Join Live Game</h1>
+          <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+            Enter PIN & nickname to jump into the arena!
           </p>
         </div>
 
         {error && (
-          <div className="mb-5 p-3.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs sm:text-sm flex items-center gap-2.5">
-            <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-400" />
+          <div className="mb-4 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs flex items-center gap-2">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-rose-500" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleJoin} className="space-y-5">
+        <form onSubmit={handleJoin} className="space-y-3.5">
           {/* Game PIN Input */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">
               Game PIN
             </label>
             <div className="relative">
@@ -125,19 +128,16 @@ function JoinContent() {
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
                 placeholder="6-digit PIN"
-                className="w-full px-4 py-3.5 rounded-2xl font-mono text-center text-2xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-base placeholder:font-medium bg-black/40 border-2 focus:outline-none transition-all text-white"
-                style={{
-                  borderColor: pin.length === 6 ? theme.colors.primary : `${theme.colors.border}bb`,
-                }}
+                className="w-full px-3.5 py-2.5 rounded-xl font-mono text-center text-xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-sm placeholder:font-medium bg-purple-50/70 border-2 border-purple-100 focus:border-[#7C3AED] focus:bg-white focus:outline-none transition-all text-slate-900"
                 required
               />
-              <Gamepad2 className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <Gamepad2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Nickname Input */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">
               Your Nickname
             </label>
             <div className="relative">
@@ -147,22 +147,19 @@ function JoinContent() {
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="e.g. QuizMaster99"
-                className="w-full px-4 py-3.5 rounded-2xl font-bold text-lg placeholder:font-normal placeholder:text-sm bg-black/40 border-2 focus:outline-none transition-all text-white"
-                style={{
-                  borderColor: nickname.trim().length > 0 ? theme.colors.primary : `${theme.colors.border}bb`,
-                }}
+                className="w-full px-3.5 py-2.5 rounded-xl font-bold text-sm placeholder:font-normal placeholder:text-xs bg-purple-50/70 border-2 border-purple-100 focus:border-[#7C3AED] focus:bg-white focus:outline-none transition-all text-slate-900"
                 required
               />
-              <User className="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+              <User className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Avatar / Mascot Selection */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">
               Choose Avatar
             </label>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-1.5">
               {AVATAR_OPTIONS.map((av) => {
                 const isSelected = avatar === av.id;
                 return (
@@ -173,18 +170,16 @@ function JoinContent() {
                       setAvatar(av.id);
                       sounds.playCountdownTick();
                     }}
-                    className={`p-2 rounded-2xl border-2 flex flex-col items-center justify-center transition-all ${
-                      isSelected ? 'ring-2 scale-105 shadow-lg' : 'opacity-70 hover:opacity-100'
+                    className={`p-1.5 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${
+                      isSelected
+                        ? 'border-[#7C3AED] bg-purple-100/70 shadow-sm scale-102 ring-1 ring-[#7C3AED]'
+                        : 'border-purple-100/60 bg-white/70 hover:bg-purple-50/80 opacity-75 hover:opacity-100'
                     }`}
-                    style={{
-                      backgroundColor: isSelected ? `${theme.colors.primary}33` : 'rgba(0,0,0,0.3)',
-                      borderColor: isSelected ? theme.colors.primary : theme.colors.border,
-                    }}
                   >
-                    <div className="w-10 h-10 mb-1 flex items-center justify-center">
+                    <div className="w-8 h-8 mb-0.5 flex items-center justify-center">
                       <Mascot themeId={av.theme as any} state={isSelected ? 'celebrating' : 'idle'} size="sm" />
                     </div>
-                    <span className="text-[10px] font-bold text-slate-200 truncate w-full text-center">
+                    <span className="text-[9px] font-bold text-slate-700 truncate w-full text-center">
                       {av.label}
                     </span>
                   </button>
@@ -197,15 +192,14 @@ function JoinContent() {
           <button
             type="submit"
             disabled={loading || pin.length !== 6 || !nickname.trim()}
-            className="w-full py-4 rounded-2xl font-black text-lg text-white shadow-xl transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 mt-4"
-            style={{ backgroundColor: theme.colors.primary }}
+            className="w-full py-3 rounded-xl font-black text-sm text-white shadow-lg shadow-purple-500/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-1.5 mt-2 bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:opacity-95"
           >
             {loading ? (
               <span className="animate-pulse">Entering Arena...</span>
             ) : (
               <>
                 <span>JOIN GAME</span>
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4" />
               </>
             )}
           </button>

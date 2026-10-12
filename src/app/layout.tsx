@@ -4,10 +4,10 @@ import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { Navbar } from '@/components/layout/Navbar';
 
 export const metadata: Metadata = {
-  title: 'Anti Kahoot — Free Real-Time Multiplayer Quiz Arena',
+  title: 'Bopzi — Free Real-Time Multiplayer Quiz Arena',
   description:
     'The 100% free, modern real-time multiplayer quiz game platform. Host interactive live games, join instantly with PIN or QR code, featuring 4 original themes and mascots.',
-  keywords: ['quiz game', 'trivia', 'anti kahoot', 'realtime multiplayer', 'classroom game', 'kahoot alternative free'],
+  keywords: ['quiz game', 'trivia', 'bopzi', 'realtime multiplayer', 'classroom game', 'kahoot alternative free'],
 };
 
 export default function RootLayout({
