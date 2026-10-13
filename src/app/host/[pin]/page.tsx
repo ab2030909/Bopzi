@@ -255,16 +255,6 @@ function HostLiveGameContent() {
         </>
       )}
 
-      {/* Astronaut Mascot for Cosmic Quest Host Projector Screen */}
-      {isCosmic && (
-        <div className="hidden lg:block absolute left-4 xl:left-8 bottom-6 sm:bottom-10 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
-          <img
-            src="/images/cosmic_mascot_astronaut.png"
-            alt="Cosmic Quest Astronaut Mascot"
-            className="w-full h-auto object-contain filter drop-shadow-[0_15px_35px_rgba(56,189,248,0.45)] animate-float-slow rounded-3xl"
-          />
-        </div>
-      )}
 
       {/* Main Content Area */}
       <div className="relative z-10 flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">

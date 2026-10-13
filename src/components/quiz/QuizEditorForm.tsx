@@ -284,16 +284,6 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
         </>
       )}
 
-      {/* Corner Astronaut Mascot for Cosmic Quest */}
-      {isCosmic && (
-        <div className="hidden lg:block absolute left-3 sm:left-6 bottom-4 sm:bottom-6 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
-          <img
-            src="/images/cosmic_mascot_astronaut.png"
-            alt="Cosmic Quest Astronaut"
-            className="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(56,189,248,0.4)] animate-float-slow rounded-3xl"
-          />
-        </div>
-      )}
 
       {/* Main Container */}
       <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
