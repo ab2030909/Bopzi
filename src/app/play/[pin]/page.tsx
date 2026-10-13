@@ -203,7 +203,8 @@ function PlayerGameContent() {
 
   const isNeon = session.theme_id === 'neon-arcade';
   const isCosmic = session.theme_id === 'cosmic-quest';
-  const isPartyPop = session.theme_id === 'party-pop' || (!session.theme_id && !isCosmic && !isNeon);
+  const isChampion = session.theme_id === 'champion-mode';
+  const isPartyPop = session.theme_id === 'party-pop' || (!session.theme_id && !isCosmic && !isNeon && !isChampion);
 
   return (
     <div className={`relative min-h-screen w-full flex-1 flex flex-col transition-colors duration-500 overflow-hidden ${
@@ -211,6 +212,8 @@ function PlayerGameContent() {
         ? 'bg-[#030712] text-white'
         : isCosmic
         ? 'bg-[#050C1A] text-white'
+        : isChampion
+        ? 'bg-[#FDFBF7] text-[#0F172A]'
         : isPartyPop
         ? 'bg-[#FCFBFF] text-[#0F172A]'
         : ''
@@ -231,6 +234,14 @@ function PlayerGameContent() {
         />
       )}
 
+      {/* Dynamic Background Image for Champion Mode */}
+      {isChampion && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/champion_mode_bg.png')" }}
+        />
+      )}
+
       {/* Dynamic Background Image for Party Pop */}
       {isPartyPop && (
         <div
@@ -248,6 +259,8 @@ function PlayerGameContent() {
               ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(6,182,212,0.3)]'
               : isCosmic
               ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_25px_rgba(6,182,212,0.25)]'
+              : isChampion
+              ? 'bg-white/90 border-2 border-amber-300 shadow-[0_10px_25px_rgba(245,158,11,0.12)]'
               : isPartyPop
               ? 'bg-white/95 border-purple-100 shadow-[0_8px_20px_rgba(124,58,237,0.06)]'
               : ''
@@ -502,7 +515,25 @@ function PlayerGameContent() {
                     shape: 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]',
                   },
                 ];
-                const optionStyle = isNeon ? neonStyles[idx] || neonStyles[0] : isCosmic ? cosmicStyles[idx] || cosmicStyles[0] : null;
+                const championStyles = [
+                  {
+                    card: 'bg-gradient-to-r from-[#DC2626] to-[#991B1B] text-white shadow-xl border border-rose-300',
+                    shape: 'text-rose-100 drop-shadow',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white shadow-xl border border-sky-300',
+                    shape: 'text-sky-100 drop-shadow',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#D97706] to-[#B45309] text-white shadow-xl border border-amber-300',
+                    shape: 'text-amber-100 drop-shadow',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-xl border border-emerald-300',
+                    shape: 'text-emerald-100 drop-shadow',
+                  },
+                ];
+                const optionStyle = isNeon ? neonStyles[idx] || neonStyles[0] : isCosmic ? cosmicStyles[idx] || cosmicStyles[0] : isChampion ? championStyles[idx] || championStyles[0] : null;
 
                 return (
                   <button

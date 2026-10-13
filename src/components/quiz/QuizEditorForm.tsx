@@ -242,6 +242,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
 
   const isNeon = themeId === 'neon-arcade';
   const isCosmic = themeId === 'cosmic-quest';
+  const isChampion = themeId === 'champion-mode';
 
   return (
     <div
@@ -250,6 +251,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           ? 'bg-[#030712] text-white'
           : isCosmic
           ? 'bg-[#050C1A] text-white'
+          : isChampion
+          ? 'bg-[#FDFBF7] text-[#0F172A]'
           : 'bg-[#FCFBFF] text-slate-800'
       }`}
     >
@@ -266,7 +269,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           style={{ backgroundImage: "url('/images/cosmic_quest_bg.png')" }}
         />
       )}
-      {!isNeon && !isCosmic && (
+      {isChampion && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/champion_mode_bg.png')" }}
+        />
+      )}
+      {!isNeon && !isCosmic && !isChampion && (
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
           style={{ backgroundImage: "url('/images/bopzi_pastel_bg.png')" }}
@@ -274,7 +283,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
       )}
 
       {/* Corner Mascots - Skater & Cheer for Party Pop */}
-      {!isNeon && !isCosmic && (
+      {!isNeon && !isCosmic && !isChampion && (
         <>
           <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-1 bottom-8 xl:bottom-12 w-32 sm:w-40 xl:w-48 h-auto z-20 pointer-events-none select-none">
             <img
@@ -308,17 +317,19 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400 drop-shadow-[0_0_20px_rgba(6,182,212,0.8)]'
                     : isCosmic
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]'
+                    : isChampion
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 drop-shadow-sm'
                     : 'text-[#7C3AED]'
                 }>
                   New Quiz
                 </span>
               </h1>
               <span className="text-2xl font-black select-none">
-                {isNeon ? '⚡' : isCosmic ? '🪐' : '🪄'}
+                {isNeon ? '⚡' : isCosmic ? '🪐' : isChampion ? '👑' : '🪄'}
               </span>
             </div>
             <p className={`text-xs sm:text-sm font-medium mt-1 ${
-              isNeon ? 'text-slate-400' : isCosmic ? 'text-slate-300' : 'text-slate-500'
+              isNeon ? 'text-slate-400' : isCosmic ? 'text-slate-300' : isChampion ? 'text-slate-700 font-semibold' : 'text-slate-500'
             }`}>
               Author questions, configure timers, answer options, and select your visual theme.
             </p>
@@ -333,6 +344,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                   ? 'bg-slate-950/80 text-cyan-300 hover:text-white border border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:shadow-[0_0_20px_rgba(6,182,212,0.6)] hover:border-cyan-400'
                   : isCosmic
                   ? 'bg-[#0A1628]/85 text-cyan-300 hover:text-white border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.25)] hover:border-cyan-400'
+                  : isChampion
+                  ? 'bg-white/80 hover:bg-white text-slate-700 border border-amber-200/90 shadow-sm'
                   : 'text-slate-600 hover:text-slate-900 bg-white border border-slate-200/90 shadow-sm hover:shadow'
               }`}
             >
@@ -347,11 +360,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                   ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] shadow-[0_0_25px_rgba(236,72,153,0.7)] border-2 border-pink-400 hover:shadow-[0_0_35px_rgba(236,72,153,0.9)]'
                   : isCosmic
                   ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_25px_rgba(245,158,11,0.6)] border border-amber-300 hover:shadow-[0_0_35px_rgba(245,158,11,0.8)]'
+                  : isChampion
+                  ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black shadow-lg shadow-amber-500/30 border border-yellow-200'
                   : 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] hover:opacity-95 shadow-lg shadow-purple-500/25'
               }`}
             >
               <Save className="w-4 h-4" />
-              <span className={isCosmic ? 'text-slate-950 font-black' : ''}>{saving ? 'SAVING...' : 'SAVE QUIZ'}</span>
+              <span className={isCosmic || isChampion ? 'text-slate-950 font-black' : ''}>{saving ? 'SAVING...' : 'SAVE QUIZ'}</span>
             </button>
           </div>
         </div>
@@ -376,6 +391,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
               ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
               : isCosmic
               ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+              : isChampion
+              ? 'bg-white/85 backdrop-blur-md border-2 border-amber-300 shadow-[0_10px_35px_rgba(245,158,11,0.1)]'
               : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
           }`}
         >
@@ -383,7 +400,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           <div className="lg:col-span-5 space-y-4">
             <div>
               <label className={`text-[11px] font-black uppercase tracking-wider mb-1.5 flex items-center gap-1.5 ${
-                isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-slate-500'
+                isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : isChampion ? 'text-amber-700' : 'text-slate-500'
               }`}>
                 <span>📄</span> QUIZ TITLE
               </label>
@@ -397,6 +414,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     ? 'bg-[#030712]/95 border-2 border-cyan-500/70 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.25)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.6)]'
                     : isCosmic
                     ? 'bg-[#040C1A]/95 border-2 border-cyan-500/60 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.2)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.5)]'
+                    : isChampion
+                    ? 'bg-white/95 border-2 border-amber-200 text-slate-800 focus:border-amber-400 focus:ring-2 focus:ring-amber-300/40 focus:outline-none placeholder:text-slate-400 shadow-sm'
                     : 'bg-slate-50/70 border border-slate-200/80 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 placeholder:text-slate-400'
                 }`}
                 required
@@ -404,7 +423,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
             </div>
             <div>
               <label className={`text-[11px] font-black uppercase tracking-wider mb-1.5 flex items-center gap-1.5 ${
-                isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : 'text-slate-500'
+                isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : isChampion ? 'text-amber-700' : 'text-slate-500'
               }`}>
                 <span>📝</span> DESCRIPTION
               </label>
@@ -418,6 +437,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     ? 'bg-[#030712]/95 border-2 border-cyan-500/70 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.25)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.6)]'
                     : isCosmic
                     ? 'bg-[#040C1A]/95 border-2 border-cyan-500/60 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.2)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.5)]'
+                    : isChampion
+                    ? 'bg-white/95 border-2 border-amber-200 text-slate-800 focus:border-amber-400 focus:ring-2 focus:ring-amber-300/40 focus:outline-none placeholder:text-slate-400 shadow-sm'
                     : 'bg-slate-50/70 border border-slate-200/80 text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 placeholder:text-slate-400'
                 }`}
               />
@@ -541,14 +562,16 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                 : isCosmic
                 ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                : isChampion
+                ? 'bg-white/85 backdrop-blur-md border-2 border-amber-300 shadow-[0_10px_35px_rgba(245,158,11,0.1)]'
                 : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
             }`}
           >
             <div className={`flex items-center justify-between pb-1 border-b ${
-              isNeon || isCosmic ? 'border-cyan-500/40' : 'border-slate-100'
+              isNeon || isCosmic ? 'border-cyan-500/40' : isChampion ? 'border-amber-200' : 'border-slate-100'
             }`}>
               <span className={`text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 ${
-                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]' : 'text-slate-500'
+                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]' : isChampion ? 'text-amber-800' : 'text-slate-500'
               }`}>
                 <span>📑</span> QUESTIONS ({questions.length})
               </span>
@@ -560,6 +583,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_20px_rgba(236,72,153,0.7)] border border-pink-300'
                     : isCosmic
                     ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_15px_rgba(245,158,11,0.6)] border border-amber-300'
+                    : isChampion
+                    ? 'bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 font-black shadow-md border border-amber-200'
                     : 'bg-[#7C3AED] hover:bg-[#6D28D9] shadow-sm shadow-purple-500/20'
                 }`}
               >
@@ -581,11 +606,15 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                           ? 'bg-cyan-950/60 border-cyan-300 shadow-[0_0_20px_rgba(6,182,212,0.5)]'
                           : isCosmic
                           ? 'bg-[#040C1A] border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.4)]'
+                          : isChampion
+                          ? 'bg-amber-50/90 border-amber-400 shadow-sm'
                           : 'bg-purple-50/70 border-purple-400/80 shadow-xs'
                         : isNeon
                           ? 'bg-[#030712]/70 border-slate-800/80 hover:border-cyan-500/60 hover:shadow-[0_0_12px_rgba(6,182,212,0.25)]'
                           : isCosmic
                           ? 'bg-[#040C1A]/60 border-cyan-900/60 hover:border-cyan-500/60 hover:shadow-[0_0_12px_rgba(6,182,212,0.2)]'
+                          : isChampion
+                          ? 'bg-white/80 border-amber-100 hover:border-amber-300'
                           : 'bg-slate-50/60 border-slate-100 hover:bg-slate-100/60'
                     }`}
                   >
@@ -597,9 +626,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                               ? 'bg-cyan-400 text-slate-950 shadow-[0_0_12px_rgba(6,182,212,0.9)]'
                               : isCosmic
                               ? 'bg-amber-400 text-slate-950 shadow-[0_0_12px_rgba(251,191,36,0.9)]'
+                              : isChampion
+                              ? 'bg-amber-400 text-slate-950 shadow-xs'
                               : 'bg-[#7C3AED] text-white shadow-xs'
                             : isNeon || isCosmic
                               ? 'bg-slate-800 text-slate-400'
+                              : isChampion
+                              ? 'bg-amber-100 text-amber-800'
                               : 'bg-slate-200 text-slate-600'
                         }`}
                       >
@@ -612,6 +645,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                               ? 'font-black text-cyan-200 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]'
                               : isCosmic
                               ? 'font-black text-amber-200 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+                              : isChampion
+                              ? 'font-black text-amber-950'
                               : 'font-black text-[#0F172A]'
                             : isNeon || isCosmic
                               ? 'font-medium text-slate-400'
@@ -627,7 +662,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                         type="button"
                         onClick={() => handleDuplicateQuestion(idx)}
                         className={`p-1 rounded transition-colors ${
-                          isNeon || isCosmic ? 'text-slate-500 hover:text-cyan-300' : 'text-slate-400 hover:text-slate-700'
+                          isNeon || isCosmic ? 'text-slate-500 hover:text-cyan-300' : isChampion ? 'text-amber-600 hover:text-amber-800' : 'text-slate-400 hover:text-slate-700'
                         }`}
                         title="Duplicate"
                       >
@@ -657,6 +692,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                 : isCosmic
                 ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                : isChampion
+                ? 'bg-white/85 backdrop-blur-md border-2 border-amber-300 shadow-[0_10px_35px_rgba(245,158,11,0.1)]'
                 : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
             }`}
           >
@@ -676,6 +713,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                       ? 'bg-[#030712] border-cyan-500/70 shadow-[0_0_15px_rgba(6,182,212,0.3)]'
                       : isCosmic
                       ? 'bg-[#050E1E] border-cyan-500/60 shadow-[0_0_15px_rgba(6,182,212,0.25)]'
+                      : isChampion
+                      ? 'bg-amber-100/80 border-amber-300'
                       : 'bg-slate-100 border-slate-200/70'
                   }`}>
                     <button
@@ -687,9 +726,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                             ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.8)] border border-pink-300'
                             : isCosmic
                             ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black shadow-[0_0_15px_rgba(251,191,36,0.6)]'
+                            : isChampion
+                            ? 'bg-amber-400 text-slate-950 font-black shadow-xs'
                             : 'bg-[#7C3AED] text-white shadow-xs'
                           : isNeon || isCosmic
                             ? 'text-slate-400 hover:text-white'
+                            : isChampion
+                            ? 'text-amber-800 hover:text-amber-950'
                             : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
@@ -704,9 +747,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                             ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.8)] border border-pink-300'
                             : isCosmic
                             ? 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black shadow-[0_0_15px_rgba(251,191,36,0.6)]'
+                            : isChampion
+                            ? 'bg-amber-400 text-slate-950 font-black shadow-xs'
                             : 'bg-[#7C3AED] text-white shadow-xs'
                           : isNeon || isCosmic
                             ? 'text-slate-400 hover:text-white'
+                            : isChampion
+                            ? 'text-amber-800 hover:text-amber-950'
                             : 'text-slate-500 hover:text-slate-800'
                       }`}
                     >
@@ -725,6 +772,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                       ? 'bg-[#030712]/95 border-2 border-cyan-500/70 text-white placeholder:text-slate-500 shadow-[0_0_20px_rgba(6,182,212,0.25)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_30px_rgba(6,182,212,0.6)]'
                       : isCosmic
                       ? 'bg-[#040C1A]/95 border-2 border-cyan-500/60 text-white placeholder:text-slate-500 shadow-[0_0_20px_rgba(6,182,212,0.2)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_30px_rgba(6,182,212,0.5)]'
+                      : isChampion
+                      ? 'bg-white/95 border-2 border-amber-200 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-amber-400 focus:ring-2 focus:ring-amber-300/40 shadow-sm'
                       : 'bg-slate-50/70 border border-slate-200/80 text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 placeholder:text-slate-400'
                   }`}
                   required
@@ -733,11 +782,11 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
 
               {/* Time Limit & Points Pill Controls */}
               <div className={`flex flex-wrap items-center gap-4 py-2 border-y ${
-                isNeon || isCosmic ? 'border-cyan-500/30' : 'border-slate-100'
+                isNeon || isCosmic ? 'border-cyan-500/30' : isChampion ? 'border-amber-200' : 'border-slate-100'
               }`}>
                 <div className="flex items-center gap-2">
                   <Clock className={`w-4 h-4 ${
-                    isNeon ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : isCosmic ? 'text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-[#7C3AED]'
+                    isNeon ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : isCosmic || isChampion ? 'text-amber-500' : 'text-[#7C3AED]'
                   }`} />
                   <span className={`text-xs font-bold ${isNeon || isCosmic ? 'text-slate-300' : 'text-slate-600'}`}>Time Limit:</span>
                   <select
@@ -748,6 +797,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                         ? 'bg-[#030712] border-2 border-cyan-500/70 text-white shadow-[0_0_12px_rgba(6,182,212,0.25)] focus:border-cyan-300'
                         : isCosmic
                         ? 'bg-[#050E1E] border-2 border-cyan-500/60 text-white shadow-[0_0_12px_rgba(6,182,212,0.2)] focus:border-cyan-300'
+                        : isChampion
+                        ? 'bg-amber-50/90 border border-amber-300 text-slate-800 focus:ring-2 focus:ring-amber-400/40'
                         : 'bg-slate-50 border border-slate-200 text-slate-800 focus:ring-2 focus:ring-purple-400/40'
                     }`}
                   >
@@ -761,7 +812,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
 
                 <div className="flex items-center gap-2">
                   <span className={
-                    isNeon ? 'text-pink-400 text-sm drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : isCosmic ? 'text-amber-400 text-sm drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'text-[#7C3AED] text-sm'
+                    isNeon ? 'text-pink-400 text-sm drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : isCosmic || isChampion ? 'text-amber-500 text-sm' : 'text-[#7C3AED] text-sm'
                   }>⭐</span>
                   <span className={`text-xs font-bold ${isNeon || isCosmic ? 'text-slate-300' : 'text-slate-600'}`}>Points:</span>
                   <select
@@ -772,6 +823,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                         ? 'bg-[#030712] border-2 border-cyan-500/70 text-white shadow-[0_0_12px_rgba(6,182,212,0.25)] focus:border-cyan-300'
                         : isCosmic
                         ? 'bg-[#050E1E] border-2 border-cyan-500/60 text-white shadow-[0_0_12px_rgba(6,182,212,0.2)] focus:border-cyan-300'
+                        : isChampion
+                        ? 'bg-amber-50/90 border border-amber-300 text-slate-800 focus:ring-2 focus:ring-amber-400/40'
                         : 'bg-slate-50 border border-slate-200 text-slate-800 focus:ring-2 focus:ring-purple-400/40'
                     }`}
                   >
@@ -785,7 +838,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
               <div>
                 <div className="mb-3">
                   <span className={`text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 ${
-                    isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]' : 'text-slate-500'
+                    isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic || isChampion ? 'text-amber-700 font-extrabold' : 'text-slate-500'
                   }`}>
                     <span>📋</span> ANSWER OPTIONS (CLICK CHECKMARK TO SELECT CORRECT ANSWER)
                   </span>
@@ -796,24 +849,28 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     {
                       neonBg: 'bg-[#18070D] border-2 border-rose-500 shadow-[0_0_22px_rgba(244,63,94,0.5),inset_0_0_10px_rgba(244,63,94,0.2)] text-rose-400',
                       cosmicBg: 'bg-gradient-to-r from-[#59101C] to-[#2B080E] border-2 border-rose-500/90 shadow-[0_0_20px_rgba(244,63,94,0.4),inset_0_0_10px_rgba(244,63,94,0.15)] text-rose-300',
+                      championBg: 'bg-gradient-to-r from-[#DC2626] to-[#991B1B] text-white shadow-md border border-rose-300',
                       pastelBg: 'bg-[#EF4444]',
                       shape: '▲',
                     },
                     {
                       neonBg: 'bg-[#070F22] border-2 border-blue-500 shadow-[0_0_22px_rgba(59,130,246,0.5),inset_0_0_10px_rgba(59,130,246,0.2)] text-blue-400',
                       cosmicBg: 'bg-gradient-to-r from-[#0C355E] to-[#061B30] border-2 border-cyan-400/90 shadow-[0_0_20px_rgba(6,182,212,0.4),inset_0_0_10px_rgba(6,182,212,0.15)] text-cyan-300',
+                      championBg: 'bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white shadow-md border border-sky-300',
                       pastelBg: 'bg-[#3B82F6]',
                       shape: '◆',
                     },
                     {
                       neonBg: 'bg-[#1C1304] border-2 border-amber-500 shadow-[0_0_22px_rgba(245,158,11,0.5),inset_0_0_10px_rgba(245,158,11,0.2)] text-amber-400',
                       cosmicBg: 'bg-gradient-to-r from-[#5E3808] to-[#2E1B04] border-2 border-amber-400/90 shadow-[0_0_20px_rgba(245,158,11,0.4),inset_0_0_10px_rgba(245,158,11,0.15)] text-amber-300',
+                      championBg: 'bg-gradient-to-r from-[#D97706] to-[#B45309] text-white shadow-md border border-amber-300',
                       pastelBg: 'bg-[#F59E0B]',
                       shape: '●',
                     },
                     {
                       neonBg: 'bg-[#041B12] border-2 border-emerald-500 shadow-[0_0_22px_rgba(16,185,129,0.5),inset_0_0_10px_rgba(16,185,129,0.2)] text-emerald-400',
                       cosmicBg: 'bg-gradient-to-r from-[#0B4527] to-[#052314] border-2 border-emerald-400/90 shadow-[0_0_20px_rgba(16,185,129,0.4),inset_0_0_10px_rgba(16,185,129,0.15)] text-emerald-300',
+                      championBg: 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-md border border-emerald-300',
                       pastelBg: 'bg-[#10B981]',
                       shape: '■',
                     },
@@ -829,6 +886,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                             ? `${style.neonBg} ${opt.is_correct ? 'ring-2 ring-white scale-[1.01]' : ''}`
                             : isCosmic
                             ? `${style.cosmicBg} ${opt.is_correct ? 'ring-2 ring-cyan-300 shadow-[0_0_30px_rgba(6,182,212,0.6)] scale-[1.01]' : ''}`
+                            : isChampion
+                            ? `${style.championBg} ${opt.is_correct ? 'ring-4 ring-amber-300 shadow-xl scale-[1.01]' : 'opacity-95'}`
                             : `${style.pastelBg} ${opt.is_correct ? 'ring-4 ring-emerald-400/80 scale-[1.01]' : 'opacity-95'} shadow-sm`
                         }`}
                       >
