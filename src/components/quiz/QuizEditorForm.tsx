@@ -373,10 +373,10 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
         <div
           className={`p-5 sm:p-6 rounded-3xl mb-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center transition-all ${
             isNeon
-              ? 'bg-[#060B1E]/85 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
               : isCosmic
-              ? 'bg-[#071326]/90 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
-              : 'bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
+              ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+              : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
           }`}
         >
           {/* Left: Inputs */}
@@ -528,10 +528,10 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           <div
             className={`lg:col-span-3 p-4 sm:p-5 rounded-3xl space-y-3 transition-all ${
               isNeon
-                ? 'bg-[#060B1E]/85 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                 : isCosmic
-                ? 'bg-[#071326]/90 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
-                : 'bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
+                ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
             }`}
           >
             <div className={`flex items-center justify-between pb-1 border-b ${
@@ -644,10 +644,10 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           <div
             className={`lg:col-span-9 p-5 sm:p-7 rounded-3xl flex flex-col justify-between transition-all ${
               isNeon
-                ? 'bg-[#060B1E]/85 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                ? 'bg-[#060B1E]/60 backdrop-blur-xl border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                 : isCosmic
-                ? 'bg-[#071326]/90 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
-                : 'bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
+                ? 'bg-[#071326]/60 backdrop-blur-xl border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                : 'bg-white/80 backdrop-blur-md border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)]'
             }`}
           >
             <div className="space-y-6">

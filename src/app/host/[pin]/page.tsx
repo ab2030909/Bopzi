@@ -372,17 +372,17 @@ function HostLiveGameContent() {
               {/* Left: Huge QR Code and Join Instructions */}
               <div
                 className={`md:col-span-5 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl transition-all ${isNeon
-                    ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    ? 'bg-[#060B1E]/60 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                     : isCosmic
-                      ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                      ? 'bg-[#071326]/60 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
                       : isPartyPop
-                        ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
+                        ? 'bg-white/75 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                         : ''
                   }`}
                 style={
                   !isNeon && !isCosmic && !isPartyPop
                     ? {
-                      backgroundColor: currentTheme.colors.cardBg,
+                      backgroundColor: 'rgba(13, 19, 41, 0.6)',
                       borderColor: currentTheme.colors.border,
                     }
                     : undefined
@@ -404,9 +404,9 @@ function HostLiveGameContent() {
 
                 {qrDataUrl && (
                   <div className={`p-3 rounded-2xl mb-4 transition-all ${isNeon
-                      ? 'bg-white border-2 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
+                      ? 'bg-white/95 border-2 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
                       : isCosmic
-                        ? 'bg-white border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)]'
+                        ? 'bg-white/95 border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)]'
                         : 'bg-white shadow-xl border border-slate-100'
                     }`}>
                     <img src={qrDataUrl} alt="Join Game QR Code" className="w-48 h-48 sm:w-56 sm:h-56 rounded-lg" />
@@ -439,17 +439,17 @@ function HostLiveGameContent() {
               {/* Right: Participant Roster */}
               <div
                 className={`md:col-span-7 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl transition-all ${isNeon
-                    ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    ? 'bg-[#060B1E]/60 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
                     : isCosmic
-                      ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
+                      ? 'bg-[#071326]/60 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
                       : isPartyPop
-                        ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
+                        ? 'bg-white/75 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                         : ''
                   }`}
                 style={
                   !isNeon && !isCosmic && !isPartyPop
                     ? {
-                      backgroundColor: currentTheme.colors.cardBg,
+                      backgroundColor: 'rgba(13, 19, 41, 0.6)',
                       borderColor: currentTheme.colors.border,
                     }
                     : undefined
