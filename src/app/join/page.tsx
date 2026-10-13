@@ -84,9 +84,9 @@ function JoinContent() {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden">
-      {/* Immersive Cyberpunk Arena Background Image - Clear, crisp, no blur or shade */}
+      {/* Immersive World Selection Arena Background Image */}
       <img
-        src="/images/join-bg.jpg"
+        src="/images/world_selection_bg.png"
         alt="Bopzi Arena Background"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
