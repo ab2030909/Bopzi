@@ -127,7 +127,7 @@ export default function DashboardPage() {
       <div className="absolute top-28 right-72 text-pink-300 text-xl select-none pointer-events-none">✨</div>
 
       {/* Main Container */}
-      <div className="max-w-[1550px] mx-auto px-4 sm:px-6 lg:px-12 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
+      <div className="max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-14 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
         {/* Top Header Row */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 relative">
           <div>
@@ -156,8 +156,8 @@ export default function DashboardPage() {
 
         {/* Mascot & Stats Row */}
         <div className="relative mb-6">
-          {/* Left Skater Mascot */}
-          <div className="hidden xl:block absolute -left-12 -top-10 w-32 h-auto z-20 pointer-events-none select-none">
+          {/* Left Skater Mascot - placed in the left margin area */}
+          <div className="hidden 2xl:block absolute -left-28 -top-8 w-32 h-auto z-20 pointer-events-none select-none">
             <img
               src="/images/dashboard_mascot_skater.png"
               alt="Bopzi Skater Mascot"
@@ -165,8 +165,8 @@ export default function DashboardPage() {
             />
           </div>
 
-          {/* Right Cheerleader Mascot */}
-          <div className="hidden xl:block absolute -right-10 -top-12 w-32 h-auto z-20 pointer-events-none select-none">
+          {/* Right Cheerleader Mascot - placed in the right margin area */}
+          <div className="hidden 2xl:block absolute -right-28 -top-10 w-32 h-auto z-20 pointer-events-none select-none">
             <img
               src="/images/dashboard_mascot_cheer.png"
               alt="Bopzi Cheerleader Mascot"
@@ -175,7 +175,7 @@ export default function DashboardPage() {
           </div>
 
           {/* 3 Pill Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
             {/* Stat 1: Total Quizzes */}
             <div className="p-4 sm:p-5 rounded-3xl bg-white border border-slate-100 shadow-[0_8px_25px_rgba(0,0,0,0.03)] flex items-center justify-between relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="flex items-center gap-3.5 z-10">
