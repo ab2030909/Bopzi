@@ -8,13 +8,13 @@ import { sounds } from '@/lib/audio';
 
 export function Navbar() {
   const pathname = usePathname();
-  const isJoinPage = pathname === '/join';
+  const isGameOrProjector = pathname === '/join' || pathname.startsWith('/host') || pathname.startsWith('/play');
   const [hovered, setHovered] = useState(false);
 
   return (
     <>
-      {/* On join page: top edge invisible hover detector to open menu when user moves mouse to top */}
-      {isJoinPage && (
+      {/* On join/host/play page: top edge invisible hover detector to open menu when user moves mouse to top */}
+      {isGameOrProjector && (
         <div
           onMouseEnter={() => setHovered(true)}
           className="fixed top-0 left-0 right-0 h-4 z-[60]"
@@ -23,10 +23,10 @@ export function Navbar() {
       )}
 
       <header
-        onMouseEnter={() => isJoinPage && setHovered(true)}
-        onMouseLeave={() => isJoinPage && setHovered(false)}
+        onMouseEnter={() => isGameOrProjector && setHovered(true)}
+        onMouseLeave={() => isGameOrProjector && setHovered(false)}
         className={`${
-          isJoinPage
+          isGameOrProjector
             ? `fixed top-0 left-0 right-0 z-50 transition-transform duration-300 ease-in-out ${
                 hovered ? 'translate-y-0 shadow-2xl' : '-translate-y-full'
               }`

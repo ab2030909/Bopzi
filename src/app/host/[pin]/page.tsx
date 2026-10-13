@@ -727,7 +727,6 @@ function HostLiveGameContent() {
               <span>Play Again</span>
             </button>
           </div>
-          </div>
         </div>
       )}
       </div>

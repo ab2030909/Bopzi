@@ -69,7 +69,7 @@ export function ThemeProvider({
             <div className="fixed -bottom-40 left-1/3 w-96 h-96 rounded-full bg-[#7C3AED]/15 blur-3xl pointer-events-none" />
           </>
         )}
-        {themeId !== 'party-pop' && theme.starsOrGrid === 'grid' && (
+        {themeId !== 'party-pop' && themeId !== 'neon-arcade' && theme.starsOrGrid === 'grid' && (
           <div
             className="fixed inset-0 pointer-events-none opacity-20"
             style={{
