@@ -204,16 +204,26 @@ function PlayerGameContent() {
   const isNeon = session.theme_id === 'neon-arcade';
 
   return (
-    <div className={`flex-1 flex flex-col p-4 max-w-xl mx-auto w-full justify-between transition-colors ${
-      isNeon ? 'text-white' : ''
+    <div className={`relative min-h-screen w-full flex-1 flex flex-col transition-colors duration-500 overflow-hidden ${
+      isNeon ? 'bg-[#030712] text-white' : ''
     }`}>
-      {/* Player Header Bar: Nickname, Score, Rank */}
-      <header
-        className={`flex items-center justify-between p-3.5 rounded-2xl border backdrop-blur-md shadow-md mb-4 transition-all ${
-          isNeon
-            ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(6,182,212,0.3)]'
-            : ''
-        }`}
+      {/* Dynamic Background Image for Neon Arcade */}
+      {isNeon && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/neon_arcade_bg.png')" }}
+        />
+      )}
+
+      {/* Main Content Area */}
+      <div className="relative z-10 flex-1 flex flex-col p-4 max-w-xl mx-auto w-full justify-between">
+        {/* Player Header Bar: Nickname, Score, Rank */}
+        <header
+          className={`flex items-center justify-between p-3.5 rounded-2xl border backdrop-blur-md shadow-md mb-4 transition-all ${
+            isNeon
+              ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(6,182,212,0.3)]'
+              : ''
+          }`}
         style={
           !isNeon
             ? {
@@ -423,25 +433,39 @@ function PlayerGameContent() {
       {/* STATE 3: ANSWER REVEAL */}
       {session.state === 'answer_reveal' && lastAnswerResult && (
         <div
-          className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto animate-pop ${
-            lastAnswerResult.is_correct
+          className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto animate-pop transition-all ${
+            isNeon
+              ? lastAnswerResult.is_correct
+                ? 'bg-[#041B12]/95 border-2 border-emerald-400 shadow-[0_0_35px_rgba(16,185,129,0.5),inset_0_0_15px_rgba(16,185,129,0.2)]'
+                : 'bg-[#18070D]/95 border-2 border-rose-500 shadow-[0_0_35px_rgba(244,63,94,0.5),inset_0_0_15px_rgba(244,63,94,0.2)]'
+              : lastAnswerResult.is_correct
               ? 'bg-emerald-950/80 border-emerald-500'
               : 'bg-rose-950/80 border-rose-500'
           }`}
         >
           {lastAnswerResult.is_correct ? (
             <>
-              <CheckCircle2 className="w-20 h-20 text-emerald-400 mb-2 animate-bounce-gentle" />
-              <h2 className="text-3xl sm:text-4xl font-black text-white">CORRECT!</h2>
-              <div className="text-2xl font-black font-mono text-emerald-300 mt-2">
+              <CheckCircle2 className={`w-20 h-20 mb-2 animate-bounce-gentle ${
+                isNeon ? 'text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.9)]' : 'text-emerald-400'
+              }`} />
+              <h2 className={`text-3xl sm:text-4xl font-black text-white ${
+                isNeon ? 'drop-shadow-[0_0_15px_rgba(52,211,153,0.6)]' : ''
+              }`}>CORRECT!</h2>
+              <div className={`text-2xl font-black font-mono mt-2 ${
+                isNeon ? 'text-emerald-300 drop-shadow-[0_0_10px_rgba(110,231,183,0.8)]' : 'text-emerald-300'
+              }`}>
                 +{lastAnswerResult.points_awarded} pts
               </div>
               <p className="text-xs text-emerald-200 mt-1">Lightning fast answer bonus awarded!</p>
             </>
           ) : (
             <>
-              <XCircle className="w-20 h-20 text-rose-400 mb-2 animate-wiggle" />
-              <h2 className="text-3xl sm:text-4xl font-black text-white">INCORRECT</h2>
+              <XCircle className={`w-20 h-20 mb-2 animate-wiggle ${
+                isNeon ? 'text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.9)]' : 'text-rose-400'
+              }`} />
+              <h2 className={`text-3xl sm:text-4xl font-black text-white ${
+                isNeon ? 'drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]' : ''
+              }`}>INCORRECT</h2>
               <div className="text-lg font-bold text-rose-300 mt-2">+0 pts</div>
               <p className="text-xs text-rose-200 mt-1">Keep your focus for the next round!</p>
             </>
@@ -450,11 +474,13 @@ function PlayerGameContent() {
           <div className="mt-8 pt-4 border-t border-white/10 w-full flex items-center justify-around">
             <div>
               <div className="text-xs text-slate-300 font-bold uppercase">Current Rank</div>
-              <div className="text-xl font-black text-white">#{lastAnswerResult.rank}</div>
+              <div className={`text-xl font-black ${isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'}`}>
+                #{lastAnswerResult.rank}
+              </div>
             </div>
             <div>
               <div className="text-xs text-slate-300 font-bold uppercase">Total Score</div>
-              <div className="text-xl font-black font-mono text-white">
+              <div className={`text-xl font-black font-mono ${isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'}`}>
                 {lastAnswerResult.total_score}
               </div>
             </div>
@@ -465,23 +491,38 @@ function PlayerGameContent() {
       {/* STATE 4: LEADERBOARD VIEW */}
       {session.state === 'leaderboard' && (
         <div
-          className="flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl"
-          style={{
-            backgroundColor: currentTheme.colors.cardBg,
-            borderColor: currentTheme.colors.border,
-          }}
+          className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl transition-all ${
+            isNeon
+              ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              : ''
+          }`}
+          style={
+            !isNeon
+              ? {
+                  backgroundColor: currentTheme.colors.cardBg,
+                  borderColor: currentTheme.colors.border,
+                }
+              : undefined
+          }
         >
-          <Trophy className="w-14 h-14 text-amber-400 mb-2" />
+          <Trophy className={`w-14 h-14 mb-2 ${
+            isNeon ? 'text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]' : 'text-amber-400'
+          }`} />
           <h2 className="text-2xl sm:text-3xl font-black text-white">Look at the Big Screen!</h2>
           <p className="text-xs text-slate-300 mt-1 max-w-xs">
             Leaderboard standings are rolling on the projector display.
           </p>
 
-          <div className="mt-8 p-4 rounded-2xl border w-full max-w-xs bg-black/30"
-            style={{ borderColor: currentTheme.colors.border }}
+          <div
+            className={`mt-8 p-4 rounded-2xl border w-full max-w-xs ${
+              isNeon
+                ? 'bg-[#030712]/90 border-cyan-500/70 shadow-[0_0_20px_rgba(6,182,212,0.35)]'
+                : 'bg-black/30'
+            }`}
+            style={!isNeon ? { borderColor: currentTheme.colors.border } : undefined}
           >
-            <div className="text-xs font-bold text-slate-400 uppercase">Your Position</div>
-            <div className="text-3xl font-black text-white mt-1">
+            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : 'text-slate-400'}`}>Your Position</div>
+            <div className={`text-3xl font-black mt-1 ${isNeon ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.7)]' : 'text-white'}`}>
               {me.score} pts
             </div>
           </div>
@@ -491,11 +532,19 @@ function PlayerGameContent() {
       {/* STATE 5: FINISHED / PODIUM */}
       {session.state === 'finished' && (
         <div
-          className="flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl"
-          style={{
-            backgroundColor: currentTheme.colors.cardBg,
-            borderColor: currentTheme.colors.border,
-          }}
+          className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl transition-all ${
+            isNeon
+              ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              : ''
+          }`}
+          style={
+            !isNeon
+              ? {
+                  backgroundColor: currentTheme.colors.cardBg,
+                  borderColor: currentTheme.colors.border,
+                }
+              : undefined
+          }
         >
           <div className="mb-3 animate-celebrate">
             <Mascot themeId={session.theme_id} state="celebrating" size="lg" />
@@ -506,24 +555,36 @@ function PlayerGameContent() {
             Great competition! Check the main podium for the champion honors.
           </p>
 
-          <div className="mt-6 p-4 rounded-2xl border w-full max-w-xs bg-black/40"
-            style={{ borderColor: currentTheme.colors.border }}
+          <div
+            className={`mt-6 p-4 rounded-2xl border w-full max-w-xs ${
+              isNeon
+                ? 'bg-[#030712]/90 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)]'
+                : 'bg-black/40'
+            }`}
+            style={!isNeon ? { borderColor: currentTheme.colors.border } : undefined}
           >
-            <div className="text-xs font-bold text-slate-400 uppercase">Your Final Score</div>
-            <div className="text-3xl font-black font-mono text-amber-300 mt-1">
+            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : 'text-slate-400'}`}>Your Final Score</div>
+            <div className={`text-3xl font-black font-mono mt-1 ${
+              isNeon ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]' : 'text-amber-300'
+            }`}>
               {me.score} pts
             </div>
           </div>
 
           <button
             onClick={() => router.push('/')}
-            className="mt-8 px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider text-white shadow-xl transition-all hover:scale-105"
-            style={{ backgroundColor: currentTheme.colors.primary }}
+            className={`mt-8 px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 ${
+              isNeon
+                ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                : 'shadow-xl'
+            }`}
+            style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
           >
             Back to Home
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 }
