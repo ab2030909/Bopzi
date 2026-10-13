@@ -24,6 +24,7 @@ import {
   Upload,
   X,
   RotateCcw,
+  Crop,
 } from 'lucide-react';
 
 interface QuizEditorFormProps {
@@ -43,13 +44,23 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
     initialQuiz?.theme_id || (themeParam && THEMES[themeParam] ? themeParam : 'party-pop')
   );
   const [coverImage, setCoverImage] = useState<string>(initialQuiz?.cover_image || '');
-  const [coverZoom, setCoverZoom] = useState<number>(1);
+  const [showCoverModal, setShowCoverModal] = useState(false);
+  const [tempCoverImage, setTempCoverImage] = useState<string>('');
+  const [cropZoom, setCropZoom] = useState<number>(1);
+  const [cropY, setCropY] = useState<number>(50); // percentage vertical alignment (0% to 100%)
 
   useEffect(() => {
     if (!initialQuiz && themeParam && THEMES[themeParam]) {
       setSelectedThemeId(themeParam);
     }
   }, [themeParam, initialQuiz]);
+
+  const handleOpenCoverModal = () => {
+    setTempCoverImage(coverImage);
+    setCropZoom(1);
+    setCropY(50);
+    setShowCoverModal(true);
+  };
 
   const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -63,10 +74,17 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
     const reader = new FileReader();
     reader.onload = (event) => {
       const base64 = event.target?.result as string;
-      setCoverImage(base64);
-      setCoverZoom(1);
+      setTempCoverImage(base64);
+      setCropZoom(1);
+      setCropY(50);
+      setShowCoverModal(true);
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleApplyCover = () => {
+    setCoverImage(tempCoverImage);
+    setShowCoverModal(false);
   };
   const [questions, setQuestions] = useState<Question[]>(
     initialQuiz?.questions || [
@@ -479,9 +497,9 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
               />
             </div>
 
-            {/* Game Cover Photo with Zoom Controls */}
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
+            {/* Game Cover Photo (Compact Button + Modal trigger) */}
+            <div className="pt-1">
+              <div className="flex items-center justify-between">
                 <label className={`text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 ${
                   isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : isChampion ? 'text-amber-700' : 'text-slate-500'
                 }`}>
@@ -490,10 +508,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 {coverImage && (
                   <button
                     type="button"
-                    onClick={() => {
-                      setCoverImage('');
-                      setCoverZoom(1);
-                    }}
+                    onClick={() => setCoverImage('')}
                     className="text-[10px] font-bold text-rose-500 hover:text-rose-600 flex items-center gap-0.5 hover:underline"
                   >
                     <X className="w-3 h-3" /> Remove
@@ -501,114 +516,48 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 )}
               </div>
 
-              {!coverImage ? (
-                <label className={`w-full aspect-[16/7] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.01] ${
-                  isNeon
-                    ? 'border-cyan-500/50 bg-[#030712]/60 hover:border-cyan-400 text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]'
-                    : isCosmic
-                    ? 'border-cyan-500/40 bg-[#040C1A]/60 hover:border-amber-400 text-slate-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.25)]'
-                    : isChampion
-                    ? 'border-amber-300 bg-amber-50/50 hover:bg-amber-50/80 text-amber-800'
-                    : 'border-purple-200 bg-purple-50/30 hover:bg-purple-50/60 text-purple-700'
-                }`}>
-                  <Upload className="w-6 h-6 mb-1 opacity-80" />
-                  <span className="text-xs font-bold">Upload Game Cover Photo</span>
-                  <span className="text-[10px] opacity-60 mt-0.5">PNG, JPG or WebP</span>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleCoverUpload}
-                    className="hidden"
-                  />
-                </label>
-              ) : (
-                <div className="space-y-2">
-                  {/* Image Preview Box with Zoom */}
-                  <div className={`relative w-full aspect-[16/7] rounded-2xl overflow-hidden border-2 shadow-inner bg-slate-950 ${
-                    isNeon
-                      ? 'border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]'
-                      : isCosmic
-                      ? 'border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)]'
-                      : isChampion
-                      ? 'border-amber-300'
-                      : 'border-purple-300'
-                  }`}>
-                    <img
-                      src={coverImage}
-                      alt="Game Cover Preview"
-                      style={{
-                        transform: `scale(${coverZoom})`,
-                        transformOrigin: 'center center',
-                      }}
-                      className="w-full h-full object-cover transition-transform duration-150 select-none"
-                    />
-
-                    {/* Change photo overlay button */}
-                    <label className="absolute top-2 right-2 bg-black/70 hover:bg-black/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full cursor-pointer backdrop-blur-sm shadow flex items-center gap-1 transition-all">
-                      <Upload className="w-3 h-3" /> Change
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleCoverUpload}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-
-                  {/* Interactive Zoom Controls: Zoom Out, Slider, Zoom In, Reset */}
-                  <div className={`flex items-center justify-between gap-3 p-2 rounded-xl text-xs font-bold border ${
-                    isNeon
-                      ? 'bg-[#030712]/90 border-cyan-500/40 text-cyan-300'
-                      : isCosmic
-                      ? 'bg-[#040C1A]/90 border-cyan-500/30 text-slate-200'
-                      : isChampion
-                      ? 'bg-amber-50/90 border-amber-200 text-amber-900'
-                      : 'bg-white border-slate-200 text-slate-700'
-                  }`}>
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setCoverZoom(prev => Math.max(0.5, Number((prev - 0.1).toFixed(2))))}
-                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all"
-                        title="Zoom Out"
-                      >
-                        <ZoomOut className="w-3.5 h-3.5" />
-                      </button>
-                      <input
-                        type="range"
-                        min="0.5"
-                        max="2.5"
-                        step="0.05"
-                        value={coverZoom}
-                        onChange={(e) => setCoverZoom(Number(e.target.value))}
-                        className="w-24 sm:w-32 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#7C3AED]"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setCoverZoom(prev => Math.min(2.5, Number((prev + 0.1).toFixed(2))))}
-                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all"
-                        title="Zoom In"
-                      >
-                        <ZoomIn className="w-3.5 h-3.5" />
-                      </button>
+              {/* Compact Trigger Button / Thumbnail */}
+              <div className="mt-1.5">
+                {!coverImage ? (
+                  <button
+                    type="button"
+                    onClick={handleOpenCoverModal}
+                    className={`w-full py-2.5 px-4 rounded-xl border border-dashed flex items-center justify-center gap-2 text-xs font-bold transition-all hover:scale-[1.01] active:scale-95 ${
+                      isNeon
+                        ? 'border-cyan-500/50 bg-[#030712]/70 text-cyan-300 hover:border-cyan-400 hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                        : isCosmic
+                        ? 'border-cyan-500/40 bg-[#040C1A]/70 text-slate-300 hover:border-amber-400 hover:shadow-[0_0_15px_rgba(251,191,36,0.25)]'
+                        : isChampion
+                        ? 'border-amber-300 bg-amber-50/70 text-amber-900 hover:bg-amber-100/80 shadow-xs'
+                        : 'border-purple-200 bg-purple-50/60 text-[#7C3AED] hover:bg-purple-100/70 shadow-xs'
+                    }`}
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>+ Add Cover Photo</span>
+                  </button>
+                ) : (
+                  <div
+                    onClick={handleOpenCoverModal}
+                    className="relative group rounded-xl overflow-hidden border border-slate-200 shadow-xs cursor-pointer flex items-center justify-between p-2 bg-white/70 backdrop-blur-sm hover:ring-2 hover:ring-purple-400 transition-all"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-14 h-9 rounded-lg overflow-hidden bg-slate-900 flex-shrink-0">
+                        <img src={coverImage} alt="Cover Preview" className="w-full h-full object-cover" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs font-black text-slate-800 flex items-center gap-1">
+                          <span>Cover Photo Added</span>
+                          <span className="text-emerald-500 text-xs">✓</span>
+                        </div>
+                        <div className="text-[10px] text-slate-500 font-medium">Click to crop or change</div>
+                      </div>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[11px] opacity-80 font-bold">
-                        {Math.round(coverZoom * 100)}%
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => setCoverZoom(1)}
-                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all opacity-70 hover:opacity-100"
-                        title="Reset Zoom to 100%"
-                      >
-                        <RotateCcw className="w-3 h-3" />
-                      </button>
-                    </div>
+                    <span className="text-[11px] font-bold text-[#7C3AED] px-2.5 py-1 rounded-lg bg-purple-50 group-hover:bg-purple-100 transition-colors flex items-center gap-1">
+                      <Crop className="w-3 h-3" /> Crop / Edit
+                    </span>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
@@ -1081,6 +1030,187 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           </div>
         </div>
       </div>
+
+      {/* Cover Photo Crop & Edit Modal */}
+      {showCoverModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-fade-in">
+          <div
+            className={`w-full max-w-lg rounded-3xl border shadow-2xl overflow-hidden flex flex-col transition-all ${
+              isNeon
+                ? 'bg-[#060B1E] border-2 border-cyan-400/80 shadow-[0_0_40px_rgba(6,182,212,0.4)] text-white'
+                : isCosmic
+                ? 'bg-[#071326] border-2 border-amber-400/80 shadow-[0_0_40px_rgba(251,191,36,0.3)] text-white'
+                : isChampion
+                ? 'bg-white border-2 border-amber-300 text-slate-900 shadow-2xl'
+                : 'bg-white border border-slate-200 text-slate-900 shadow-2xl'
+            }`}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 sm:p-5 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <Crop className="w-5 h-5 text-[#7C3AED]" />
+                <h3 className="text-base sm:text-lg font-black">
+                  {tempCoverImage ? 'Crop & Adjust Cover Photo' : 'Upload Cover Photo'}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCoverModal(false)}
+                className="p-1.5 rounded-full hover:bg-white/10 active:scale-95 transition-all text-slate-400 hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-5 space-y-4">
+              {!tempCoverImage ? (
+                <label className="w-full aspect-[16/7] rounded-2xl border-2 border-dashed border-purple-300 bg-purple-50/40 hover:bg-purple-50/70 text-[#7C3AED] flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.01]">
+                  <Upload className="w-8 h-8 mb-2 opacity-80" />
+                  <span className="text-sm font-black">Choose a Photo from Device</span>
+                  <span className="text-xs text-slate-500 mt-1">PNG, JPG or WebP</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleCoverUpload}
+                    className="hidden"
+                  />
+                </label>
+              ) : (
+                <div className="space-y-4">
+                  {/* Card Viewport Frame (Exact 16:7 Aspect Ratio) */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      <span>Card Preview (16:7)</span>
+                      <label className="text-[#7C3AED] hover:underline cursor-pointer flex items-center gap-1 font-bold">
+                        <Upload className="w-3 h-3" /> Upload New
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleCoverUpload}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+
+                    <div className="relative w-full aspect-[16/7] rounded-2xl overflow-hidden border-2 border-purple-400/80 bg-slate-950 shadow-inner">
+                      {/* Scaled & Positioned Image */}
+                      <img
+                        src={tempCoverImage}
+                        alt="Crop Preview"
+                        style={{
+                          transform: `scale(${cropZoom})`,
+                          objectPosition: `center ${cropY}%`,
+                        }}
+                        className="w-full h-full object-cover transition-transform duration-100 select-none pointer-events-none"
+                      />
+
+                      {/* Rule of Thirds Crop Grid Overlay */}
+                      <div className="absolute inset-0 border border-white/25 pointer-events-none grid grid-cols-3 grid-rows-3 opacity-40">
+                        <div className="border-r border-b border-white/25" />
+                        <div className="border-r border-b border-white/25" />
+                        <div className="border-b border-white/25" />
+                        <div className="border-r border-b border-white/25" />
+                        <div className="border-r border-b border-white/25" />
+                        <div className="border-b border-white/25" />
+                        <div className="border-r border-white/25" />
+                        <div className="border-r border-white/25" />
+                        <div />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Crop Position & Zoom Controls */}
+                  <div className="p-3.5 rounded-2xl bg-black/10 border border-white/10 space-y-3">
+                    {/* Vertical Crop Alignment Slider */}
+                    <div>
+                      <div className="flex items-center justify-between text-xs font-bold mb-1">
+                        <span className="flex items-center gap-1">
+                          <Crop className="w-3.5 h-3.5 text-[#7C3AED]" /> Vertical Position
+                        </span>
+                        <span className="font-mono text-[11px] opacity-70">{cropY}%</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="100"
+                        value={cropY}
+                        onChange={(e) => setCropY(Number(e.target.value))}
+                        className="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#7C3AED]"
+                      />
+                    </div>
+
+                    {/* Scale / Zoom Slider */}
+                    <div>
+                      <div className="flex items-center justify-between text-xs font-bold mb-1">
+                        <span className="flex items-center gap-1">
+                          <ZoomIn className="w-3.5 h-3.5 text-[#7C3AED]" /> Scale & Zoom
+                        </span>
+                        <span className="font-mono text-[11px] opacity-70">{Math.round(cropZoom * 100)}%</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setCropZoom(prev => Math.max(0.5, Number((prev - 0.1).toFixed(2))))}
+                          className="p-1 rounded-lg hover:bg-white/10 active:scale-95"
+                          title="Zoom Out"
+                        >
+                          <ZoomOut className="w-4 h-4" />
+                        </button>
+                        <input
+                          type="range"
+                          min="0.5"
+                          max="2.5"
+                          step="0.05"
+                          value={cropZoom}
+                          onChange={(e) => setCropZoom(Number(e.target.value))}
+                          className="flex-1 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#7C3AED]"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setCropZoom(prev => Math.min(2.5, Number((prev + 0.1).toFixed(2))))}
+                          className="p-1 rounded-lg hover:bg-white/10 active:scale-95"
+                          title="Zoom In"
+                        >
+                          <ZoomIn className="w-4 h-4" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { setCropZoom(1); setCropY(50); }}
+                          className="text-[10px] font-bold px-2 py-1 rounded-lg bg-black/20 hover:bg-black/30 flex items-center gap-1"
+                          title="Reset"
+                        >
+                          <RotateCcw className="w-3 h-3" /> Reset
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="flex items-center justify-between p-4 border-t border-white/10 bg-black/5">
+              <button
+                type="button"
+                onClick={() => setShowCoverModal(false)}
+                className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-slate-800 transition-colors"
+              >
+                Cancel
+              </button>
+              {tempCoverImage && (
+                <button
+                  type="button"
+                  onClick={handleApplyCover}
+                  className="px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white shadow-md hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5"
+                >
+                  <CheckCircle2 className="w-4 h-4" /> Apply & Save Cover
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
