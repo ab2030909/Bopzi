@@ -432,33 +432,51 @@ function HostLiveGameContent() {
         <div className="flex-1 flex flex-col justify-between space-y-6">
           {/* Question Banner & Timer */}
           <div
-            className="p-6 sm:p-8 rounded-3xl border shadow-2xl text-center relative backdrop-blur-xl"
-            style={{
-              backgroundColor: currentTheme.colors.cardBg,
-              borderColor: currentTheme.colors.border,
-            }}
+            className={`p-6 sm:p-8 rounded-3xl border shadow-2xl text-center relative backdrop-blur-xl transition-all ${
+              isNeon
+                ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                : ''
+            }`}
+            style={
+              !isNeon
+                ? {
+                    backgroundColor: currentTheme.colors.cardBg,
+                    borderColor: currentTheme.colors.border,
+                  }
+                : undefined
+            }
           >
             <div className="flex items-center justify-between mb-4">
               <span
-                className="text-xs font-black uppercase px-3 py-1 rounded-full text-white"
-                style={{ backgroundColor: currentTheme.colors.primary }}
+                className={`text-xs font-black uppercase px-3 py-1 rounded-full text-white transition-all ${
+                  isNeon
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                    : ''
+                }`}
+                style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
               >
                 Question {session.current_question_index + 1} of {session.total_questions}
               </span>
 
               {/* Synchronized Circular Timer */}
               <div
-                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full font-mono text-lg font-black border ${
-                  timeLeft <= 5 ? 'bg-rose-500/20 border-rose-500 text-rose-300 animate-pulse' : 'bg-black/30 text-white'
+                className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full font-mono text-lg font-black border transition-all ${
+                  timeLeft <= 5
+                    ? 'bg-rose-500/20 border-rose-500 text-rose-300 animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.6)]'
+                    : isNeon
+                    ? 'bg-[#030712] border-cyan-400/80 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                    : 'bg-black/30 text-white'
                 }`}
-                style={{ borderColor: timeLeft <= 5 ? '#f43f5e' : currentTheme.colors.border }}
+                style={!isNeon && timeLeft > 5 ? { borderColor: currentTheme.colors.border } : undefined}
               >
                 <Clock className="w-4 h-4" />
                 <span>{timeLeft}s</span>
               </div>
             </div>
 
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-4">
+            <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-4 ${
+              isNeon ? 'drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]' : ''
+            }`}>
               {currentQuestion.question_text}
             </h2>
 
@@ -475,16 +493,44 @@ function HostLiveGameContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
             {currentQuestion.answer_options.map((opt, idx) => {
               const shapeInfo = answerShapes[idx] || answerShapes[0];
+              const neonStyles = [
+                {
+                  card: 'bg-[#18070D] border-2 border-rose-500 shadow-[0_0_25px_rgba(244,63,94,0.5),inset_0_0_12px_rgba(244,63,94,0.2)] text-rose-300',
+                  shape: 'text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,0.9)]',
+                },
+                {
+                  card: 'bg-[#070F22] border-2 border-blue-500 shadow-[0_0_25px_rgba(59,130,246,0.5),inset_0_0_12px_rgba(59,130,246,0.2)] text-blue-300',
+                  shape: 'text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.9)]',
+                },
+                {
+                  card: 'bg-[#1C1304] border-2 border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.5),inset_0_0_12px_rgba(245,158,11,0.2)] text-amber-300',
+                  shape: 'text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.9)]',
+                },
+                {
+                  card: 'bg-[#041B12] border-2 border-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.5),inset_0_0_12px_rgba(16,185,129,0.2)] text-emerald-300',
+                  shape: 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]',
+                },
+              ];
+              const neonOptionStyle = neonStyles[idx] || neonStyles[0];
+
               return (
                 <div
                   key={opt.id}
-                  className="p-5 sm:p-6 rounded-2xl flex items-center gap-4 text-white font-extrabold text-lg sm:text-xl shadow-xl transition-all"
-                  style={{ backgroundColor: shapeInfo.color }}
+                  className={`p-5 sm:p-6 rounded-2xl flex items-center gap-4 font-extrabold text-lg sm:text-xl transition-all ${
+                    isNeon
+                      ? `${neonOptionStyle.card}`
+                      : 'text-white shadow-xl'
+                  }`}
+                  style={!isNeon ? { backgroundColor: shapeInfo.color } : undefined}
                 >
-                  <span className="text-2xl sm:text-3xl font-black drop-shadow select-none">
+                  <span className={`text-2xl sm:text-3xl font-black select-none ${
+                    isNeon ? neonOptionStyle.shape : 'drop-shadow'
+                  }`}>
                     {shapeInfo.shape}
                   </span>
-                  <span className="leading-snug">{opt.answer_text}</span>
+                  <span className={`leading-snug ${isNeon ? 'text-white font-bold' : ''}`}>
+                    {opt.answer_text}
+                  </span>
                 </div>
               );
             })}
@@ -494,8 +540,12 @@ function HostLiveGameContent() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => handleHostAction('reveal')}
-              className="px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider text-white shadow-xl transition-all hover:scale-105 active:scale-95"
-              style={{ backgroundColor: currentTheme.colors.primary }}
+              className={`px-6 py-3 rounded-xl font-black text-sm uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 ${
+                isNeon
+                  ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                  : 'shadow-xl'
+              }`}
+              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               Reveal Correct Answer
             </button>
@@ -507,13 +557,21 @@ function HostLiveGameContent() {
       {session.state === 'answer_reveal' && currentQuestion && (
         <div className="flex-1 flex flex-col justify-between space-y-6">
           <div
-            className="p-6 rounded-3xl border shadow-2xl backdrop-blur-xl text-center"
-            style={{
-              backgroundColor: currentTheme.colors.cardBg,
-              borderColor: currentTheme.colors.border,
-            }}
+            className={`p-6 rounded-3xl border shadow-2xl backdrop-blur-xl text-center transition-all ${
+              isNeon
+                ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                : ''
+            }`}
+            style={
+              !isNeon
+                ? {
+                    backgroundColor: currentTheme.colors.cardBg,
+                    borderColor: currentTheme.colors.border,
+                  }
+                : undefined
+            }
           >
-            <div className="text-xs font-bold uppercase text-slate-400 mb-2">
+            <div className={`text-xs font-bold uppercase mb-2 ${isNeon ? 'text-cyan-300' : 'text-slate-400'}`}>
               Question {session.current_question_index + 1} Result
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-white">
@@ -529,29 +587,63 @@ function HostLiveGameContent() {
               const count = dist?.count || 0;
               const isCorrect = opt.is_correct;
 
+              const neonStyles = [
+                {
+                  card: 'bg-[#18070D] border-2 border-rose-500 shadow-[0_0_25px_rgba(244,63,94,0.5),inset_0_0_12px_rgba(244,63,94,0.2)] text-rose-300',
+                  shape: 'text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,0.9)]',
+                },
+                {
+                  card: 'bg-[#070F22] border-2 border-blue-500 shadow-[0_0_25px_rgba(59,130,246,0.5),inset_0_0_12px_rgba(59,130,246,0.2)] text-blue-300',
+                  shape: 'text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.9)]',
+                },
+                {
+                  card: 'bg-[#1C1304] border-2 border-amber-500 shadow-[0_0_25px_rgba(245,158,11,0.5),inset_0_0_12px_rgba(245,158,11,0.2)] text-amber-300',
+                  shape: 'text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.9)]',
+                },
+                {
+                  card: 'bg-[#041B12] border-2 border-emerald-500 shadow-[0_0_25px_rgba(16,185,129,0.5),inset_0_0_12px_rgba(16,185,129,0.2)] text-emerald-300',
+                  shape: 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]',
+                },
+              ];
+              const neonOptionStyle = neonStyles[idx] || neonStyles[0];
+
               return (
                 <div
                   key={opt.id}
-                  className={`p-5 rounded-2xl flex flex-col justify-between shadow-xl border-4 transition-all relative overflow-hidden ${
-                    isCorrect ? 'border-white scale-[1.02] ring-4 ring-emerald-400/50' : 'border-transparent opacity-80'
+                  className={`p-5 rounded-2xl flex flex-col justify-between transition-all relative overflow-hidden ${
+                    isNeon
+                      ? `${neonOptionStyle.card} ${
+                          isCorrect
+                            ? 'ring-4 ring-emerald-400 shadow-[0_0_35px_rgba(52,211,153,0.8)] scale-[1.02]'
+                            : 'opacity-70'
+                        }`
+                      : `shadow-xl border-4 ${
+                          isCorrect ? 'border-white scale-[1.02] ring-4 ring-emerald-400/50' : 'border-transparent opacity-80'
+                        }`
                   }`}
-                  style={{ backgroundColor: shapeInfo.color }}
+                  style={!isNeon ? { backgroundColor: shapeInfo.color } : undefined}
                 >
                   <div className="flex items-center justify-between text-white font-extrabold text-lg sm:text-xl relative z-10">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl font-black">{shapeInfo.shape}</span>
-                      <span>{opt.answer_text}</span>
+                      <span className={`text-2xl font-black ${isNeon ? neonOptionStyle.shape : ''}`}>
+                        {shapeInfo.shape}
+                      </span>
+                      <span className={isNeon ? 'text-white' : ''}>{opt.answer_text}</span>
                     </div>
                     {isCorrect && (
-                      <span className="bg-white text-emerald-700 px-3 py-1 rounded-full text-xs font-black uppercase flex items-center gap-1 shadow">
+                      <span className={`px-3 py-1 rounded-full text-xs font-black uppercase flex items-center gap-1 shadow ${
+                        isNeon
+                          ? 'bg-emerald-400 text-slate-950 shadow-[0_0_15px_rgba(52,211,153,0.9)]'
+                          : 'bg-white text-emerald-700'
+                      }`}>
                         <CheckCircle2 className="w-3.5 h-3.5" /> Correct
                       </span>
                     )}
                   </div>
 
                   <div className="mt-4 relative z-10 flex items-center justify-between text-white font-black text-sm">
-                    <span>{count} Answers</span>
-                    <span>{dist?.percentage || 0}%</span>
+                    <span className={isNeon ? 'text-slate-300' : ''}>{count} Answers</span>
+                    <span className={isNeon ? 'text-cyan-300' : ''}>{dist?.percentage || 0}%</span>
                   </div>
                 </div>
               );
@@ -562,8 +654,12 @@ function HostLiveGameContent() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => handleHostAction('leaderboard')}
-              className="px-6 py-3.5 rounded-xl font-black text-sm uppercase tracking-wider text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-              style={{ backgroundColor: currentTheme.colors.primary }}
+              className={`px-6 py-3.5 rounded-xl font-black text-sm uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+                isNeon
+                  ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                  : 'shadow-xl'
+              }`}
+              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               <span>Show Leaderboard</span>
               <ArrowRight className="w-4 h-4" />
@@ -576,8 +672,10 @@ function HostLiveGameContent() {
       {session.state === 'leaderboard' && leaderboard && (
         <div className="flex-1 flex flex-col justify-between space-y-6">
           <div className="text-center">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-black uppercase text-white mb-2"
-              style={{ backgroundColor: currentTheme.colors.primary }}
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-black uppercase text-white mb-2 ${
+              isNeon ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300' : ''
+            }`}
+              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               <Trophy className="w-3.5 h-3.5" />
               <span>Leaderboard Standings</span>
@@ -589,16 +687,32 @@ function HostLiveGameContent() {
             {leaderboard.slice(0, 5).map((entry, idx) => (
               <div
                 key={entry.participant_id}
-                className="p-4 sm:p-5 rounded-2xl border flex items-center justify-between shadow-lg transition-all animate-pop"
-                style={{
-                  backgroundColor: idx === 0 ? `${currentTheme.colors.primary}33` : currentTheme.colors.cardBg,
-                  borderColor: idx === 0 ? currentTheme.colors.primary : currentTheme.colors.border,
-                }}
+                className={`p-4 sm:p-5 rounded-2xl border flex items-center justify-between shadow-lg transition-all animate-pop ${
+                  isNeon
+                    ? idx === 0
+                      ? 'bg-[#060B1E]/95 border-2 border-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.4)]'
+                      : 'bg-[#060B1E]/85 border-2 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]'
+                    : ''
+                }`}
+                style={
+                  !isNeon
+                    ? {
+                        backgroundColor: idx === 0 ? `${currentTheme.colors.primary}33` : currentTheme.colors.cardBg,
+                        borderColor: idx === 0 ? currentTheme.colors.primary : currentTheme.colors.border,
+                      }
+                    : undefined
+                }
               >
                 <div className="flex items-center gap-4">
                   <div
                     className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg text-white ${
-                      idx === 0 ? 'bg-amber-500 shadow-md scale-105' : 'bg-slate-700'
+                      idx === 0
+                        ? isNeon
+                          ? 'bg-amber-400 text-slate-950 shadow-[0_0_15px_rgba(251,191,36,0.9)] scale-105'
+                          : 'bg-amber-500 shadow-md scale-105'
+                        : isNeon
+                        ? 'bg-[#030712] border border-cyan-500/60 text-cyan-300'
+                        : 'bg-slate-700'
                     }`}
                   >
                     #{entry.rank}
@@ -607,7 +721,11 @@ function HostLiveGameContent() {
                     <div className="font-extrabold text-lg text-white flex items-center gap-2">
                       <span>{entry.nickname}</span>
                       {entry.streak >= 2 && (
-                        <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md font-bold">
+                        <span className={`text-xs px-2 py-0.5 rounded-md font-bold ${
+                          isNeon
+                            ? 'bg-pink-500/20 text-pink-300 border border-pink-500/40'
+                            : 'bg-amber-500/20 text-amber-300'
+                        }`}>
                           🔥 {entry.streak} Streak
                         </span>
                       )}
@@ -620,7 +738,9 @@ function HostLiveGameContent() {
                   </div>
                 </div>
 
-                <div className="text-2xl font-black font-mono text-white">
+                <div className={`text-2xl font-black font-mono ${
+                  isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'
+                }`}>
                   {entry.score}
                 </div>
               </div>
@@ -631,8 +751,12 @@ function HostLiveGameContent() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => handleHostAction('next_question')}
-              className="px-8 py-3.5 rounded-xl font-black text-sm uppercase tracking-wider text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-              style={{ backgroundColor: currentTheme.colors.primary }}
+              className={`px-8 py-3.5 rounded-xl font-black text-sm uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+                isNeon
+                  ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                  : 'shadow-xl'
+              }`}
+              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               <span>{session.current_question_index + 1 >= session.total_questions ? 'Final Results' : 'Next Question'}</span>
               <ArrowRight className="w-4 h-4" />
