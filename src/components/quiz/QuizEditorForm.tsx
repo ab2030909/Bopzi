@@ -416,6 +416,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 className={`w-full px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-medium resize-none transition-all ${
                   isNeon
                     ? 'bg-[#030712]/95 border-2 border-cyan-500/70 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.25)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.6)]'
+                    : isCosmic
+                    ? 'bg-[#040C1A]/95 border-2 border-cyan-500/60 text-white placeholder:text-slate-500 shadow-[0_0_15px_rgba(6,182,212,0.2)] focus:outline-none focus:border-cyan-300 focus:shadow-[0_0_25px_rgba(6,182,212,0.5)]'
                     : 'bg-slate-50/70 border border-slate-200/80 text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 placeholder:text-slate-400'
                 }`}
               />
