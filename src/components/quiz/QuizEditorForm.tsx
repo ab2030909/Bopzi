@@ -231,314 +231,410 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1 flex flex-col">
-      {/* Top Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white">
-            {isEditing ? 'Edit Quiz' : 'Create New Quiz'}
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-300">
-            Author questions, configure timers, answer options, and select your visual theme.
-          </p>
-        </div>
+    <div className="min-h-screen w-full bg-[#FCFBFF] relative overflow-hidden flex flex-col font-sans">
+      {/* Background Pastel Blobs */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-100/35 rounded-full blur-3xl pointer-events-none select-none z-0" />
+      <div className="absolute top-10 right-0 w-[450px] h-[450px] bg-pink-100/40 rounded-full blur-3xl pointer-events-none select-none z-0" />
+      <div className="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-purple-100/30 rounded-full blur-3xl pointer-events-none select-none z-0" />
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => router.push('/dashboard')}
-            className="px-4 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white border border-white/10 hover:bg-white/5 transition-all"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSaveQuiz}
-            disabled={saving}
-            className="px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider text-white shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
-            style={{ backgroundColor: activeTheme.colors.primary }}
-          >
-            <Save className="w-4 h-4" />
-            <span>{saving ? 'Saving...' : 'Save Quiz'}</span>
-          </button>
-        </div>
+      {/* Decorative stars and sparkles in background */}
+      <div className="absolute top-16 left-6 text-pink-400 text-2xl select-none pointer-events-none animate-pulse">✦</div>
+      <div className="absolute top-20 right-1/3 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
+      <div className="absolute bottom-16 right-10 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
+      <div className="absolute top-36 left-4 text-cyan-400 text-3xl select-none pointer-events-none">✦</div>
+      <div className="absolute top-44 right-12 text-pink-300 text-2xl select-none pointer-events-none">✨</div>
+
+      {/* Corner Mascots matching reference */}
+      <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-1 bottom-8 xl:bottom-12 w-32 sm:w-40 xl:w-48 h-auto z-20 pointer-events-none select-none">
+        <img
+          src="/images/dashboard_mascot_skater.png"
+          alt="Bopzi Skater Mascot"
+          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(124,58,237,0.25)] animate-float-slow -rotate-3"
+        />
       </div>
 
-      {error && (
-        <div className="mb-6 p-4 rounded-xl bg-rose-500/15 border border-rose-500/40 text-rose-300 text-sm flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 flex-shrink-0 text-rose-400" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* Quiz Metadata: Title, Description, Theme */}
-      <div
-        className="p-5 sm:p-6 rounded-2xl border mb-6 grid grid-cols-1 md:grid-cols-12 gap-5"
-        style={{ backgroundColor: theme.colors.cardBg, borderColor: theme.colors.border }}
-      >
-        <div className="md:col-span-5 space-y-3">
-          <div>
-            <label className="block text-xs font-bold uppercase text-slate-300 mb-1">
-              Quiz Title
-            </label>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. Science & Space Championship"
-              className="w-full px-3.5 py-2.5 rounded-xl font-bold text-white bg-black/40 border focus:outline-none"
-              style={{ borderColor: theme.colors.border }}
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-bold uppercase text-slate-300 mb-1">
-              Description
-            </label>
-            <input
-              type="text"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Brief description for hosts and players..."
-              className="w-full px-3.5 py-2.5 rounded-xl text-xs text-white bg-black/40 border focus:outline-none"
-              style={{ borderColor: theme.colors.border }}
-            />
-          </div>
-        </div>
-
-        {/* Theme Picker */}
-        <div className="md:col-span-7">
-          <label className="block text-xs font-bold uppercase text-slate-300 mb-2">
-            Selected Visual Theme
-          </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {(Object.keys(THEMES) as ThemeId[]).map((tId) => {
-              const t = THEMES[tId];
-              const isSelected = themeId === tId;
-              return (
-                <button
-                  key={tId}
-                  type="button"
-                  onClick={() => {
-                    setSelectedThemeId(tId);
-                    sounds.playCountdownTick();
-                  }}
-                  className={`p-2.5 rounded-xl border-2 text-left transition-all ${
-                    isSelected ? 'ring-2 scale-[1.02] shadow-lg' : 'opacity-70 hover:opacity-100'
-                  }`}
-                  style={{
-                    backgroundColor: isSelected ? `${t.colors.primary}22` : 'rgba(0,0,0,0.2)',
-                    borderColor: isSelected ? t.colors.primary : t.colors.border,
-                  }}
-                >
-                  <div
-                    className="w-4 h-4 rounded-full mb-1.5"
-                    style={{ backgroundColor: t.colors.primary }}
-                  />
-                  <div className="text-xs font-black text-white">{t.name}</div>
-                  <div className="text-[10px] text-slate-300 truncate">{t.mascot.name}</div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
+      <div className="hidden lg:block absolute -right-4 sm:-right-2 xl:right-1 bottom-8 xl:bottom-12 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
+        <img
+          src="/images/dashboard_mascot_cheer.png"
+          alt="Bopzi Cheerleader Mascot"
+          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(236,72,153,0.25)] animate-float-slow rotate-3"
+        />
       </div>
 
-      {/* Main Authoring Area: Left Sidebar (Question list) & Right Canvas */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
-        {/* Left Sidebar: Questions list */}
-        <div className="lg:col-span-3 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-              Questions ({questions.length})
-            </span>
+      {/* Main Container */}
+      <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
+        {/* Top Header Bar */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-black text-[#0F172A] tracking-tight">
+                Create <span className="text-[#7C3AED]">New Quiz</span>
+              </h1>
+              <span className="text-pink-400 text-2xl font-black select-none">🪄</span>
+            </div>
+            <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+              Author questions, configure timers, answer options, and select your visual theme.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
             <button
               type="button"
-              onClick={handleAddQuestion}
-              className="text-xs font-bold px-2.5 py-1 rounded-lg text-white flex items-center gap-1 transition-all hover:scale-105"
-              style={{ backgroundColor: activeTheme.colors.primary }}
+              onClick={() => router.push('/dashboard')}
+              className="px-6 py-2.5 rounded-full text-xs font-bold text-slate-600 hover:text-slate-900 bg-white border border-slate-200/90 shadow-sm hover:shadow transition-all"
             >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Add</span>
+              Cancel
             </button>
-          </div>
-
-          <div className="space-y-2 max-h-[500px] overflow-y-auto pr-1">
-            {questions.map((q, idx) => {
-              const isSelected = activeQuestionIdx === idx;
-              return (
-                <div
-                  key={q.id || idx}
-                  onClick={() => setActiveQuestionIdx(idx)}
-                  className={`p-3 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
-                    isSelected ? 'ring-2 font-bold shadow' : 'opacity-80 hover:opacity-100'
-                  }`}
-                  style={{
-                    backgroundColor: isSelected ? `${activeTheme.colors.surfaceHover}` : theme.colors.cardBg,
-                    borderColor: isSelected ? activeTheme.colors.primary : theme.colors.border,
-                  }}
-                >
-                  <div className="flex items-center gap-2 truncate">
-                    <span
-                      className="w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-black text-white flex-shrink-0"
-                      style={{ backgroundColor: activeTheme.colors.primary }}
-                    >
-                      {idx + 1}
-                    </span>
-                    <span className="text-xs truncate text-slate-200">
-                      {q.question_text || 'Untitled Question'}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-                    <button
-                      type="button"
-                      onClick={() => handleDuplicateQuestion(idx)}
-                      className="p-1 text-slate-400 hover:text-white rounded"
-                      title="Duplicate"
-                    >
-                      <Copy className="w-3 h-3" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteQuestion(idx)}
-                      className="p-1 text-slate-400 hover:text-rose-400 rounded"
-                      title="Delete"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
+            <button
+              type="button"
+              onClick={handleSaveQuiz}
+              disabled={saving}
+              className="px-7 py-2.5 rounded-full text-xs font-black uppercase tracking-wider text-white bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] hover:opacity-95 shadow-lg shadow-purple-500/25 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+            >
+              <Save className="w-4 h-4" />
+              <span>{saving ? 'SAVING...' : 'SAVE QUIZ'}</span>
+            </button>
           </div>
         </div>
 
-        {/* Right Canvas: Question Authoring */}
-        <div
-          className="lg:col-span-9 p-6 rounded-2xl border flex flex-col justify-between"
-          style={{ backgroundColor: theme.colors.cardBg, borderColor: theme.colors.border }}
-        >
-          <div className="space-y-6">
-            {/* Question Textarea */}
+        {error && (
+          <div className="mb-5 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-600 text-xs sm:text-sm font-bold flex items-center gap-2.5">
+            <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {/* Top Card: Quiz Title, Description, Selected Visual Theme */}
+        <div className="p-5 sm:p-6 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)] mb-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          {/* Left: Inputs */}
+          <div className="lg:col-span-5 space-y-4">
             <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="text-xs font-bold uppercase text-slate-300">
-                  Question #{activeQuestionIdx + 1} Text
-                </label>
-                {/* Type toggle */}
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => handleSwitchType('multiple_choice')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                      currentQ.question_type === 'multiple_choice'
-                        ? 'bg-purple-600 text-white'
-                        : 'text-slate-400 bg-black/30'
-                    }`}
-                  >
-                    Multiple Choice (4)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleSwitchType('true_false')}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
-                      currentQ.question_type === 'true_false'
-                        ? 'bg-purple-600 text-white'
-                        : 'text-slate-400 bg-black/30'
-                    }`}
-                  >
-                    True / False (2)
-                  </button>
-                </div>
-              </div>
-              <textarea
-                rows={2}
-                value={currentQ.question_text}
-                onChange={(e) => handleUpdateCurrentQ({ question_text: e.target.value })}
-                placeholder="Type your question here (e.g. Which planet is closest to the sun?)..."
-                className="w-full px-4 py-3 rounded-xl font-bold text-lg text-white bg-black/40 border focus:outline-none"
-                style={{ borderColor: theme.colors.border }}
+              <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                <span className="text-[#7C3AED]">📄</span> QUIZ TITLE
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="e.g. Science & Space Championship"
+                className="w-full px-4 py-3 rounded-2xl text-sm font-semibold text-slate-800 bg-slate-50/70 border border-slate-200/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 transition-all placeholder:text-slate-400"
                 required
               />
             </div>
+            <div>
+              <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 mb-1.5 flex items-center gap-1.5">
+                <span className="text-[#7C3AED]">📝</span> DESCRIPTION
+              </label>
+              <textarea
+                rows={2}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Brief description for hosts and players..."
+                className="w-full px-4 py-2.5 rounded-2xl text-xs sm:text-sm font-medium text-slate-700 bg-slate-50/70 border border-slate-200/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 transition-all placeholder:text-slate-400 resize-none"
+              />
+            </div>
+          </div>
 
-            {/* Timers & Points controls */}
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Clock className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-bold text-slate-300">Time Limit:</span>
-                <select
-                  value={currentQ.time_limit_seconds}
-                  onChange={(e) => handleUpdateCurrentQ({ time_limit_seconds: Number(e.target.value) })}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-black/40 border text-white focus:outline-none"
-                  style={{ borderColor: theme.colors.border }}
-                >
-                  <option value={10}>10 seconds</option>
-                  <option value={15}>15 seconds</option>
-                  <option value={20}>20 seconds (Standard)</option>
-                  <option value={30}>30 seconds</option>
-                  <option value={60}>60 seconds</option>
-                </select>
-              </div>
+          {/* Right: Visual Themes 4-Tile Row */}
+          <div className="lg:col-span-7">
+            <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 mb-2 flex items-center gap-1.5">
+              <span className="text-[#7C3AED]">🎨</span> SELECTED VISUAL THEME
+            </label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                {
+                  id: 'party-pop' as ThemeId,
+                  name: 'Party Pop',
+                  tag: 'Big Fun!',
+                  bg: 'bg-gradient-to-b from-purple-50 to-pink-50',
+                  icon: '🎉',
+                  accent: '#7C3AED',
+                },
+                {
+                  id: 'neon-arcade' as ThemeId,
+                  name: 'Neon Arcade',
+                  tag: 'Retro Vibes',
+                  bg: 'bg-gradient-to-b from-slate-900 to-teal-950',
+                  icon: '🎮',
+                  accent: '#06B6D4',
+                  darkText: false,
+                },
+                {
+                  id: 'cosmic-quest' as ThemeId,
+                  name: 'Cosmic Quest',
+                  tag: 'Out of This World',
+                  bg: 'bg-gradient-to-b from-indigo-950 to-purple-950',
+                  icon: '🪐',
+                  accent: '#8B5CF6',
+                  darkText: false,
+                },
+                {
+                  id: 'champion-mode' as ThemeId,
+                  name: 'Champion Mode',
+                  tag: 'For Winners',
+                  bg: 'bg-gradient-to-b from-amber-50 to-orange-100',
+                  icon: '🏆',
+                  accent: '#F59E0B',
+                },
+              ].map((t) => {
+                const isSelected = themeId === t.id;
+                const isLightCard = t.id === 'party-pop' || t.id === 'champion-mode';
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedThemeId(t.id);
+                      sounds.playCountdownTick();
+                    }}
+                    className={`relative p-3 rounded-2xl text-center transition-all flex flex-col items-center justify-between min-h-[110px] overflow-hidden ${
+                      t.bg
+                    } ${
+                      isSelected
+                        ? 'border-2 border-[#7C3AED] shadow-md ring-2 ring-purple-400/30 scale-[1.02]'
+                        : 'border border-slate-200/80 hover:scale-105 opacity-90 hover:opacity-100'
+                    }`}
+                  >
+                    {/* Selected Checkmark in Top Right */}
+                    {isSelected && (
+                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full bg-[#7C3AED] text-white flex items-center justify-center text-xs font-black shadow-sm">
+                        ✓
+                      </span>
+                    )}
 
-              <div className="flex items-center gap-2">
-                <Zap className="w-4 h-4 text-slate-400" />
-                <span className="text-xs font-bold text-slate-300">Points:</span>
-                <select
-                  value={currentQ.points}
-                  onChange={(e) => handleUpdateCurrentQ({ points: Number(e.target.value) })}
-                  className="px-3 py-1.5 rounded-lg text-xs font-bold bg-black/40 border text-white focus:outline-none"
-                  style={{ borderColor: theme.colors.border }}
-                >
-                  <option value={1000}>1000 Standard</option>
-                  <option value={2000}>2000 Double Points</option>
-                </select>
-              </div>
+                    <div className="text-2xl mt-1 select-none filter drop-shadow-sm">{t.icon}</div>
+                    <div className="mt-2">
+                      <div className={`text-xs font-black ${isLightCard ? 'text-[#0F172A]' : 'text-white'}`}>
+                        {t.name}
+                      </div>
+                      <div className={`text-[10px] font-bold ${isLightCard ? 'text-slate-500' : 'text-slate-300'}`}>
+                        {t.tag}
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Main Authoring Area: Left Sidebar (Question list) & Right Canvas */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1 items-start">
+          {/* Left Sidebar: Questions list */}
+          <div className="lg:col-span-3 p-4 sm:p-5 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)] space-y-3">
+            <div className="flex items-center justify-between pb-1 border-b border-slate-100">
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <span className="text-[#7C3AED]">📑</span> QUESTIONS ({questions.length})
+              </span>
+              <button
+                type="button"
+                onClick={handleAddQuestion}
+                className="text-xs font-black px-3 py-1.5 rounded-full text-white bg-[#7C3AED] hover:bg-[#6D28D9] flex items-center gap-1 transition-all hover:scale-105 shadow-sm shadow-purple-500/20"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Add</span>
+              </button>
             </div>
 
-            {/* Answer Options Grid */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold uppercase text-slate-300">
-                  Answer Options (Click checkmark to select correct answer)
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {currentQ.answer_options.map((opt, optIdx) => {
-                  const palette = answerColorPalette[optIdx] || answerColorPalette[0];
-                  return (
-                    <div
-                      key={opt.id || optIdx}
-                      className="p-3 rounded-2xl flex items-center gap-3 shadow-md border-2 transition-all"
-                      style={{
-                        backgroundColor: palette.color,
-                        borderColor: opt.is_correct ? '#FFFFFF' : 'transparent',
-                      }}
-                    >
-                      <span className="text-white font-black text-lg select-none">
-                        {palette.shape}
+            <div className="space-y-2 max-h-[460px] overflow-y-auto pr-1">
+              {questions.map((q, idx) => {
+                const isSelected = activeQuestionIdx === idx;
+                return (
+                  <div
+                    key={q.id || idx}
+                    onClick={() => setActiveQuestionIdx(idx)}
+                    className={`p-3 rounded-2xl border cursor-pointer transition-all flex items-center justify-between ${
+                      isSelected
+                        ? 'bg-purple-50/70 border-purple-400/80 shadow-xs'
+                        : 'bg-slate-50/60 border-slate-100 hover:bg-slate-100/60'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 truncate">
+                      <span
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-black flex-shrink-0 ${
+                          isSelected ? 'bg-[#7C3AED] text-white shadow-xs' : 'bg-slate-200 text-slate-600'
+                        }`}
+                      >
+                        {idx + 1}
                       </span>
-                      <input
-                        type="text"
-                        value={opt.answer_text}
-                        onChange={(e) => handleUpdateAnswerText(optIdx, e.target.value)}
-                        placeholder={`Answer option ${optIdx + 1}...`}
-                        className="flex-1 bg-black/20 text-white font-bold text-sm px-3 py-2 rounded-xl border border-white/20 focus:outline-none placeholder:text-white/60"
-                        required
-                      />
+                      <span
+                        className={`text-xs truncate ${
+                          isSelected ? 'font-black text-[#0F172A]' : 'font-medium text-slate-600'
+                        }`}
+                      >
+                        {q.question_text || 'Untitled Question'}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1 ml-2" onClick={(e) => e.stopPropagation()}>
                       <button
                         type="button"
-                        onClick={() => handleSetCorrectOption(optIdx)}
-                        className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                          opt.is_correct ? 'bg-white text-emerald-600 scale-110 shadow-lg' : 'bg-black/30 text-white/40 hover:text-white'
-                        }`}
-                        title={opt.is_correct ? 'Correct Answer' : 'Mark as Correct'}
+                        onClick={() => handleDuplicateQuestion(idx)}
+                        className="p-1 text-slate-400 hover:text-slate-700 rounded transition-colors"
+                        title="Duplicate"
                       >
-                        <CheckCircle2 className="w-5 h-5 fill-current" />
+                        <Copy className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteQuestion(idx)}
+                        className="p-1 text-slate-400 hover:text-rose-500 rounded transition-colors"
+                        title="Delete"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
-                  );
-                })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Right Canvas: Question Authoring */}
+          <div className="lg:col-span-9 p-5 sm:p-7 rounded-3xl bg-white border border-slate-100 shadow-[0_10px_35px_rgba(0,0,0,0.03)] flex flex-col justify-between">
+            <div className="space-y-6">
+              {/* Question Textarea & Type Selector */}
+              <div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                  <label className="text-[11px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                    <span className="text-[#7C3AED]">❓</span> QUESTION #{activeQuestionIdx + 1} TEXT
+                  </label>
+
+                  {/* Multiple Choice vs True/False Pill Switcher */}
+                  <div className="inline-flex p-1 rounded-full bg-slate-100 border border-slate-200/70 self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchType('multiple_choice')}
+                      className={`px-3 py-1 rounded-full text-xs font-black transition-all ${
+                        currentQ.question_type === 'multiple_choice'
+                          ? 'bg-[#7C3AED] text-white shadow-xs'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      Multiple Choice (4)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleSwitchType('true_false')}
+                      className={`px-3 py-1 rounded-full text-xs font-black transition-all ${
+                        currentQ.question_type === 'true_false'
+                          ? 'bg-[#7C3AED] text-white shadow-xs'
+                          : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      True / False (2)
+                    </button>
+                  </div>
+                </div>
+
+                <textarea
+                  rows={3}
+                  value={currentQ.question_text}
+                  onChange={(e) => handleUpdateCurrentQ({ question_text: e.target.value })}
+                  placeholder="Type your question here (e.g. Which planet is closest to the sun?)..."
+                  className="w-full px-4 py-3.5 rounded-2xl text-sm sm:text-base font-semibold text-slate-800 bg-slate-50/70 border border-slate-200/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 transition-all placeholder:text-slate-400 resize-none leading-relaxed"
+                  required
+                />
+              </div>
+
+              {/* Time Limit & Points Pill Controls */}
+              <div className="flex flex-wrap items-center gap-4 py-2 border-y border-slate-100">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#7C3AED]" />
+                  <span className="text-xs font-bold text-slate-600">Time Limit:</span>
+                  <select
+                    value={currentQ.time_limit_seconds}
+                    onChange={(e) => handleUpdateCurrentQ({ time_limit_seconds: Number(e.target.value) })}
+                    className="px-3 py-1.5 rounded-xl text-xs font-black bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                  >
+                    <option value={10}>10 seconds</option>
+                    <option value={15}>15 seconds</option>
+                    <option value={20}>20 seconds (Standard)</option>
+                    <option value={30}>30 seconds</option>
+                    <option value={60}>60 seconds</option>
+                  </select>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-[#7C3AED] text-sm">⭐</span>
+                  <span className="text-xs font-bold text-slate-600">Points:</span>
+                  <select
+                    value={currentQ.points}
+                    onChange={(e) => handleUpdateCurrentQ({ points: Number(e.target.value) })}
+                    className="px-3 py-1.5 rounded-xl text-xs font-black bg-slate-50 border border-slate-200 text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-400/40"
+                  >
+                    <option value={1000}>1000 Standard</option>
+                    <option value={2000}>2000 Double Points</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Answer Options Grid matching reference cards */}
+              <div>
+                <div className="mb-3">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                    <span className="text-[#7C3AED]">📋</span> ANSWER OPTIONS (CLICK CHECKMARK TO SELECT CORRECT ANSWER)
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {[
+                    {
+                      bg: 'bg-[#EF4444]',
+                      shape: '▲',
+                    },
+                    {
+                      bg: 'bg-[#3B82F6]',
+                      shape: '◆',
+                    },
+                    {
+                      bg: 'bg-[#F59E0B]',
+                      shape: '●',
+                    },
+                    {
+                      bg: 'bg-[#10B981]',
+                      shape: '■',
+                    },
+                  ].slice(0, currentQ.answer_options.length).map((style, optIdx) => {
+                    const opt = currentQ.answer_options[optIdx];
+                    if (!opt) return null;
+
+                    return (
+                      <div
+                        key={opt.id || optIdx}
+                        className={`p-3 rounded-2xl flex items-center gap-3 shadow-sm transition-all ${
+                          style.bg
+                        } ${
+                          opt.is_correct ? 'ring-4 ring-emerald-400/80 scale-[1.01]' : 'opacity-95'
+                        }`}
+                      >
+                        <span className="text-white font-black text-lg select-none pl-1">
+                          {style.shape}
+                        </span>
+                        <input
+                          type="text"
+                          value={opt.answer_text}
+                          onChange={(e) => handleUpdateAnswerText(optIdx, e.target.value)}
+                          placeholder={`Answer option ${optIdx + 1}...`}
+                          className="flex-1 bg-black/15 text-white font-bold text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-white/20 focus:outline-none focus:bg-black/25 placeholder:text-white/60 transition-colors"
+                          required
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleSetCorrectOption(optIdx)}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                            opt.is_correct
+                              ? 'bg-white text-emerald-600 shadow-md scale-110'
+                              : 'bg-black/25 text-white/40 hover:text-white hover:bg-black/40'
+                          }`}
+                          title={opt.is_correct ? 'Correct Answer' : 'Mark as Correct'}
+                        >
+                          <CheckCircle2 className="w-5 h-5 fill-current" />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
