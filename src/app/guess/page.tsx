@@ -8,6 +8,7 @@ import { useTheme } from '@/components/theme/ThemeProvider';
 import { ThemeId, THEMES } from '@/types/theme';
 import { GuessItem, MysteryEffect, ScoreTeam } from '@/types/guess';
 import { GUESS_LIBRARIES } from '@/lib/guess-library';
+import { GUESS_THEME_STYLES } from '@/lib/guess-theme-styles';
 import { GuessLibraryModal } from '@/components/guess/GuessLibraryModal';
 import { GameFinishedModal } from '@/components/guess/GameFinishedModal';
 import {
@@ -91,11 +92,13 @@ export default function GuessLogoPage() {
 
   const currentItem = items[currentIndex] || null;
 
-  // Thematic flags
+  // Thematic flags & tokens
   const isNeon = themeId === 'neon-arcade';
   const isCosmic = themeId === 'cosmic-quest';
   const isChampion = themeId === 'champion-mode';
   const isParty = !isNeon && !isCosmic && !isChampion;
+
+  const ts = GUESS_THEME_STYLES[themeId] || GUESS_THEME_STYLES['party-pop'];
 
   // Reset tiles when slide changes or effect changes
   useEffect(() => {
@@ -527,20 +530,12 @@ export default function GuessLogoPage() {
           <div className="flex-1 flex flex-col gap-6 animate-fade-in">
             {/* Creator Hero Header Card */}
             <div
-              className={`rounded-3xl p-6 sm:p-8 border backdrop-blur-md shadow-2xl transition-all ${
-                isNeon
-                  ? 'bg-black/25 border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.15)]'
-                  : isCosmic
-                  ? 'bg-[#050C1A]/30 border-blue-500/30 shadow-[0_0_35px_rgba(59,130,246,0.15)]'
-                  : isChampion
-                  ? 'bg-white/35 border-amber-300/40 shadow-xl'
-                  : 'bg-white/35 border-purple-200/50 shadow-xl'
-              }`}
+              className={`rounded-3xl p-6 sm:p-8 border ${ts.panelBg} ${ts.panelBorder} ${ts.panelShadow} transition-all`}
             >
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="p-2 rounded-xl bg-purple-500/20 text-purple-400 border border-purple-500/30">
+                    <span className={`p-2 rounded-xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText}`}>
                       🛠️
                     </span>
                     <input
@@ -548,7 +543,7 @@ export default function GuessLogoPage() {
                       value={gameTitle}
                       onChange={(e) => setGameTitle(e.target.value)}
                       placeholder="Enter Game Title (e.g. Mega Tech Logo Quiz)"
-                      className="text-xl sm:text-2xl font-black bg-transparent border-b border-transparent hover:border-current focus:border-purple-400 focus:outline-none transition"
+                      className="text-xl sm:text-2xl font-black bg-transparent border-b border-transparent hover:border-current focus:outline-none transition"
                     />
                   </div>
                   <p className="text-xs sm:text-sm opacity-70">
@@ -559,7 +554,7 @@ export default function GuessLogoPage() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setIsLibraryOpen(true)}
-                    className="px-5 py-3 rounded-2xl text-xs sm:text-sm font-black bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg flex items-center gap-2 transition transform hover:scale-105"
+                    className={`px-5 py-3 rounded-2xl text-xs sm:text-sm font-black ${ts.accentGrad} ${ts.accentText} ${ts.accentShadow} flex items-center gap-2 transition transform hover:scale-105`}
                   >
                     <Library className="w-4 h-4" />
                     <span>Search / Browse Library</span>
@@ -602,15 +597,7 @@ export default function GuessLogoPage() {
                   return (
                     <div
                       key={pack.id}
-                      className={`p-3.5 rounded-2xl border backdrop-blur-md transition-all hover:scale-[1.02] flex flex-col justify-between ${
-                        isNeon
-                          ? 'bg-black/25 border-cyan-500/20 hover:border-cyan-400'
-                          : isCosmic
-                          ? 'bg-[#050C1A]/25 border-blue-500/20 hover:border-blue-400'
-                          : isChampion
-                          ? 'bg-white/35 border-amber-300/30 hover:border-amber-400'
-                          : 'bg-white/35 border-purple-200/40 hover:border-purple-400'
-                      }`}
+                      className={`p-3.5 rounded-2xl border ${ts.panelBg} ${ts.panelBorder} transition-all hover:scale-[1.02] flex flex-col justify-between`}
                     >
                       <div className="flex items-center gap-2 mb-1.5">
                         <span className="text-xl">{pack.icon}</span>
@@ -624,7 +611,7 @@ export default function GuessLogoPage() {
                       </p>
                       <button
                         onClick={() => handleAddPack(pack.id)}
-                        className="w-full py-1.5 px-2 rounded-xl text-xs font-bold bg-purple-600/80 hover:bg-purple-600 text-white transition flex items-center justify-center gap-1"
+                        className={`w-full py-1.5 px-2 rounded-xl text-xs font-black ${ts.accentGrad} ${ts.accentText} transition flex items-center justify-center gap-1 shadow-xs hover:scale-[1.02]`}
                       >
                         <PlusCircle className="w-3.5 h-3.5" />
                         <span>Add All ({pack.items.length})</span>
@@ -637,19 +624,11 @@ export default function GuessLogoPage() {
 
             {/* Creator's Current Game Playlist Grid */}
             <div
-              className={`rounded-3xl p-6 border backdrop-blur-md shadow-2xl flex-1 ${
-                isNeon
-                  ? 'bg-black/25 border-cyan-500/30'
-                  : isCosmic
-                  ? 'bg-[#050C1A]/30 border-blue-500/30'
-                  : isChampion
-                  ? 'bg-white/35 border-amber-300/40'
-                  : 'bg-white/35 border-purple-200/50'
-              }`}
+              className={`rounded-3xl p-6 border ${ts.panelBg} ${ts.panelBorder} ${ts.panelShadow} flex-1`}
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
                 <div className="flex items-center gap-2">
-                  <ImageIcon className="w-4 h-4 text-purple-400" />
+                  <span className="text-base">🖼️</span>
                   <h3 className="font-black text-sm tracking-tight">
                     Current Game Logos & Pictures ({items.length})
                   </h3>
@@ -675,7 +654,7 @@ export default function GuessLogoPage() {
 
               {items.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className="w-16 h-16 rounded-3xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-3xl mx-auto mb-3">
+                  <div className={`w-16 h-16 rounded-3xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText} flex items-center justify-center text-3xl mx-auto mb-3`}>
                     🎨
                   </div>
                   <h3 className="text-base font-bold mb-1">Your Game is Currently Empty</h3>
@@ -685,7 +664,7 @@ export default function GuessLogoPage() {
                   <div className="flex items-center justify-center gap-3">
                     <button
                       onClick={() => setIsLibraryOpen(true)}
-                      className="px-5 py-2.5 rounded-xl text-xs font-black bg-indigo-600 hover:bg-indigo-700 text-white shadow-md flex items-center gap-2 transition"
+                      className={`px-5 py-2.5 rounded-xl text-xs font-black ${ts.accentGrad} ${ts.accentText} shadow-md flex items-center gap-2 transition hover:scale-105`}
                     >
                       <Library className="w-4 h-4" /> Browse Library
                     </button>
@@ -702,7 +681,7 @@ export default function GuessLogoPage() {
                   {items.map((item, idx) => (
                     <div
                       key={item.id}
-                      className="group relative rounded-2xl border border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/5 p-3 flex flex-col items-center text-center transition hover:scale-[1.02] hover:border-purple-400"
+                      className={`group relative rounded-2xl border border-black/10 dark:border-white/10 bg-black/10 dark:bg-white/5 p-3 flex flex-col items-center text-center transition hover:scale-[1.02] hover:${ts.activeCardBorder}`}
                     >
                       {/* Delete icon */}
                       <button
@@ -756,30 +735,14 @@ export default function GuessLogoPage() {
               }`}
             >
               <div
-                className={`flex-1 rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-between border backdrop-blur-md shadow-2xl relative overflow-hidden transition-all duration-500 ${
-                  isNeon
-                    ? 'bg-black/25 border-cyan-500/30 shadow-[0_0_35px_rgba(6,182,212,0.15)]'
-                    : isCosmic
-                    ? 'bg-[#050C1A]/30 border-blue-500/30 shadow-[0_0_35px_rgba(59,130,246,0.15)]'
-                    : isChampion
-                    ? 'bg-white/35 border-amber-300/40 shadow-xl'
-                    : 'bg-white/35 border-purple-200/50 shadow-xl'
-                }`}
+                className={`flex-1 rounded-3xl p-6 sm:p-8 flex flex-col items-center justify-between border ${ts.panelBg} ${ts.panelBorder} ${ts.panelShadow} relative overflow-hidden transition-all duration-500`}
               >
                 {/* Top Arena Header: Slide Counter + Mystery Mode Selector + Hint */}
                 <div className="w-full flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-black/10 dark:border-white/10">
                   {/* Counter */}
                   <div className="flex items-center gap-2">
                     <span
-                      className={`px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider ${
-                        isNeon
-                          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
-                          : isCosmic
-                          ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
-                          : isChampion
-                          ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                          : 'bg-purple-100 text-purple-900 border border-purple-200'
-                      }`}
+                      className={`px-3 py-1 rounded-xl text-xs font-black uppercase tracking-wider ${ts.scoreBadgeBg} ${ts.scoreBadgeText}`}
                     >
                       Question {items.length > 0 ? currentIndex + 1 : 0} of {items.length}
                     </span>
@@ -806,13 +769,7 @@ export default function GuessLogoPage() {
                         onClick={() => setMysteryEffect(m.id)}
                         className={`px-2.5 py-1 rounded-lg text-xs font-bold transition ${
                           mysteryEffect === m.id
-                            ? isNeon
-                              ? 'bg-cyan-500 text-slate-950 font-black shadow-xs'
-                              : isCosmic
-                              ? 'bg-amber-400 text-slate-950 font-black shadow-xs'
-                              : isChampion
-                              ? 'bg-amber-500 text-white'
-                              : 'bg-[#7C3AED] text-white'
+                            ? `${ts.accentSolid} ${ts.accentText} shadow-xs`
                             : 'opacity-70 hover:opacity-100 hover:bg-white/10'
                         }`}
                       >
@@ -858,13 +815,13 @@ export default function GuessLogoPage() {
                       </p>
                       <button
                         onClick={() => setViewMode('creator')}
-                        className="px-5 py-2.5 rounded-xl text-sm font-bold bg-[#7C3AED] text-white shadow-lg hover:scale-105 transition"
+                        className={`px-5 py-2.5 rounded-xl text-sm font-black ${ts.accentGrad} ${ts.accentText} shadow-lg hover:scale-105 transition`}
                       >
                         Open Game Creator
                       </button>
                     </div>
                   ) : (
-                    <div className="relative w-full max-w-[540px] aspect-4/3 max-h-[380px] rounded-3xl bg-white/95 border-4 border-white/40 shadow-2xl overflow-hidden flex items-center justify-center p-6 group select-none">
+                    <div className={`relative w-full max-w-[540px] aspect-4/3 max-h-[380px] rounded-3xl bg-white/95 border-4 ${ts.logoBorder} overflow-hidden flex items-center justify-center p-6 group select-none`}>
                       {/* The Logo/Picture Image with active mystery filter */}
                       <img
                         src={currentItem?.imageUrl}
@@ -892,14 +849,8 @@ export default function GuessLogoPage() {
                                 disabled={isTileOpen}
                                 className={`rounded-xl font-black text-sm transition-all duration-300 flex items-center justify-center select-none shadow-md ${
                                   isTileOpen
-                                  ? 'opacity-0 pointer-events-none'
-                                  : isNeon
-                                  ? 'bg-slate-900/90 text-cyan-300 border border-cyan-500/50 hover:bg-cyan-500/30 hover:scale-95'
-                                  : isCosmic
-                                  ? 'bg-[#0B172E]/95 text-amber-300 border border-amber-500/40 hover:bg-amber-500/20 hover:scale-95'
-                                  : isChampion
-                                  ? 'bg-amber-600/95 text-amber-100 border border-amber-300 hover:bg-amber-700 hover:scale-95'
-                                  : 'bg-purple-600/90 text-white border border-purple-300 hover:bg-purple-700 hover:scale-95'
+                                    ? 'opacity-0 pointer-events-none'
+                                    : `${ts.tileBg} ${ts.tileText} border ${ts.tileBorder} ${ts.tileHover} hover:scale-95`
                                 }`}
                               >
                                 <span>{tIdx + 1}</span>
@@ -929,15 +880,7 @@ export default function GuessLogoPage() {
                   <button
                     onClick={handlePrev}
                     disabled={items.length <= 1}
-                    className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
-                      isNeon
-                        ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
-                        : isCosmic
-                        ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
-                        : isChampion
-                        ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
-                        : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
-                    }`}
+                    className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${ts.btnSecondary} ${ts.btnSecondaryText} border ${ts.btnSecondaryBorder}`}
                   >
                     <ChevronLeft className="w-4 h-4" />
                     <span className="hidden sm:inline">Previous</span>
@@ -947,16 +890,10 @@ export default function GuessLogoPage() {
                   <button
                     onClick={handleReveal}
                     disabled={items.length === 0 || revealedCurrent}
-                    className={`px-8 py-3.5 rounded-2xl font-black text-base sm:text-lg flex items-center gap-2.5 shadow-2xl transition-all duration-300 transform active:scale-95 ${
+                    className={`px-8 py-3.5 rounded-2xl font-black text-base sm:text-lg flex items-center gap-2.5 transition-all duration-300 transform active:scale-95 ${
                       revealedCurrent
                         ? 'bg-emerald-600/60 text-white cursor-default border border-emerald-400/50'
-                        : isNeon
-                        ? 'bg-gradient-to-r from-pink-500 via-purple-600 to-cyan-500 hover:from-pink-600 hover:to-cyan-400 text-white shadow-[0_0_30px_rgba(6,182,212,0.6)] hover:scale-105'
-                        : isCosmic
-                        ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-amber-500 hover:from-amber-500 hover:to-orange-600 text-slate-950 font-black shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:scale-105'
-                        : isChampion
-                        ? 'bg-gradient-to-r from-amber-500 to-yellow-600 text-white shadow-xl hover:scale-105'
-                        : 'bg-gradient-to-r from-[#7C3AED] via-purple-600 to-pink-500 text-white shadow-xl hover:scale-105'
+                        : `${ts.revealBtnBg} ${ts.revealBtnText} ${ts.revealBtnShadow} hover:scale-105`
                     }`}
                   >
                     <Sparkles className="w-5 h-5 animate-spin-slow" />
@@ -967,15 +904,7 @@ export default function GuessLogoPage() {
                     <button
                       onClick={handleNext}
                       disabled={items.length <= 1}
-                      className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
-                        isNeon
-                          ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
-                          : isCosmic
-                          ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
-                          : isChampion
-                          ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
-                          : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
-                      }`}
+                      className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${ts.btnSecondary} ${ts.btnSecondaryText} border ${ts.btnSecondaryBorder}`}
                     >
                       <span className="hidden sm:inline">Next</span>
                       <ChevronRight className="w-4 h-4" />
@@ -985,7 +914,7 @@ export default function GuessLogoPage() {
                     <button
                       onClick={handleFinishGame}
                       title="Finish Game and Announce Winner Team"
-                      className="px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 shadow-lg hover:scale-105 active:scale-95"
+                      className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${ts.accentGrad} ${ts.accentText} ${ts.accentShadow} hover:scale-105 active:scale-95`}
                     >
                       <Trophy className="w-4 h-4" />
                       <span>Submit Results & Winner</span>
@@ -996,15 +925,7 @@ export default function GuessLogoPage() {
 
               {/* QUICK SCOREBOARD STRIP BELOW ARENA */}
               <div
-                className={`mt-4 rounded-2xl p-3.5 border backdrop-blur-md flex flex-wrap items-center justify-between gap-3 ${
-                  isNeon
-                    ? 'bg-black/25 border-cyan-500/30'
-                    : isCosmic
-                    ? 'bg-[#050C1A]/30 border-blue-500/30'
-                    : isChampion
-                    ? 'bg-white/35 border-amber-300/40'
-                    : 'bg-white/35 border-purple-200/50'
-                }`}
+                className={`mt-4 rounded-2xl p-3.5 border ${ts.panelBg} ${ts.panelBorder} flex flex-wrap items-center justify-between gap-3`}
               >
                 <div className="flex items-center gap-2">
                   <Trophy className="w-4 h-4 text-amber-400" />
@@ -1055,7 +976,7 @@ export default function GuessLogoPage() {
                     <button
                       type="submit"
                       disabled={!newTeamName.trim()}
-                      className="p-1 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition disabled:opacity-40"
+                      className={`p-1 rounded-lg ${ts.accentSolid} ${ts.accentText} transition disabled:opacity-40`}
                     >
                       <Plus className="w-3.5 h-3.5" />
                     </button>
@@ -1063,7 +984,7 @@ export default function GuessLogoPage() {
 
                   <button
                     onClick={handleFinishGame}
-                    className="px-3 py-1 rounded-xl text-xs font-black bg-amber-500 hover:bg-amber-600 text-slate-950 transition flex items-center gap-1 shadow-sm"
+                    className={`px-3 py-1 rounded-xl text-xs font-black ${ts.accentGrad} ${ts.accentText} transition flex items-center gap-1 shadow-sm hover:scale-105`}
                     title="Calculate final points and announce winner team"
                   >
                     <Trophy className="w-3.5 h-3.5" />
@@ -1079,15 +1000,7 @@ export default function GuessLogoPage() {
             {sidebarOpen && (
               <div className="lg:col-span-4 xl:col-span-4 flex flex-col gap-4">
                 <div
-                  className={`rounded-3xl p-5 border backdrop-blur-md shadow-2xl flex flex-col h-full ${
-                    isNeon
-                      ? 'bg-black/25 border-cyan-500/30'
-                      : isCosmic
-                      ? 'bg-[#050C1A]/30 border-blue-500/30'
-                      : isChampion
-                      ? 'bg-white/35 border-amber-300/40'
-                      : 'bg-white/35 border-purple-200/50'
-                  }`}
+                  className={`rounded-3xl p-5 border ${ts.panelBg} ${ts.panelBorder} ${ts.panelShadow} flex flex-col h-full`}
                 >
                   {/* Header */}
                   <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-3">
@@ -1122,7 +1035,7 @@ export default function GuessLogoPage() {
                   <div className="grid grid-cols-2 gap-2 mb-3">
                     <button
                       onClick={() => setIsLibraryOpen(true)}
-                      className="py-2.5 px-3 rounded-2xl text-xs font-black bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-md flex items-center justify-center gap-1.5 transition transform hover:scale-[1.02]"
+                      className={`py-2.5 px-3 rounded-2xl text-xs font-black ${ts.accentGrad} ${ts.accentText} ${ts.accentShadow} flex items-center justify-center gap-1.5 transition transform hover:scale-[1.02]`}
                     >
                       <Library className="w-3.5 h-3.5" />
                       <span>Browse Library</span>
@@ -1147,13 +1060,7 @@ export default function GuessLogoPage() {
                           onClick={() => setCurrentIndex(idx)}
                           className={`p-2.5 rounded-2xl border flex items-center gap-3 cursor-pointer transition select-none group ${
                             isSelected
-                              ? isNeon
-                                ? 'bg-cyan-500/20 border-cyan-400 shadow-[0_0_15px_rgba(6,182,212,0.3)] ring-1 ring-cyan-400'
-                                : isCosmic
-                                ? 'bg-amber-500/20 border-amber-400 shadow-[0_0_15px_rgba(251,191,36,0.3)] ring-1 ring-amber-400'
-                                : isChampion
-                                ? 'bg-amber-100 border-amber-400 shadow-md ring-1 ring-amber-400'
-                                : 'bg-purple-100/90 border-purple-400 shadow-md ring-1 ring-purple-400'
+                              ? `${ts.activeCardBg} ${ts.activeCardBorder} ${ts.activeCardRing} ${ts.activeCardShadow}`
                               : 'bg-black/5 dark:bg-white/5 border-transparent hover:border-black/10 dark:hover:border-white/10'
                           }`}
                         >
@@ -1206,6 +1113,7 @@ export default function GuessLogoPage() {
       {/* 1. Library Picker Modal */}
       <GuessLibraryModal
         isOpen={isLibraryOpen}
+        themeId={themeId}
         onClose={() => setIsLibraryOpen(false)}
         onAddItems={handleAddLibraryItems}
       />
@@ -1235,7 +1143,7 @@ export default function GuessLogoPage() {
                   placeholder="e.g. Starbucks, Tesla, Colosseum"
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
-                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-400"
+                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
               </div>
 
@@ -1249,7 +1157,7 @@ export default function GuessLogoPage() {
                     placeholder="https://example.com/logo.png"
                     value={customUrl}
                     onChange={(e) => setCustomUrl(e.target.value)}
-                    className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-400"
+                    className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400"
                   />
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-slate-400">or upload file:</span>
@@ -1286,7 +1194,7 @@ export default function GuessLogoPage() {
                   placeholder="e.g. Famous Italian sports car with prancing horse"
                   value={customHint}
                   onChange={(e) => setCustomHint(e.target.value)}
-                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-400"
+                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
               </div>
 
@@ -1299,7 +1207,7 @@ export default function GuessLogoPage() {
                   placeholder="e.g. Brands, Gaming, Food"
                   value={customCategory}
                   onChange={(e) => setCustomCategory(e.target.value)}
-                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-indigo-400"
+                  className="w-full bg-slate-800 border border-white/10 rounded-xl px-3.5 py-2 text-sm text-white focus:outline-none focus:border-cyan-400"
                 />
               </div>
 
@@ -1314,7 +1222,7 @@ export default function GuessLogoPage() {
                 <button
                   type="submit"
                   disabled={!customName.trim() || !customUrl.trim()}
-                  className="px-5 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white transition disabled:opacity-50"
+                  className={`px-5 py-2 rounded-xl text-xs font-black ${ts.accentGrad} ${ts.accentText} ${ts.accentShadow} transition disabled:opacity-50`}
                 >
                   Add to Game
                 </button>

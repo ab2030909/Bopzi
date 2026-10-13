@@ -3,15 +3,19 @@
 import React, { useState } from 'react';
 import { GUESS_LIBRARIES, LibraryPack } from '@/lib/guess-library';
 import { GuessItem } from '@/types/guess';
+import { ThemeId } from '@/types/theme';
+import { GUESS_THEME_STYLES } from '@/lib/guess-theme-styles';
 import { Search, X, Check, Sparkles, FolderPlus, Plus } from 'lucide-react';
 
 interface GuessLibraryModalProps {
   isOpen: boolean;
+  themeId?: ThemeId;
   onClose: () => void;
   onAddItems: (items: GuessItem[]) => void;
 }
 
-export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryModalProps) {
+export function GuessLibraryModal({ isOpen, themeId = 'party-pop', onClose, onAddItems }: GuessLibraryModalProps) {
+  const ts = GUESS_THEME_STYLES[themeId] || GUESS_THEME_STYLES['party-pop'];
   const [selectedPackId, setSelectedPackId] = useState<string>('tech-giants');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItems, setSelectedItems] = useState<{ [key: string]: boolean }>({});
@@ -168,7 +172,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
                   onClick={() => setSelectedPackId(pack.id)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap flex items-center gap-1.5 transition ${
                     active
-                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                      ? `${ts.accentSolid} ${ts.accentText} shadow-md`
                       : 'bg-white/5 text-slate-300 hover:bg-white/10'
                   }`}
                 >
@@ -199,7 +203,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
                     onClick={() => toggleSelect(item.uniqueKey)}
                     className={`group relative rounded-2xl border p-3 flex flex-col items-center text-center cursor-pointer transition-all duration-200 select-none ${
                       isSelected
-                        ? 'border-indigo-400 bg-indigo-500/15 ring-2 ring-indigo-400/50 scale-[1.02]'
+                        ? `${ts.activeCardBorder} ${ts.activeCardBg} ring-2 ${ts.activeCardRing} scale-[1.02]`
                         : 'border-white/10 bg-slate-800/40 hover:border-white/30 hover:bg-slate-800/70'
                     }`}
                   >
@@ -207,7 +211,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
                     <div
                       className={`absolute top-2.5 right-2.5 w-6 h-6 rounded-full flex items-center justify-center border transition ${
                         isSelected
-                          ? 'bg-indigo-500 border-indigo-400 text-white'
+                          ? `${ts.accentSolid} ${ts.accentBorder} ${ts.accentText}`
                           : 'border-white/30 bg-black/40 text-transparent group-hover:border-white/60'
                       }`}
                     >
@@ -238,7 +242,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
                         e.stopPropagation();
                         handleAddSingleDirect(item);
                       }}
-                      className="mt-2.5 w-full py-1 px-2 rounded-lg text-[11px] font-semibold bg-white/10 hover:bg-indigo-600 text-slate-200 hover:text-white transition flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100"
+                      className={`mt-2.5 w-full py-1 px-2 rounded-lg text-[11px] font-semibold bg-white/10 hover:${ts.accentSolid} text-slate-200 hover:${ts.accentText} transition flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100`}
                     >
                       <Plus className="w-3 h-3" /> Quick Add
                     </button>
@@ -253,7 +257,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
         <div className="p-4 border-t border-white/10 bg-slate-950/70 flex items-center justify-between">
           <div className="text-xs text-slate-400">
             {countSelected > 0 ? (
-              <span className="text-indigo-300 font-semibold">{countSelected} item(s) selected</span>
+              <span className="font-semibold text-amber-300">{countSelected} item(s) selected</span>
             ) : (
               <span>Select pictures or logos to add to your game</span>
             )}
@@ -270,7 +274,7 @@ export function GuessLibraryModal({ isOpen, onClose, onAddItems }: GuessLibraryM
               disabled={countSelected === 0}
               className={`px-5 py-2 rounded-xl text-sm font-bold flex items-center gap-2 transition ${
                 countSelected > 0
-                  ? 'bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg shadow-indigo-500/25'
+                  ? `${ts.accentGrad} ${ts.accentText} ${ts.accentShadow}`
                   : 'bg-white/10 text-slate-500 cursor-not-allowed'
               }`}
             >
