@@ -111,16 +111,13 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF8FF] relative flex flex-col justify-between overflow-x-hidden font-sans">
-      {/* Background Pastel Atmosphere */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none opacity-40 z-0"
-        style={{ backgroundImage: "url('/images/bopzi_pastel_bg.png')" }}
+    <div className="min-h-screen w-full relative flex flex-col justify-between overflow-x-hidden font-sans">
+      {/* Immersive Cyberpunk Arena Background Image (Matching Game Entry Join Screen) */}
+      <img
+        src="/images/join-bg.jpg"
+        alt="Bopzi Arena Background"
+        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
-
-      {/* Decorative Glow Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-300/25 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-300/25 rounded-full blur-3xl pointer-events-none" />
 
       {/* Top Header */}
       <header className="relative z-10 w-full max-w-[1300px] mx-auto px-6 py-6 flex items-center justify-between">
@@ -128,18 +125,18 @@ export default function SignupPage() {
           <img
             src="/images/logo.png"
             alt="Bopzi Logo"
-            className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform"
+            className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform brightness-110"
           />
-          <span className="font-black text-2xl tracking-wide text-slate-900">
+          <span className="font-black text-2xl tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             BOP<span className="text-[#EC4899]">ZI</span>
           </span>
         </Link>
 
         <div className="flex items-center space-x-3 text-xs sm:text-sm font-semibold">
-          <span className="text-slate-500 hidden sm:inline">Already have an account?</span>
+          <span className="text-white/80 drop-shadow-sm hidden sm:inline">Already have an account?</span>
           <Link
             href="/signin"
-            className="px-4 py-2 rounded-full font-bold text-[#7C3AED] bg-purple-50 hover:bg-purple-100 transition-all border border-purple-200/60"
+            className="px-4 py-2 rounded-full font-bold text-white bg-white/20 hover:bg-white/30 transition-all border border-white/30 backdrop-blur-xs hover:scale-105 active:scale-95"
           >
             Sign in
           </Link>
@@ -148,7 +145,7 @@ export default function SignupPage() {
 
       {/* Main Wizard Card Container */}
       <main className="relative z-10 w-full max-w-2xl mx-auto px-4 py-6 flex-1 flex flex-col justify-center">
-        <div className="bg-white/95 backdrop-blur-xl border border-purple-100/80 rounded-3xl p-6 sm:p-10 shadow-[0_20px_50px_rgba(124,58,237,0.08)] transition-all">
+        <div className="bg-white/94 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 sm:p-10 shadow-[0_20px_50px_rgba(88,28,135,0.32)] transition-all">
           
           {/* Step Progress Pills */}
           <div className="flex items-center justify-center space-x-2.5 mb-8">

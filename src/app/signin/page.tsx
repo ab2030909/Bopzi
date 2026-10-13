@@ -60,16 +60,13 @@ export default function SigninPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FAF8FF] relative flex flex-col justify-between overflow-x-hidden font-sans">
-      {/* Background Pastel Artwork */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none opacity-40 z-0"
-        style={{ backgroundImage: "url('/images/bopzi_pastel_bg.png')" }}
+    <div className="min-h-screen w-full relative flex flex-col justify-between overflow-x-hidden font-sans">
+      {/* Immersive Cyberpunk Arena Background Image (Matching Game Entry Join Screen) */}
+      <img
+        src="/images/join-bg.jpg"
+        alt="Bopzi Arena Background"
+        className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
-
-      {/* Decorative Glow Blobs */}
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-pink-300/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Header */}
       <header className="relative z-10 w-full max-w-[1300px] mx-auto px-6 py-6 flex items-center justify-between">
@@ -77,18 +74,18 @@ export default function SigninPage() {
           <img
             src="/images/logo.png"
             alt="Bopzi Logo"
-            className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform"
+            className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform brightness-110"
           />
-          <span className="font-black text-2xl tracking-wide text-slate-900">
+          <span className="font-black text-2xl tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             BOP<span className="text-[#EC4899]">ZI</span>
           </span>
         </Link>
 
         <div className="flex items-center space-x-3 text-xs sm:text-sm font-semibold">
-          <span className="text-slate-500 hidden sm:inline">Need an account?</span>
+          <span className="text-white/80 drop-shadow-sm hidden sm:inline">Need an account?</span>
           <Link
             href="/signup"
-            className="px-4 py-2 rounded-full font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-all shadow-md shadow-purple-500/20"
+            className="px-4 py-2 rounded-full font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-all shadow-md shadow-purple-500/30 hover:scale-105 active:scale-95 border border-white/20 backdrop-blur-xs"
           >
             Sign up free
           </Link>
@@ -97,7 +94,7 @@ export default function SigninPage() {
 
       {/* Main Sign In Form Card */}
       <main className="relative z-10 w-full max-w-md mx-auto px-4 py-8 flex-1 flex flex-col justify-center">
-        <div className="bg-white/95 backdrop-blur-xl border border-purple-100/80 rounded-3xl p-6 sm:p-9 shadow-[0_20px_50px_rgba(124,58,237,0.08)]">
+        <div className="bg-white/92 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 sm:p-9 shadow-[0_20px_50px_rgba(88,28,135,0.32)]">
           <div className="text-center mb-6">
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-[11px] font-black uppercase text-purple-700 bg-purple-50 tracking-wider mb-2">
               <Sparkles className="w-3 h-3 text-purple-600" />
