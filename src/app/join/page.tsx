@@ -83,7 +83,7 @@ function JoinContent() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center p-4 sm:p-6 overflow-hidden">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-end pt-28 pb-8 sm:pb-12 px-4 sm:px-6 overflow-x-hidden">
       {/* Immersive World Selection Arena Background Image */}
       <img
         src="/images/world_selection_bg.png"
@@ -91,25 +91,27 @@ function JoinContent() {
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
 
-      {/* Main Join Game Card - Compact, Sleek, White-Purplish Shaded Glassmorphism */}
+      {/* Main Join Game Card - Positioned lower, Black Neon Glassmorphism */}
       <div
-        className="w-full max-w-sm sm:max-w-[370px] p-5 sm:p-6 rounded-[28px] border border-white/80 shadow-[0_20px_50px_rgba(88,28,135,0.28)] relative backdrop-blur-2xl bg-white/90 text-slate-800 z-10"
+        className="w-full max-w-sm sm:max-w-[375px] p-5 sm:p-6 rounded-[28px] border border-cyan-400/40 shadow-[0_0_35px_rgba(6,182,212,0.35)] relative backdrop-blur-2xl bg-black/80 text-white z-10 animate-fadeIn"
       >
         <div className="text-center mb-4">
           <div
-            className="w-11 h-11 rounded-2xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-md shadow-purple-500/30 mb-2.5 bg-gradient-to-tr from-[#7C3AED] to-[#EC4899]"
+            className="w-11 h-11 rounded-2xl mx-auto flex items-center justify-center font-black text-xl text-white shadow-[0_0_15px_rgba(6,182,212,0.6)] mb-2.5 bg-gradient-to-tr from-cyan-500 to-purple-600 border border-cyan-300/40"
           >
             ⚡
           </div>
-          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Join Live Game</h1>
-          <p className="text-[11px] sm:text-xs text-slate-500 font-medium mt-0.5">
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]">
+            Join Live Game
+          </h1>
+          <p className="text-[11px] sm:text-xs text-cyan-200/80 font-medium mt-0.5">
             Enter PIN & nickname to jump into the arena!
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-2.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs flex items-center gap-2">
-            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-rose-500" />
+          <div className="mb-4 p-2.5 rounded-xl bg-red-950/80 border border-red-500/60 text-red-300 text-xs flex items-center gap-2 shadow-[0_0_10px_rgba(239,68,68,0.3)]">
+            <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-red-400" />
             <span>{error}</span>
           </div>
         )}
@@ -117,7 +119,7 @@ function JoinContent() {
         <form onSubmit={handleJoin} className="space-y-3.5">
           {/* Game PIN Input */}
           <div>
-            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-300/90 mb-1">
               Game PIN
             </label>
             <div className="relative">
@@ -128,16 +130,16 @@ function JoinContent() {
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
                 placeholder="6-digit PIN"
-                className="w-full px-3.5 py-2.5 rounded-xl font-mono text-center text-xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-sm placeholder:font-medium bg-purple-50/70 border-2 border-purple-100 focus:border-[#7C3AED] focus:bg-white focus:outline-none transition-all text-slate-900"
+                className="w-full px-3.5 py-2.5 rounded-xl font-mono text-center text-xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-sm placeholder:font-medium bg-slate-950/90 border-2 border-cyan-500/50 focus:border-cyan-400 focus:bg-black focus:shadow-[0_0_15px_rgba(6,182,212,0.4)] focus:outline-none transition-all text-white"
                 required
               />
-              <Gamepad2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 pointer-events-none" />
+              <Gamepad2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Nickname Input */}
           <div>
-            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-300/90 mb-1">
               Your Nickname
             </label>
             <div className="relative">
@@ -147,16 +149,16 @@ function JoinContent() {
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="e.g. QuizMaster99"
-                className="w-full px-3.5 py-2.5 rounded-xl font-bold text-sm placeholder:font-normal placeholder:text-xs bg-purple-50/70 border-2 border-purple-100 focus:border-[#7C3AED] focus:bg-white focus:outline-none transition-all text-slate-900"
+                className="w-full px-3.5 py-2.5 rounded-xl font-bold text-sm placeholder:font-normal placeholder:text-xs bg-slate-950/90 border-2 border-cyan-500/50 focus:border-cyan-400 focus:bg-black focus:shadow-[0_0_15px_rgba(6,182,212,0.4)] focus:outline-none transition-all text-white"
                 required
               />
-              <User className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-purple-400 pointer-events-none" />
+              <User className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400 pointer-events-none" />
             </div>
           </div>
 
           {/* Avatar / Mascot Selection */}
           <div>
-            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1.5">
+            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-cyan-300/90 mb-1.5">
               Choose Avatar
             </label>
             <div className="grid grid-cols-4 gap-1.5">
@@ -172,14 +174,14 @@ function JoinContent() {
                     }}
                     className={`p-1.5 rounded-xl border-2 flex flex-col items-center justify-center transition-all ${
                       isSelected
-                        ? 'border-[#7C3AED] bg-purple-100/70 shadow-sm scale-102 ring-1 ring-[#7C3AED]'
-                        : 'border-purple-100/60 bg-white/70 hover:bg-purple-50/80 opacity-75 hover:opacity-100'
+                        ? 'border-cyan-400 bg-cyan-950/70 shadow-[0_0_12px_rgba(6,182,212,0.5)] scale-105 ring-1 ring-cyan-300'
+                        : 'border-slate-800 bg-slate-950/60 hover:bg-slate-900/80 opacity-70 hover:opacity-100 hover:border-slate-700'
                     }`}
                   >
                     <div className="w-8 h-8 mb-0.5 flex items-center justify-center">
                       <Mascot themeId={av.theme as any} state={isSelected ? 'celebrating' : 'idle'} size="sm" />
                     </div>
-                    <span className="text-[9px] font-bold text-slate-700 truncate w-full text-center">
+                    <span className="text-[9px] font-bold text-slate-300 truncate w-full text-center">
                       {av.label}
                     </span>
                   </button>
@@ -192,7 +194,7 @@ function JoinContent() {
           <button
             type="submit"
             disabled={loading || pin.length !== 6 || !nickname.trim()}
-            className="w-full py-3 rounded-xl font-black text-sm text-white shadow-lg shadow-purple-500/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-1.5 mt-2 bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:opacity-95"
+            className="w-full py-3 rounded-xl font-black text-sm text-white shadow-[0_0_20px_rgba(6,182,212,0.5)] transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-1.5 mt-2 bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 hover:opacity-95 border border-cyan-300/50"
           >
             {loading ? (
               <span className="animate-pulse">Entering Arena...</span>

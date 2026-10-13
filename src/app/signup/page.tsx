@@ -112,9 +112,9 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen w-full relative flex flex-col justify-between overflow-x-hidden font-sans">
-      {/* Immersive Cyberpunk Arena Background Image (Matching Game Entry Join Screen) */}
+      {/* Immersive World Selection Arena Background Image */}
       <img
-        src="/images/join-bg.jpg"
+        src="/images/world_selection_bg.png"
         alt="Bopzi Arena Background"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
