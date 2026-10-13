@@ -961,7 +961,7 @@ export default function HomePage() {
             </svg>
           </div>
           <p className="text-sm sm:text-base text-slate-500 font-medium mt-2">
-            See what students, teachers and organizations say about Anti Kahoot.
+            See what students, teachers and organizations say about BOPZI.
           </p>
         </div>
 
@@ -1178,7 +1178,7 @@ export default function HomePage() {
           {/* Background Image */}
           <img
             src="/images/footer-bg.png"
-            alt="Anti Kahoot Celebration Background"
+            alt="BOPZI Celebration Background"
             className="absolute inset-0 w-full h-full object-cover object-right pointer-events-none select-none z-0"
           />
 
@@ -1223,11 +1223,16 @@ export default function HomePage() {
       ========================================================================== */}
       <footer className="w-full bg-[#240B68] text-white py-6 px-4 sm:px-6 lg:px-12 border-t border-purple-900/50">
         <div className="max-w-[1550px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          {/* Brand Logo with Crown */}
-          <Link href="/" className="flex items-center space-x-1.5 font-black text-xl hover:opacity-90 transition-opacity">
-            <span className="text-[#F59E0B] text-base">👑</span>
-            <span className="text-white tracking-wide">ANTI</span>
-            <span className="text-[#EC4899] ml-0.5 tracking-wide">KAHOOT</span>
+          {/* Brand Logo matching official Bopzi logo */}
+          <Link href="/" className="flex items-center space-x-2.5 hover:opacity-90 transition-opacity">
+            <img
+              src="/images/logo.png"
+              alt="Bopzi Official Logo"
+              className="h-8 sm:h-9 w-auto object-contain brightness-110"
+            />
+            <span className="font-black text-xl text-white tracking-wide">
+              BOP<span className="text-[#EC4899]">ZI</span>
+            </span>
           </Link>
 
           {/* Navigation Links */}
@@ -1308,7 +1313,7 @@ export default function HomePage() {
             <span className="hidden sm:inline text-purple-400/40">|</span>
 
             <span className="text-purple-300/80">
-              © 2026 Anti Kahoot. All rights reserved.
+              © 2026 BOPZI. All rights reserved.
             </span>
           </div>
         </div>

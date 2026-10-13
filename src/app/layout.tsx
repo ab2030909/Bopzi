@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import React, { Suspense } from 'react';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
+import { AuthProvider } from '@/components/auth/AuthProvider';
 import { Navbar } from '@/components/layout/Navbar';
 
 export const metadata: Metadata = {
@@ -9,6 +10,17 @@ export const metadata: Metadata = {
   description:
     'The 100% free, modern real-time multiplayer quiz game platform. Host interactive live games, join instantly with PIN or QR code, featuring 4 original themes and mascots.',
   keywords: ['quiz game', 'trivia', 'bopzi', 'realtime multiplayer', 'classroom game', 'kahoot alternative free'],
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -27,12 +39,14 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased selection:bg-purple-500 selection:text-white">
-        <ThemeProvider>
-          <Suspense fallback={<div className="h-16 w-full bg-white/95 border-b border-slate-100" />}>
-            <Navbar />
-          </Suspense>
-          <main className="flex-1 flex flex-col">{children}</main>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider>
+            <Suspense fallback={<div className="h-16 w-full bg-white/95 border-b border-slate-100" />}>
+              <Navbar />
+            </Suspense>
+            <main className="flex-1 flex flex-col">{children}</main>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

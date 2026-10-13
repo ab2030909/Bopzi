@@ -1,4 +1,4 @@
-# ⚡ Anti Kahoot — Free, Real-Time Multiplayer Quiz Arena
+# ⚡ BOPZI — Free, Real-Time Multiplayer Quiz Arena
 
 > A 100% free, modern real-time multiplayer quiz game platform. Host interactive live games, join instantly with a 6-digit PIN or QR code, featuring 4 original adaptive visual themes, animated vector mascots, and programmatic Web Audio sound synthesis.
 
@@ -63,7 +63,7 @@ Copy the template `.env.example` to `.env.local`:
 cp .env.example .env.local
 ```
 
-> **Note**: Anti Kahoot features a built-in zero-friction local storage and real-time state engine. It runs **immediately out of the box** without requiring external Supabase credentials for local testing!
+> **Note**: BOPZI features a built-in zero-friction local storage and real-time state engine. It runs **immediately out of the box** without requiring external Supabase credentials for local testing!
 
 ### 3. Run Development Server
 ```bash
@@ -135,7 +135,7 @@ When deploying to production with Supabase:
 
 ## 📊 Free-Tier Operational Quotas & Scalability
 
-Anti Kahoot is engineered to remain free to use:
+BOPZI is engineered to remain free to use:
 
 - **Supabase Free Tier**:
   - 500 MB database storage (thousands of quizzes and game sessions).
@@ -188,4 +188,4 @@ Anti Kahoot is engineered to remain free to use:
 
 ## ⚖️ Open Source License
 
-Anti Kahoot is published under the **MIT License**. Free to inspect, adapt, self-host, and extend without artificial paywalls.
+BOPZI is published under the **MIT License**. Free to inspect, adapt, self-host, and extend without artificial paywalls.

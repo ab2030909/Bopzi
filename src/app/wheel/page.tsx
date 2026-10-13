@@ -334,7 +334,7 @@ export default function SpinWheelPage() {
                   isNeon
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]'
                     : isCosmic
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400'
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)] [-webkit-text-stroke:0.6px_#000000]'
                     : isChampion
                     ? 'text-amber-500 drop-shadow-sm [-webkit-text-stroke:1px_#78350F]'
                     : 'text-[#7C3AED]'
@@ -342,9 +342,6 @@ export default function SpinWheelPage() {
                   Wheel
                 </span>
               </h1>
-              <span className="text-xl font-black select-none">
-                {isNeon ? '⚡' : isCosmic ? '🪐' : isChampion ? '👑' : '🪄'}
-              </span>
             </div>
             <p className="text-xs opacity-75 font-medium">
               Random name picker, classroom decider & giveaway arena
@@ -354,10 +351,10 @@ export default function SpinWheelPage() {
           {/* Center: COMPACT TEXT-ONLY THEME SELECTOR (No big pictures) */}
           <div className="flex items-center p-1 rounded-2xl bg-black/10 dark:bg-white/10 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-xs self-start lg:self-center">
             {[
-              { id: 'party-pop' as ThemeId, name: 'Party Pop', emoji: '🪄' },
-              { id: 'neon-arcade' as ThemeId, name: 'Neon Arcade', emoji: '⚡' },
-              { id: 'cosmic-quest' as ThemeId, name: 'Cosmic Quest', emoji: '🪐' },
-              { id: 'champion-mode' as ThemeId, name: 'Champion Mode', emoji: '👑' },
+              { id: 'party-pop' as ThemeId, name: 'Party Pop' },
+              { id: 'neon-arcade' as ThemeId, name: 'Neon Arcade' },
+              { id: 'cosmic-quest' as ThemeId, name: 'Cosmic Quest' },
+              { id: 'champion-mode' as ThemeId, name: 'Champion Mode' },
             ].map((t) => {
               const isSelected = themeId === t.id;
               return (
@@ -377,7 +374,6 @@ export default function SpinWheelPage() {
                       : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/10'
                   }`}
                 >
-                  <span className="text-sm">{t.emoji}</span>
                   <span>{t.name}</span>
                 </button>
               );
@@ -560,7 +556,7 @@ export default function SpinWheelPage() {
                     : isNeon
                     ? 'bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white shadow-[0_0_20px_rgba(236,72,153,0.6)] border border-pink-400 hover:shadow-[0_0_25px_rgba(236,72,153,0.8)] hover:scale-105 active:scale-95'
                     : isCosmic
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_20px_rgba(245,158,11,0.5)] border border-amber-300 hover:shadow-[0_0_25px_rgba(245,158,11,0.7)] hover:scale-105 active:scale-95'
+                    ? 'bg-gradient-to-r from-amber-400 via-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_20px_rgba(245,158,11,0.5)] border-2 border-black hover:shadow-[0_0_25px_rgba(245,158,11,0.7)] hover:scale-105 active:scale-95'
                     : isChampion
                     ? 'bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/25 border border-yellow-200 hover:scale-105 active:scale-95'
                     : 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white hover:opacity-95 shadow-md shadow-purple-500/20 hover:scale-105 active:scale-95'
@@ -574,7 +570,7 @@ export default function SpinWheelPage() {
                 ) : (
                   <>
                     <Play className="w-5 h-5 fill-current" />
-                    <span>SPIN THE WHEEL</span>
+                    <span className={isCosmic ? 'tracking-wider drop-shadow-[0_1px_1px_rgba(255,255,255,0.4)]' : ''}>SPIN THE WHEEL</span>
                   </>
                 )}
               </button>
@@ -1018,7 +1014,7 @@ export default function SpinWheelPage() {
                               </span>
                             </div>
                           </div>
-                          <span className="text-amber-400">🏆</span>
+                          <Award className="w-4 h-4 text-amber-400" />
                         </div>
                       ))
                     )}

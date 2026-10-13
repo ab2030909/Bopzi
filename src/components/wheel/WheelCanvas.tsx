@@ -362,8 +362,12 @@ export function WheelCanvas({
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.font = '900 15px "Outfit", sans-serif';
-      ctx.shadowColor = '#38BDF8';
-      ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+      ctx.shadowBlur = 8;
+      // High-contrast black border/stroke around the text for crystal clear readability
+      ctx.lineWidth = 3.5;
+      ctx.strokeStyle = '#000000';
+      ctx.strokeText('SPIN', centerX, centerY);
       ctx.fillText('SPIN', centerX, centerY);
     } else if (theme === 'champion-mode') {
       ctx.fillStyle = '#041E15';

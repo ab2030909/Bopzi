@@ -23,12 +23,12 @@ const PRESET_TEMPLATES: Record<string, string[]> = {
   ],
   'Lucky Numbers (1 - 20)': Array.from({ length: 20 }, (_, i) => `Ticket #${i + 1}`),
   'Prizes & Giveaways': [
-    '🏆 $100 Grand Prize', '🎁 $50 Gift Card', '🎧 Bluetooth Earbuds', '☕ Coffee Mug',
-    '👕 Bopzi T-Shirt', '🎟️ Movie Tickets', '⭐ 500 Bonus Points', '📦 Mystery Surprise Box'
+    '$100 Grand Prize', '$50 Gift Card', 'Bluetooth Earbuds', 'Coffee Mug',
+    'Bopzi T-Shirt', 'Movie Tickets', '500 Bonus Points', 'Mystery Surprise Box'
   ],
   'Quick Decision Maker': [
-    '✅ Definitely Yes', '❌ Absolutely No', '🤔 Ask Again Later', '🎲 Roll Again',
-    '⚡ Do It Right Now', '⏸️ Sleep On It', '🌟 100% Go For It', '☕ Grab Coffee First'
+    'Definitely Yes', 'Absolutely No', 'Ask Again Later', 'Roll Again',
+    'Do It Right Now', 'Sleep On It', '100% Go For It', 'Grab Coffee First'
   ],
 };
 
@@ -297,7 +297,7 @@ export function WheelImportModal({ isOpen, onClose, onImport }: WheelImportModal
               </div>
 
               <div className="p-3.5 bg-blue-50/80 rounded-2xl border border-blue-100 text-[11px] text-blue-700 leading-relaxed">
-                💡 <strong>Tip:</strong> If your Excel sheet has columns like "Name" or "Student", Bopzi will automatically detect the name list and skip headers!
+                <strong>Tip:</strong> If your Excel sheet has columns like "Name" or "Student", Bopzi will automatically detect the name list and skip headers!
               </div>
             </div>
           )}

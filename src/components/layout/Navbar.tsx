@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Gamepad2, ArrowRight, User, Sparkles } from 'lucide-react';
+import { Gamepad2, ArrowRight, User, Sparkles, LogOut } from 'lucide-react';
 import { sounds } from '@/lib/audio';
+import { useAuth } from '@/components/auth/AuthProvider';
 
 export function Navbar() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
   const [hovered, setHovered] = useState(false);
 
@@ -124,30 +126,61 @@ export function Navbar() {
           <Link
             href="/join"
             onClick={() => sounds.playCountdownTick()}
-            className="flex items-center space-x-2 px-4 py-2.5 rounded-full text-xs sm:text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all active:scale-95"
+            className="flex items-center space-x-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-all active:scale-95"
           >
             <Gamepad2 className="w-4 h-4 text-[#7C3AED]" />
-            <span>Join a Game</span>
+            <span className="hidden sm:inline">Join Game</span>
+            <span className="sm:hidden">Join</span>
           </Link>
 
-          {/* Create a Quiz Primary CTA */}
-          <Link
-            href="/dashboard"
-            onClick={() => sounds.playQuestionStart()}
-            className="flex items-center space-x-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] shadow-md hover:shadow-lg transition-all active:scale-95"
-          >
-            <span>Create a Quiz</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          {/* User Logged in vs Logged out */}
+          {user ? (
+            <>
+              {/* Create a Quiz Primary CTA */}
+              <Link
+                href="/dashboard"
+                onClick={() => sounds.playQuestionStart()}
+                className="hidden sm:flex items-center space-x-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-[#7C3AED] hover:bg-[#6D28D9] shadow-md hover:shadow-lg transition-all active:scale-95"
+              >
+                <span>Dashboard</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
 
-          {/* Profile Circle Avatar */}
-          <Link
-            href="/dashboard"
-            className="w-9 h-9 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 hover:bg-slate-200 transition-all"
-            title="Account & Dashboard"
-          >
-            <User className="w-4 h-4" />
-          </Link>
+              {/* Profile Badge */}
+              <div className="flex items-center space-x-1.5 bg-purple-50/80 border border-purple-200/80 rounded-full pl-2 pr-1.5 py-1">
+                <span className="text-xs font-black text-purple-900 max-w-[100px] truncate hidden md:inline">
+                  {user.name}
+                </span>
+                <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded-full bg-purple-200/70 text-purple-800">
+                  {user.accountType}
+                </span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  title="Sign out"
+                  className="p-1.5 rounded-full text-slate-400 hover:text-red-600 hover:bg-white transition-colors"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="px-3.5 py-2 rounded-full text-xs sm:text-sm font-bold text-slate-600 hover:text-[#7C3AED] hover:bg-purple-50/50 transition-all"
+              >
+                Log in
+              </Link>
+              <Link
+                href="/signup"
+                className="flex items-center space-x-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:opacity-95 shadow-md shadow-purple-500/20 hover:scale-105 active:scale-95 transition-all"
+              >
+                <span>Sign up</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

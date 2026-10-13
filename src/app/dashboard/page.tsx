@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '@/components/theme/ThemeProvider';
+import { useAuth } from '@/components/auth/AuthProvider';
 import { Quiz } from '@/types/quiz';
 import { THEMES } from '@/types/theme';
 import { sounds } from '@/lib/audio';
@@ -19,11 +20,17 @@ import {
   Trophy,
   Clock,
   HelpCircle,
+  GraduationCap,
+  BookOpen,
+  Briefcase,
+  Smile,
+  LogOut,
 } from 'lucide-react';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { theme } = useTheme();
+  const { user, logout } = useAuth();
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(true);
@@ -156,6 +163,30 @@ export default function DashboardPage() {
             <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
               Create, manage, and host real-time multiplayer games with live projector displays.
             </p>
+
+            {user && (
+              <div className="mt-3 inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-2xl bg-white/80 border border-purple-200/80 shadow-xs backdrop-blur-xs">
+                <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-[#7C3AED] to-[#EC4899] text-white flex items-center justify-center">
+                  {user.accountType === 'teacher' ? (
+                    <GraduationCap className="w-3.5 h-3.5" />
+                  ) : user.accountType === 'student' ? (
+                    <BookOpen className="w-3.5 h-3.5" />
+                  ) : user.accountType === 'professional' ? (
+                    <Briefcase className="w-3.5 h-3.5" />
+                  ) : (
+                    <Smile className="w-3.5 h-3.5" />
+                  )}
+                </div>
+                <div className="text-left text-xs">
+                  <span className="font-extrabold text-slate-900">{user.name}</span>
+                  <span className="text-slate-400 mx-1.5">•</span>
+                  <span className="font-semibold text-purple-700 capitalize">{user.accountType}</span>
+                  {user.organizationName && (
+                    <span className="text-slate-500 font-medium"> ({user.organizationName})</span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <Link
