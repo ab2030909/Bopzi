@@ -116,15 +116,11 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#FCFBFF] relative overflow-hidden flex flex-col font-sans">
-      {/* Pastel background blobs and dot matrix grid pattern */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-emerald-100/35 rounded-full blur-3xl pointer-events-none select-none z-0" />
-      <div className="absolute top-10 right-0 w-[450px] h-[450px] bg-pink-100/40 rounded-full blur-3xl pointer-events-none select-none z-0" />
-      <div className="absolute bottom-0 left-1/3 w-[500px] h-[500px] bg-purple-100/30 rounded-full blur-3xl pointer-events-none select-none z-0" />
-
-      {/* Decorative stars & sparkles in background */}
-      <div className="absolute top-16 left-6 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
-      <div className="absolute top-44 right-10 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
-      <div className="absolute top-28 right-72 text-pink-300 text-xl select-none pointer-events-none">✨</div>
+      {/* High-res uploaded Bopzi pastel background artwork */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+        style={{ backgroundImage: "url('/images/bopzi_pastel_bg.png')" }}
+      />
 
       {/* Corner Mascots - Tucked directly into the outer screen corners */}
       <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-1 top-20 sm:top-24 xl:top-28 w-28 sm:w-36 xl:w-40 h-auto z-20 pointer-events-none select-none">
