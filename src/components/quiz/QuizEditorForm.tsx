@@ -320,7 +320,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     : isCosmic
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]'
                     : isChampion
-                    ? 'text-amber-400 drop-shadow-md'
+                    ? 'text-amber-400 drop-shadow-md [-webkit-text-stroke:1.5px_#000000] [paint-order:stroke_fill]'
                     : 'text-[#7C3AED]'
                 }>
                   New Quiz
