@@ -83,7 +83,7 @@ function JoinContent() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-end pt-28 pb-8 sm:pb-12 px-4 sm:px-6 overflow-x-hidden">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-end pt-24 pb-16 sm:pb-24 px-4 sm:px-6 overflow-x-hidden">
       {/* Immersive World Selection Arena Background Image */}
       <img
         src="/images/world_selection_bg.png"
@@ -95,28 +95,26 @@ function JoinContent() {
       <div
         className="w-full max-w-sm sm:max-w-[375px] p-5 sm:p-6 rounded-[28px] border-2 border-cyan-400/50 shadow-[0_0_50px_rgba(6,182,212,0.45)] relative backdrop-blur-md bg-black/25 text-white z-10 animate-fadeIn"
       >
-        <div className="text-center mb-4">
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-[0_0_15px_rgba(6,182,212,0.9)] [-webkit-text-stroke:0.5px_#06b6d4]">
+        <div className="text-center mb-3">
+          <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight drop-shadow-[0_0_15px_rgba(6,182,212,0.9)] [-webkit-text-stroke:0.5px_#06b6d4]">
             JOIN LIVE GAME
           </h1>
-          <p className="text-[11px] sm:text-xs text-cyan-200 font-bold mt-1 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]">
-            Enter PIN & nickname to jump into the arena!
+          <p className="text-[10px] sm:text-[11px] text-cyan-200 font-semibold mt-0.5 drop-shadow-[0_0_8px_rgba(0,0,0,0.9)]">
+            Enter PIN & nickname to jump in!
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-2.5 rounded-xl bg-red-950/85 border border-red-500 text-red-200 text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.5)]">
+          <div className="mb-3 p-2 rounded-xl bg-red-950/85 border border-red-500 text-red-200 text-xs flex items-center gap-2 shadow-[0_0_15px_rgba(239,68,68,0.5)]">
             <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-red-400" />
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleJoin} className="space-y-3.5">
-          {/* Game PIN Input - Full Shiny Neon */}
-          <div>
-            <label className="block text-[11px] font-black uppercase tracking-wider text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] mb-1">
-              Game PIN
-            </label>
+        <form onSubmit={handleJoin} className="space-y-2.5">
+          {/* Closely Stacked Inputs (No external labels, inside placeholders) */}
+          <div className="space-y-1.5">
+            {/* Game PIN Input */}
             <div className="relative">
               <input
                 type="text"
@@ -124,39 +122,31 @@ function JoinContent() {
                 maxLength={6}
                 value={pin}
                 onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))}
-                placeholder="6-digit PIN"
-                className="w-full px-3.5 py-3 rounded-xl font-mono text-center text-2xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-sm placeholder:font-medium bg-black/60 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_20px_rgba(6,182,212,0.5),inset_0_0_15px_rgba(6,182,212,0.2)] focus:border-pink-500 focus:text-white focus:shadow-[0_0_30px_rgba(236,72,153,0.7),inset_0_0_20px_rgba(236,72,153,0.3)] focus:outline-none transition-all drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]"
+                placeholder="Game PIN (6 digits)"
+                className="w-full px-3.5 py-2.5 rounded-xl font-mono text-center text-xl font-black tracking-widest placeholder:tracking-normal placeholder:font-sans placeholder:text-xs placeholder:font-bold placeholder:text-cyan-300/70 bg-black/60 border-2 border-cyan-400 text-cyan-200 shadow-[0_0_18px_rgba(6,182,212,0.5),inset_0_0_12px_rgba(6,182,212,0.2)] focus:border-pink-500 focus:text-white focus:shadow-[0_0_25px_rgba(236,72,153,0.7),inset_0_0_15px_rgba(236,72,153,0.3)] focus:outline-none transition-all drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]"
                 required
               />
               <Gamepad2 className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.9)] pointer-events-none" />
             </div>
-          </div>
 
-          {/* Nickname Input - Full Shiny Neon */}
-          <div>
-            <label className="block text-[11px] font-black uppercase tracking-wider text-pink-300 drop-shadow-[0_0_8px_rgba(236,72,153,0.8)] mb-1">
-              Your Nickname
-            </label>
+            {/* Nickname Input */}
             <div className="relative">
               <input
                 type="text"
                 maxLength={20}
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="e.g. QuizMaster99"
-                className="w-full px-3.5 py-2.5 rounded-xl font-black text-sm placeholder:font-normal placeholder:text-xs bg-black/60 border-2 border-pink-400 text-pink-100 shadow-[0_0_20px_rgba(236,72,153,0.45),inset_0_0_15px_rgba(236,72,153,0.2)] focus:border-cyan-400 focus:text-white focus:shadow-[0_0_30px_rgba(6,182,212,0.7),inset_0_0_20px_rgba(6,182,212,0.3)] focus:outline-none transition-all drop-shadow-[0_0_8px_rgba(236,72,153,0.7)]"
+                placeholder="Your Nickname"
+                className="w-full px-3.5 py-2 rounded-xl text-center font-black text-sm placeholder:font-bold placeholder:text-xs placeholder:text-pink-300/70 bg-black/60 border-2 border-pink-400 text-pink-100 shadow-[0_0_18px_rgba(236,72,153,0.45),inset_0_0_12px_rgba(236,72,153,0.2)] focus:border-cyan-400 focus:text-white focus:shadow-[0_0_25px_rgba(6,182,212,0.7),inset_0_0_15px_rgba(6,182,212,0.3)] focus:outline-none transition-all drop-shadow-[0_0_8px_rgba(236,72,153,0.7)]"
                 required
               />
               <User className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,0.9)] pointer-events-none" />
             </div>
           </div>
 
-          {/* Avatar / Mascot Selection - Glowing Neon Pills */}
+          {/* Avatar / Mascot Selection - Compact Grid */}
           <div>
-            <label className="block text-[10px] font-black uppercase tracking-wider text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.7)] mb-1.5">
-              Choose Avatar
-            </label>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-4 gap-1.5 pt-0.5">
               {AVATAR_OPTIONS.map((av) => {
                 const isSelected = avatar === av.id;
                 return (
