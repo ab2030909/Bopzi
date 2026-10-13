@@ -223,7 +223,7 @@ function HostLiveGameContent() {
       {isCosmic && (
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
-          style={{ backgroundImage: "url('/images/cosmic_quest_bg.jpg')" }}
+          style={{ backgroundImage: "url('/images/cosmic_quest_bg.png')" }}
         />
       )}
 
