@@ -198,157 +198,234 @@ function HostLiveGameContent() {
     { shape: '■', color: currentTheme.colors.answerGreen },
   ];
 
+  const isNeon = session.theme_id === 'neon-arcade';
+
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
-      {/* HOST TOP BAR: PIN, Status, Controls */}
-      <header
-        className="flex items-center justify-between p-4 rounded-2xl border mb-6 backdrop-blur-md shadow-lg"
-        style={{
-          backgroundColor: `${currentTheme.colors.surface}dd`,
-          borderColor: currentTheme.colors.border,
-        }}
-      >
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-2">
-            <span className="text-xs font-black uppercase text-slate-300">PIN:</span>
-            <span
-              className="text-2xl sm:text-3xl font-black font-mono tracking-widest text-white px-3 py-0.5 rounded-xl border-2"
-              style={{
-                backgroundColor: 'rgba(0,0,0,0.4)',
-                borderColor: currentTheme.colors.primary,
-              }}
-            >
-              {session.game_pin}
-            </span>
-          </div>
-          <div className="hidden sm:flex items-center space-x-2 text-xs font-bold text-slate-300">
-            <Users className="w-4 h-4 text-emerald-400" />
-            <span>{participants.length} Players</span>
-          </div>
-        </div>
+    <div className={`relative min-h-screen w-full flex-1 flex flex-col transition-colors duration-500 overflow-hidden ${
+      isNeon ? 'bg-[#030712] text-white' : ''
+    }`}>
+      {/* Dynamic Background Image for Neon Arcade */}
+      {isNeon && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/neon_arcade_bg.png')" }}
+        />
+      )}
 
-        <div className="flex items-center space-x-2 sm:space-x-3">
-          <button
-            onClick={() => {
-              const nextMuted = !isMuted;
-              setIsMuted(nextMuted);
-              sounds.setMuted(nextMuted);
-            }}
-            className="p-2.5 rounded-xl border hover:scale-105 transition-all text-slate-200"
-            style={{ backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border }}
-            title={isMuted ? 'Unmute' : 'Mute'}
-          >
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-          </button>
-          <button
-            onClick={toggleFullscreen}
-            className="p-2.5 rounded-xl border hover:scale-105 transition-all text-slate-200"
-            style={{ backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border }}
-            title="Toggle Projector Fullscreen"
-          >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-          </button>
-        </div>
-      </header>
-
-      {/* STATE 1: LOBBY */}
-      {session.state === 'lobby' && (
-        <div className="flex-1 flex flex-col justify-between space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
-            {/* Left: Huge QR Code and Join Instructions */}
-            <div
-              className="md:col-span-5 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl"
-              style={{
-                backgroundColor: currentTheme.colors.cardBg,
-                borderColor: currentTheme.colors.border,
-              }}
-            >
-              <span
-                className="text-xs font-black uppercase px-3 py-1 rounded-full text-white mb-4"
-                style={{ backgroundColor: currentTheme.colors.primary }}
-              >
-                Scan or Enter PIN
+      {/* Main Content Area */}
+      <div className="relative z-10 flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+        {/* HOST TOP BAR: PIN, Status, Controls */}
+        <header
+          className={`flex items-center justify-between p-4 rounded-2xl border mb-6 backdrop-blur-md shadow-lg transition-all ${
+            isNeon
+              ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
+              : ''
+          }`}
+          style={
+            !isNeon
+              ? {
+                  backgroundColor: `${currentTheme.colors.surface}dd`,
+                  borderColor: currentTheme.colors.border,
+                }
+              : undefined
+          }
+        >
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <span className={`text-xs font-black uppercase ${isNeon ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : 'text-slate-300'}`}>
+                PIN:
               </span>
-
-              {qrDataUrl && (
-                <div className="p-3 bg-white rounded-2xl shadow-2xl mb-4">
-                  <img src={qrDataUrl} alt="Join Game QR Code" className="w-48 h-48 sm:w-56 sm:h-56 rounded-lg" />
-                </div>
-              )}
-
-              <div className="text-sm font-bold text-slate-300">
-                Join at <span className="text-white underline font-extrabold">{typeof window !== 'undefined' ? window.location.host : 'localhost:3000'}/join</span>
-              </div>
-              <div className="text-3xl sm:text-4xl font-black font-mono tracking-widest text-white mt-1">
+              <span
+                className={`text-2xl sm:text-3xl font-black font-mono tracking-widest px-3 py-0.5 rounded-xl border-2 transition-all ${
+                  isNeon
+                    ? 'text-cyan-300 bg-[#030712]/90 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)]'
+                    : 'text-white'
+                }`}
+                style={
+                  !isNeon
+                    ? {
+                        backgroundColor: 'rgba(0,0,0,0.4)',
+                        borderColor: currentTheme.colors.primary,
+                      }
+                    : undefined
+                }
+              >
                 {session.game_pin}
-              </div>
+              </span>
             </div>
+            <div className="hidden sm:flex items-center space-x-2 text-xs font-bold text-slate-300">
+              <Users className="w-4 h-4 text-emerald-400" />
+              <span>{participants.length} Players</span>
+            </div>
+          </div>
 
-            {/* Right: Participant Roster & Mascot */}
-            <div
-              className="md:col-span-7 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl"
-              style={{
-                backgroundColor: currentTheme.colors.cardBg,
-                borderColor: currentTheme.colors.border,
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <button
+              onClick={() => {
+                const nextMuted = !isMuted;
+                setIsMuted(nextMuted);
+                sounds.setMuted(nextMuted);
               }}
+              className={`p-2.5 rounded-xl border hover:scale-105 transition-all ${
+                isNeon
+                  ? 'bg-slate-950/80 text-cyan-300 border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                  : 'text-slate-200'
+              }`}
+              style={!isNeon ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
+              title={isMuted ? 'Unmute' : 'Mute'}
             >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Users className="w-5 h-5" style={{ color: currentTheme.colors.primary }} />
-                    <h2 className="text-xl font-black text-white">
-                      Waiting for Players ({participants.length})
-                    </h2>
-                  </div>
-                  <Mascot themeId={session.theme_id} state="excited" size="sm" />
-                </div>
+              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            </button>
+            <button
+              onClick={toggleFullscreen}
+              className={`p-2.5 rounded-xl border hover:scale-105 transition-all ${
+                isNeon
+                  ? 'bg-slate-950/80 text-cyan-300 border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                  : 'text-slate-200'
+              }`}
+              style={!isNeon ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
+              title="Toggle Projector Fullscreen"
+            >
+              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            </button>
+          </div>
+        </header>
 
-                {participants.length === 0 ? (
-                  <div className="py-16 text-center text-slate-400">
-                    <p className="text-lg font-bold">No players have joined yet!</p>
-                    <p className="text-xs mt-1">Share the PIN or QR code to let people in.</p>
-                  </div>
-                ) : (
-                  <div className="flex flex-wrap gap-2.5 max-h-72 overflow-y-auto p-1">
-                    {participants.map((p) => (
-                      <div
-                        key={p.id}
-                        className="px-3.5 py-2 rounded-xl border flex items-center gap-2 shadow-sm animate-pop group"
-                        style={{
-                          backgroundColor: `${currentTheme.colors.surfaceHover}`,
-                          borderColor: currentTheme.colors.border,
-                        }}
-                      >
-                        <span className="font-extrabold text-sm text-white">{p.nickname}</span>
-                        <button
-                          onClick={() => handleHostAction('kick', { participantId: p.id })}
-                          className="opacity-0 group-hover:opacity-100 text-rose-400 hover:text-rose-300 p-0.5 rounded transition-all"
-                          title="Kick player"
-                        >
-                          <X className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ))}
+        {/* STATE 1: LOBBY */}
+        {session.state === 'lobby' && (
+          <div className="flex-1 flex flex-col justify-between space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center flex-1">
+              {/* Left: Huge QR Code and Join Instructions */}
+              <div
+                className={`md:col-span-5 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl transition-all ${
+                  isNeon
+                    ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    : ''
+                }`}
+                style={
+                  !isNeon
+                    ? {
+                        backgroundColor: currentTheme.colors.cardBg,
+                        borderColor: currentTheme.colors.border,
+                      }
+                    : undefined
+                }
+              >
+                <span
+                  className={`text-xs font-black uppercase px-3.5 py-1 rounded-full mb-4 transition-all ${
+                    isNeon
+                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                      : 'text-white'
+                  }`}
+                  style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+                >
+                  Scan or Enter PIN
+                </span>
+
+                {qrDataUrl && (
+                  <div className={`p-3 rounded-2xl mb-4 transition-all ${
+                    isNeon
+                      ? 'bg-white border-2 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
+                      : 'bg-white shadow-2xl'
+                  }`}>
+                    <img src={qrDataUrl} alt="Join Game QR Code" className="w-48 h-48 sm:w-56 sm:h-56 rounded-lg" />
                   </div>
                 )}
+
+                <div className={`text-sm font-bold ${isNeon ? 'text-slate-300' : 'text-slate-300'}`}>
+                  Join at <span className={`underline font-extrabold ${isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'}`}>{typeof window !== 'undefined' ? window.location.host : 'localhost:3000'}/join</span>
+                </div>
+                <div className={`text-3xl sm:text-4xl font-black font-mono tracking-widest mt-1 ${
+                  isNeon ? 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]' : 'text-white'
+                }`}>
+                  {session.game_pin}
+                </div>
               </div>
 
-              {/* Start Game Action */}
-              <div className="pt-6 border-t mt-6" style={{ borderColor: `${currentTheme.colors.border}66` }}>
-                <button
-                  onClick={() => handleHostAction('start')}
-                  disabled={participants.length === 0}
-                  className="w-full py-4 rounded-2xl font-black text-lg text-white shadow-2xl transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3"
-                  style={{ backgroundColor: currentTheme.colors.primary }}
-                >
-                  <Play className="w-6 h-6 fill-current" />
-                  <span>START GAME NOW</span>
-                </button>
+              {/* Right: Participant Roster */}
+              <div
+                className={`md:col-span-7 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl transition-all ${
+                  isNeon
+                    ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    : ''
+                }`}
+                style={
+                  !isNeon
+                    ? {
+                        backgroundColor: currentTheme.colors.cardBg,
+                        borderColor: currentTheme.colors.border,
+                      }
+                    : undefined
+                }
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-2">
+                      <Users className="w-5 h-5" style={{ color: isNeon ? '#06B6D4' : currentTheme.colors.primary }} />
+                      <h2 className={`text-xl font-black ${isNeon ? 'text-white drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : 'text-white'}`}>
+                        Waiting for Players ({participants.length})
+                      </h2>
+                    </div>
+                  </div>
+
+                  {participants.length === 0 ? (
+                    <div className="py-16 text-center text-slate-400">
+                      <p className={`text-lg font-bold ${isNeon ? 'text-slate-300' : ''}`}>No players have joined yet!</p>
+                      <p className="text-xs mt-1">Share the PIN or QR code to let people in.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap gap-2.5 max-h-72 overflow-y-auto p-1">
+                      {participants.map((p) => (
+                        <div
+                          key={p.id}
+                          className={`px-3.5 py-2 rounded-xl border flex items-center gap-2 shadow-sm animate-pop group transition-all ${
+                            isNeon
+                              ? 'bg-[#030712]/90 border-2 border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.3)] text-cyan-200'
+                              : 'text-white'
+                          }`}
+                          style={
+                            !isNeon
+                              ? {
+                                  backgroundColor: `${currentTheme.colors.surfaceHover}`,
+                                  borderColor: currentTheme.colors.border,
+                                }
+                              : undefined
+                          }
+                        >
+                          <span className="font-extrabold text-sm">{p.nickname}</span>
+                          <button
+                            onClick={() => handleHostAction('kick', { participantId: p.id })}
+                            className="opacity-0 group-hover:opacity-100 text-rose-400 hover:text-rose-300 p-0.5 rounded transition-all"
+                            title="Kick player"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Start Game Action */}
+                <div className="pt-6 border-t mt-6" style={{ borderColor: isNeon ? 'rgba(6,182,212,0.3)' : `${currentTheme.colors.border}66` }}>
+                  <button
+                    onClick={() => handleHostAction('start')}
+                    disabled={participants.length === 0}
+                    className={`w-full py-4 rounded-2xl font-black text-lg text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3 ${
+                      isNeon
+                        ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_35px_rgba(236,72,153,0.7)] hover:shadow-[0_0_45px_rgba(6,182,212,0.9)]'
+                        : 'shadow-2xl'
+                    }`}
+                    style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+                  >
+                    <Play className="w-6 h-6 fill-current" />
+                    <span>START GAME NOW</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* STATE 2: ACTIVE QUESTION */}
       {session.state === 'question_active' && currentQuestion && (
@@ -650,8 +727,10 @@ function HostLiveGameContent() {
               <span>Play Again</span>
             </button>
           </div>
+          </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
