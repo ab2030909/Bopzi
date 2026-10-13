@@ -127,11 +127,11 @@ export default function DashboardPage() {
       <div className="absolute top-28 right-72 text-pink-300 text-xl select-none pointer-events-none">✨</div>
 
       {/* Corner Mascots - Tucked directly into the outer screen corners */}
-      <div className="hidden lg:block absolute -left-6 sm:-left-3 xl:left-0 top-16 sm:top-20 xl:top-24 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
+      <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-1 top-20 sm:top-24 xl:top-28 w-28 sm:w-36 xl:w-40 h-auto z-20 pointer-events-none select-none">
         <img
           src="/images/dashboard_mascot_skater.png"
           alt="Bopzi Skater Mascot"
-          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(124,58,237,0.25)] animate-float-slow -rotate-6"
+          className="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(124,58,237,0.22)] animate-float-slow -rotate-6"
         />
       </div>
 
