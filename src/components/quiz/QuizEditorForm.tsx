@@ -311,7 +311,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
           <div className="relative">
             <div className="flex items-center gap-2">
               <h1 className={`text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight ${
-                isChampion ? 'text-[#1E1B4B] [text-shadow:_1px_1px_0_#fff,_-1px_-1px_0_#fff,_1px_-1px_0_#fff,_-1px_1px_0_#fff,_0_1px_0_#fff,_0_-1px_0_#fff,_1px_0_0_#fff,_-1px_0_0_#fff,_0_0_12px_rgba(255,255,255,0.9)] [-webkit-text-stroke:_1.5px_#ffffff]' : ''
+                isChampion ? 'text-white drop-shadow-md' : isNeon || isCosmic ? 'text-white' : 'text-slate-900'
               }`}>
                 Create{' '}
                 <span className={
@@ -320,23 +320,23 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     : isCosmic
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]'
                     : isChampion
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 [filter:drop-shadow(1px_0_0_#fff)_drop-shadow(-1px_0_0_#fff)_drop-shadow(0_1px_0_#fff)_drop-shadow(0_-1px_0_#fff)]'
+                    ? 'text-amber-400 drop-shadow-md'
                     : 'text-[#7C3AED]'
                 }>
                   New Quiz
                 </span>
               </h1>
-              <span className="text-2xl font-black select-none drop-shadow-md">
+              <span className="text-2xl font-black select-none">
                 {isNeon ? '⚡' : isCosmic ? '🪐' : isChampion ? '👑' : '🪄'}
               </span>
             </div>
-            <p className={`text-xs sm:text-sm font-bold mt-1.5 ${
+            <p className={`text-xs sm:text-sm font-semibold mt-1 ${
               isNeon
                 ? 'text-slate-400'
                 : isCosmic
                 ? 'text-slate-300'
                 : isChampion
-                ? 'text-[#0F172A] [text-shadow:_1px_1px_0_#fff,_-1px_-1px_0_#fff,_1px_-1px_0_#fff,_-1px_1px_0_#fff,_0_1px_0_#fff,_0_-1px_0_#fff,_1px_0_0_#fff,_-1px_0_0_#fff] [-webkit-text-stroke:_0.4px_#ffffff]'
+                ? 'text-white/90 drop-shadow-sm'
                 : 'text-slate-500'
             }`}>
               Author questions, configure timers, answer options, and select your visual theme.
