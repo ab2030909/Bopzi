@@ -517,20 +517,20 @@ function PlayerGameContent() {
                 ];
                 const championStyles = [
                   {
-                    card: 'bg-gradient-to-r from-[#DC2626] to-[#991B1B] text-white shadow-xl border border-rose-300',
-                    shape: 'text-rose-100 drop-shadow',
+                    card: 'bg-gradient-to-r from-[#FF0055] via-[#FF2A6D] to-[#E11D48] text-white shadow-[0_0_25px_rgba(255,0,85,0.6)] border-2 border-[#FFA6C9] hover:shadow-[0_0_35px_rgba(255,0,85,0.9)]',
+                    shape: 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]',
                   },
                   {
-                    card: 'bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white shadow-xl border border-sky-300',
-                    shape: 'text-sky-100 drop-shadow',
+                    card: 'bg-gradient-to-r from-[#00D2FF] via-[#0099FF] to-[#0284C7] text-white shadow-[0_0_25px_rgba(0,210,255,0.6)] border-2 border-[#BAE6FD] hover:shadow-[0_0_35px_rgba(0,210,255,0.9)]',
+                    shape: 'text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]',
                   },
                   {
-                    card: 'bg-gradient-to-r from-[#D97706] to-[#B45309] text-white shadow-xl border border-amber-300',
-                    shape: 'text-amber-100 drop-shadow',
+                    card: 'bg-gradient-to-r from-[#FFE600] via-[#FBBF24] to-[#F59E0B] text-slate-950 font-black shadow-[0_0_28px_rgba(255,230,0,0.8),inset_0_0_12px_rgba(255,255,255,0.6)] border-2 border-[#FEF08A] hover:shadow-[0_0_35px_rgba(255,230,0,1)]',
+                    shape: 'text-slate-950 drop-shadow-[0_0_10px_rgba(255,255,255,0.9)]',
                   },
                   {
-                    card: 'bg-gradient-to-r from-[#059669] to-[#047857] text-white shadow-xl border border-emerald-300',
-                    shape: 'text-emerald-100 drop-shadow',
+                    card: 'bg-gradient-to-r from-[#00FF87] via-[#10B981] to-[#059669] text-slate-950 font-black shadow-[0_0_25px_rgba(0,255,135,0.6)] border-2 border-[#A7F3D0] hover:shadow-[0_0_35px_rgba(0,255,135,0.9)]',
+                    shape: 'text-slate-950 drop-shadow-[0_0_10px_rgba(255,255,255,0.9)]',
                   },
                 ];
                 const optionStyle = isNeon ? neonStyles[idx] || neonStyles[0] : isCosmic ? cosmicStyles[idx] || cosmicStyles[0] : isChampion ? championStyles[idx] || championStyles[0] : null;
