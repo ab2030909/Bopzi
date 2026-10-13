@@ -251,19 +251,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
         />
       )}
 
-      {/* Corner Mascots - Changes dynamically with theme */}
-      {isNeon ? (
-        <>
-          {/* Neon Arcade Sunglasses Crown Mascot at bottom-left */}
-          <div className="hidden lg:block absolute left-2 xl:left-4 bottom-4 xl:bottom-8 w-36 sm:w-44 xl:w-56 h-auto z-20 pointer-events-none select-none">
-            <img
-              src="/images/neon_arcade_mascot.png"
-              alt="Neon Arcade Robot Mascot"
-              className="w-full h-auto object-contain filter drop-shadow-[0_12px_30px_rgba(236,72,153,0.6)] animate-float-slow -rotate-2"
-            />
-          </div>
-        </>
-      ) : (
+      {/* Corner Mascots - Displayed on pastel themes, removed from Neon Arcade */}
+      {!isNeon && (
         <>
           <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-1 bottom-8 xl:bottom-12 w-32 sm:w-40 xl:w-48 h-auto z-20 pointer-events-none select-none">
             <img
