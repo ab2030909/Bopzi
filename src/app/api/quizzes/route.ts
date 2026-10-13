@@ -32,6 +32,7 @@ export async function POST(req: Request) {
       title: title.trim(),
       description: description?.trim() || '',
       theme_id: theme_id || 'party-pop',
+      cover_image: body.cover_image || undefined,
       visibility: body.visibility || 'public',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

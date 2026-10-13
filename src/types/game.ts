@@ -87,6 +87,7 @@ export interface PlayerGameView {
     current_question_index: number;
     total_questions: number;
     theme_id: ThemeId;
+    quiz_title: string;
     question_deadline: string | null;
   };
   me: Participant;

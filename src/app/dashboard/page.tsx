@@ -287,16 +287,23 @@ export default function DashboardPage() {
               let badgeLabel = 'PARTY POP';
               let btnStyle = 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] text-white hover:opacity-95 shadow-purple-500/25';
 
-              if (quiz.theme_id === 'neon-arcade' || idx === 1) {
+              if (quiz.cover_image) {
+                bannerImg = quiz.cover_image;
+              } else if (quiz.theme_id === 'neon-arcade') {
                 bannerImg = '/images/dashboard_card_neon.jpg';
                 badgeBg = 'bg-[#06B6D4] text-white';
                 badgeLabel = 'NEON ARCADE';
                 btnStyle = 'bg-[#06B6D4] hover:bg-[#0891B2] text-white shadow-cyan-500/25';
-              } else if (quiz.theme_id === 'cosmic-quest' || idx === 2) {
+              } else if (quiz.theme_id === 'cosmic-quest') {
                 bannerImg = '/images/dashboard_card_cosmic.jpg';
                 badgeBg = 'bg-[#4F46E5] text-white';
                 badgeLabel = 'COSMIC QUEST';
                 btnStyle = 'bg-[#4F46E5] hover:bg-[#4338CA] text-white shadow-indigo-500/25';
+              } else if (quiz.theme_id === 'champion-mode') {
+                bannerImg = '/images/themes/champion.png';
+                badgeBg = 'bg-[#F59E0B] text-slate-950 font-black';
+                badgeLabel = 'CHAMPION';
+                btnStyle = 'bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-black shadow-amber-500/25';
               }
 
               return (
@@ -329,8 +336,13 @@ export default function DashboardPage() {
                         </span>
                       </div>
 
+                      {/* Main Quiz Title */}
+                      <h3 className="text-base sm:text-lg font-black text-[#0F172A] tracking-tight leading-snug line-clamp-1 group-hover:text-[#7C3AED] transition-colors">
+                        {quiz.title}
+                      </h3>
+
                       {/* Description */}
-                      <p className="text-xs text-slate-500 font-medium line-clamp-2 mt-2 leading-relaxed">
+                      <p className="text-xs text-slate-500 font-medium line-clamp-2 mt-1.5 leading-relaxed">
                         {quiz.description || 'A vibrant mix of mind-bending facts, pop culture, and fun trivia to kick off any party!'}
                       </p>
                     </div>

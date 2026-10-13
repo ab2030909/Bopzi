@@ -494,6 +494,7 @@ class GameManager {
         current_question_index: game.session.current_question_index,
         total_questions: game.session.total_questions,
         theme_id: game.session.theme_id,
+        quiz_title: game.quiz.title,
         question_deadline: game.session.question_deadline,
       },
       me,

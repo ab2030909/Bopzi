@@ -354,6 +354,14 @@ function PlayerGameContent() {
             Room PIN: {session.game_pin}
           </span>
 
+          {session.quiz_title && (
+            <div className="my-1 px-4 py-1.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
+              <span className={`text-sm sm:text-base font-black ${isPartyPop ? 'text-slate-800' : 'text-white'}`}>
+                🎮 {session.quiz_title}
+              </span>
+            </div>
+          )}
+
           <h2 className={`text-2xl sm:text-3xl font-black mt-2 ${
             isPartyPop ? 'text-[#0F172A]' : 'text-white'
           }`}>

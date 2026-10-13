@@ -28,6 +28,7 @@ export interface Quiz {
   title: string;
   description: string;
   theme_id: ThemeId;
+  cover_image?: string;
   visibility: 'public' | 'private' | 'unlisted';
   questions: Question[];
   created_at: string;

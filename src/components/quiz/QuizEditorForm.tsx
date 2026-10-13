@@ -18,6 +18,12 @@ import {
   Save,
   HelpCircle,
   AlertCircle,
+  Image as ImageIcon,
+  ZoomIn,
+  ZoomOut,
+  Upload,
+  X,
+  RotateCcw,
 } from 'lucide-react';
 
 interface QuizEditorFormProps {
@@ -36,12 +42,32 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
   const [themeId, setSelectedThemeId] = useState<ThemeId>(
     initialQuiz?.theme_id || (themeParam && THEMES[themeParam] ? themeParam : 'party-pop')
   );
+  const [coverImage, setCoverImage] = useState<string>(initialQuiz?.cover_image || '');
+  const [coverZoom, setCoverZoom] = useState<number>(1);
 
   useEffect(() => {
     if (!initialQuiz && themeParam && THEMES[themeParam]) {
       setSelectedThemeId(themeParam);
     }
   }, [themeParam, initialQuiz]);
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Please select a valid image file (PNG, JPG, WebP).');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64 = event.target?.result as string;
+      setCoverImage(base64);
+      setCoverZoom(1);
+    };
+    reader.readAsDataURL(file);
+  };
   const [questions, setQuestions] = useState<Question[]>(
     initialQuiz?.questions || [
       {
@@ -211,6 +237,7 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
         title: title.trim(),
         description: description.trim(),
         theme_id: themeId,
+        cover_image: coverImage || undefined,
         questions,
       };
 
@@ -450,6 +477,138 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     : 'bg-slate-50/70 border border-slate-200/80 text-slate-700 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-400/50 focus:border-purple-300 placeholder:text-slate-400'
                 }`}
               />
+            </div>
+
+            {/* Game Cover Photo with Zoom Controls */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className={`text-[11px] font-black uppercase tracking-wider flex items-center gap-1.5 ${
+                  isNeon ? 'text-pink-400 drop-shadow-[0_0_10px_rgba(244,114,182,0.7)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.5)]' : isChampion ? 'text-amber-700' : 'text-slate-500'
+                }`}>
+                  <ImageIcon className="w-3.5 h-3.5" /> GAME COVER PHOTO
+                </label>
+                {coverImage && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setCoverImage('');
+                      setCoverZoom(1);
+                    }}
+                    className="text-[10px] font-bold text-rose-500 hover:text-rose-600 flex items-center gap-0.5 hover:underline"
+                  >
+                    <X className="w-3 h-3" /> Remove
+                  </button>
+                )}
+              </div>
+
+              {!coverImage ? (
+                <label className={`w-full aspect-[16/7] rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all hover:scale-[1.01] ${
+                  isNeon
+                    ? 'border-cyan-500/50 bg-[#030712]/60 hover:border-cyan-400 text-cyan-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+                    : isCosmic
+                    ? 'border-cyan-500/40 bg-[#040C1A]/60 hover:border-amber-400 text-slate-300 hover:shadow-[0_0_20px_rgba(251,191,36,0.25)]'
+                    : isChampion
+                    ? 'border-amber-300 bg-amber-50/50 hover:bg-amber-50/80 text-amber-800'
+                    : 'border-purple-200 bg-purple-50/30 hover:bg-purple-50/60 text-purple-700'
+                }`}>
+                  <Upload className="w-6 h-6 mb-1 opacity-80" />
+                  <span className="text-xs font-bold">Upload Game Cover Photo</span>
+                  <span className="text-[10px] opacity-60 mt-0.5">PNG, JPG or WebP</span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleCoverUpload}
+                    className="hidden"
+                  />
+                </label>
+              ) : (
+                <div className="space-y-2">
+                  {/* Image Preview Box with Zoom */}
+                  <div className={`relative w-full aspect-[16/7] rounded-2xl overflow-hidden border-2 shadow-inner bg-slate-950 ${
+                    isNeon
+                      ? 'border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.4)]'
+                      : isCosmic
+                      ? 'border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.3)]'
+                      : isChampion
+                      ? 'border-amber-300'
+                      : 'border-purple-300'
+                  }`}>
+                    <img
+                      src={coverImage}
+                      alt="Game Cover Preview"
+                      style={{
+                        transform: `scale(${coverZoom})`,
+                        transformOrigin: 'center center',
+                      }}
+                      className="w-full h-full object-cover transition-transform duration-150 select-none"
+                    />
+
+                    {/* Change photo overlay button */}
+                    <label className="absolute top-2 right-2 bg-black/70 hover:bg-black/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-full cursor-pointer backdrop-blur-sm shadow flex items-center gap-1 transition-all">
+                      <Upload className="w-3 h-3" /> Change
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleCoverUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  {/* Interactive Zoom Controls: Zoom Out, Slider, Zoom In, Reset */}
+                  <div className={`flex items-center justify-between gap-3 p-2 rounded-xl text-xs font-bold border ${
+                    isNeon
+                      ? 'bg-[#030712]/90 border-cyan-500/40 text-cyan-300'
+                      : isCosmic
+                      ? 'bg-[#040C1A]/90 border-cyan-500/30 text-slate-200'
+                      : isChampion
+                      ? 'bg-amber-50/90 border-amber-200 text-amber-900'
+                      : 'bg-white border-slate-200 text-slate-700'
+                  }`}>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setCoverZoom(prev => Math.max(0.5, Number((prev - 0.1).toFixed(2))))}
+                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all"
+                        title="Zoom Out"
+                      >
+                        <ZoomOut className="w-3.5 h-3.5" />
+                      </button>
+                      <input
+                        type="range"
+                        min="0.5"
+                        max="2.5"
+                        step="0.05"
+                        value={coverZoom}
+                        onChange={(e) => setCoverZoom(Number(e.target.value))}
+                        className="w-24 sm:w-32 h-1.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#7C3AED]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCoverZoom(prev => Math.min(2.5, Number((prev + 0.1).toFixed(2))))}
+                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all"
+                        title="Zoom In"
+                      >
+                        <ZoomIn className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-[11px] opacity-80 font-bold">
+                        {Math.round(coverZoom * 100)}%
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setCoverZoom(1)}
+                        className="p-1 rounded-lg hover:bg-white/10 active:scale-95 transition-all opacity-70 hover:opacity-100"
+                        title="Reset Zoom to 100%"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 

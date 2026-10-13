@@ -327,6 +327,15 @@ function HostLiveGameContent() {
                 {session.game_pin}
               </span>
             </div>
+            {/* Main Game Title */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 max-w-[280px] lg:max-w-[400px]">
+              <span className="text-xs">🎮</span>
+              <span className={`text-xs sm:text-sm font-black truncate ${
+                isChampion ? 'text-amber-950' : isPartyPop ? 'text-slate-800' : 'text-white'
+              }`}>
+                {session.quiz_title}
+              </span>
+            </div>
             <div className={`hidden sm:flex items-center space-x-2 text-xs font-bold ${isChampion ? 'text-amber-800' : isPartyPop ? 'text-slate-600' : 'text-slate-300'
               }`}>
               <Users className="w-4 h-4 text-emerald-500" />
