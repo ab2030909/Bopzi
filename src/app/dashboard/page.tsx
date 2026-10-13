@@ -126,20 +126,20 @@ export default function DashboardPage() {
       <div className="absolute top-44 right-10 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
       <div className="absolute top-28 right-72 text-pink-300 text-xl select-none pointer-events-none">✨</div>
 
-      {/* Corner Mascots - Balanced size anchored to corners */}
-      <div className="hidden lg:block absolute left-2 xl:left-5 top-24 xl:top-20 w-32 xl:w-40 2xl:w-48 h-auto z-20 pointer-events-none select-none">
+      {/* Corner Mascots - Tucked directly into the outer screen corners */}
+      <div className="hidden lg:block absolute -left-6 sm:-left-3 xl:left-0 top-16 sm:top-20 xl:top-24 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
         <img
           src="/images/dashboard_mascot_skater.png"
           alt="Bopzi Skater Mascot"
-          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(124,58,237,0.25)] animate-float-slow -rotate-2"
+          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(124,58,237,0.25)] animate-float-slow -rotate-6"
         />
       </div>
 
-      <div className="hidden lg:block absolute right-2 xl:right-5 top-24 xl:top-20 w-32 xl:w-40 2xl:w-48 h-auto z-20 pointer-events-none select-none">
+      <div className="hidden lg:block absolute -right-6 sm:-right-3 xl:right-0 top-16 sm:top-20 xl:top-24 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
         <img
           src="/images/dashboard_mascot_cheer.png"
           alt="Bopzi Cheerleader Mascot"
-          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(236,72,153,0.25)] animate-float-slow rotate-2"
+          className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(236,72,153,0.25)] animate-float-slow rotate-6"
         />
       </div>
 
