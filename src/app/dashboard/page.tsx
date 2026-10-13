@@ -126,6 +126,23 @@ export default function DashboardPage() {
       <div className="absolute top-44 right-10 text-amber-300 text-3xl select-none pointer-events-none animate-pulse">⭐</div>
       <div className="absolute top-28 right-72 text-pink-300 text-xl select-none pointer-events-none">✨</div>
 
+      {/* Corner Mascots - Large and anchored to screen edge corners matching reference */}
+      <div className="hidden lg:block absolute left-2 xl:left-4 top-24 xl:top-20 w-44 xl:w-56 2xl:w-64 h-auto z-20 pointer-events-none select-none">
+        <img
+          src="/images/dashboard_mascot_skater.png"
+          alt="Bopzi Skater Mascot"
+          className="w-full h-auto object-contain filter drop-shadow-[0_16px_32px_rgba(124,58,237,0.28)] animate-float-slow -rotate-3"
+        />
+      </div>
+
+      <div className="hidden lg:block absolute right-2 xl:right-4 top-24 xl:top-20 w-44 xl:w-56 2xl:w-64 h-auto z-20 pointer-events-none select-none">
+        <img
+          src="/images/dashboard_mascot_cheer.png"
+          alt="Bopzi Cheerleader Mascot"
+          className="w-full h-auto object-contain filter drop-shadow-[0_16px_32px_rgba(236,72,153,0.28)] animate-float-slow rotate-3"
+        />
+      </div>
+
       {/* Main Container */}
       <div className="max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-14 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
         {/* Top Header Row */}
@@ -154,25 +171,8 @@ export default function DashboardPage() {
           </Link>
         </div>
 
-        {/* Mascot & Stats Row */}
+        {/* Stats Row */}
         <div className="relative mb-6">
-          {/* Left Skater Mascot - placed in the left margin area */}
-          <div className="hidden 2xl:block absolute -left-28 -top-8 w-32 h-auto z-20 pointer-events-none select-none">
-            <img
-              src="/images/dashboard_mascot_skater.png"
-              alt="Bopzi Skater Mascot"
-              className="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(124,58,237,0.25)] animate-float-slow"
-            />
-          </div>
-
-          {/* Right Cheerleader Mascot - placed in the right margin area */}
-          <div className="hidden 2xl:block absolute -right-28 -top-10 w-32 h-auto z-20 pointer-events-none select-none">
-            <img
-              src="/images/dashboard_mascot_cheer.png"
-              alt="Bopzi Cheerleader Mascot"
-              className="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(236,72,153,0.25)] animate-float-slow"
-            />
-          </div>
 
           {/* 3 Pill Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-5">
