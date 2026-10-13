@@ -83,7 +83,7 @@ function JoinContent() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex flex-col items-center justify-end pt-24 pb-16 sm:pb-24 px-4 sm:px-6 overflow-x-hidden">
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-start pt-32 sm:pt-36 md:pt-40 pb-8 px-4 sm:px-6 overflow-x-hidden">
       {/* Immersive World Selection Arena Background Image */}
       <img
         src="/images/world_selection_bg.png"
