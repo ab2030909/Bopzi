@@ -18,6 +18,7 @@ export function Navbar() {
   const isGameOrProjector =
     mounted &&
     (pathname === '/wheel' ||
+      pathname === '/guess' ||
       pathname === '/join' ||
       pathname.startsWith('/host') ||
       pathname.startsWith('/play'));
@@ -58,7 +59,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center space-x-1 sm:space-x-2">
           <Link
             href="/"
-            className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+            className={`px-3 py-2 rounded-full text-sm font-bold transition-all ${
               mounted && pathname === '/'
                 ? 'bg-[#F3E8FF] text-[#7C3AED]'
                 : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
@@ -68,7 +69,7 @@ export function Navbar() {
           </Link>
           <Link
             href="/wheel"
-            className={`px-3.5 py-2 rounded-full text-sm font-bold transition-all flex items-center space-x-1.5 ${
+            className={`px-3 py-2 rounded-full text-sm font-bold transition-all flex items-center space-x-1.5 ${
               mounted && pathname === '/wheel'
                 ? 'bg-[#F3E8FF] text-[#7C3AED]'
                 : 'text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50'
@@ -76,7 +77,18 @@ export function Navbar() {
           >
             <Sparkles className="w-3.5 h-3.5 text-[#7C3AED]" />
             <span>Spin Wheel</span>
-            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold uppercase bg-[#7C3AED] text-white">
+          </Link>
+          <Link
+            href="/guess"
+            className={`px-3 py-2 rounded-full text-sm font-bold transition-all flex items-center space-x-1.5 ${
+              mounted && pathname === '/guess'
+                ? 'bg-[#F3E8FF] text-[#7C3AED]'
+                : 'text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50'
+            }`}
+          >
+            <span className="text-base">🎨</span>
+            <span>Guess Logo</span>
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold uppercase bg-emerald-500 text-white">
               New
             </span>
           </Link>
