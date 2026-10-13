@@ -527,32 +527,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                             ? 'bg-cyan-400 text-slate-950'
                             : isCosmic && t.id === 'cosmic-quest'
                             ? 'bg-amber-400 text-slate-950'
+                            : isChampion && t.id === 'champion-mode'
+                            ? 'bg-amber-400 text-slate-950'
                             : 'bg-[#7C3AED] text-white'
                         }`}>
                           <span>✓</span> Active
                         </div>
                       )}
-                    </div>
-
-                    {/* Bottom Label Bar */}
-                    <div className={`p-2 w-full text-left flex items-center justify-between ${
-                      isNeon
-                        ? 'bg-[#030712] border-t border-cyan-500/40'
-                        : isCosmic
-                        ? 'bg-[#040C1A] border-t border-cyan-500/30'
-                        : 'bg-white border-t border-slate-100'
-                    }`}>
-                      <div>
-                        <div className={`text-xs font-black leading-tight ${isNeon || isCosmic ? 'text-white' : 'text-[#0F172A]'}`}>
-                          {t.name}
-                        </div>
-                        <div className={`text-[10px] font-medium leading-tight ${isNeon || isCosmic ? 'text-slate-400' : 'text-slate-500'}`}>
-                          {t.tag}
-                        </div>
-                      </div>
-                      <span className="text-xs">
-                        {t.id === 'neon-arcade' ? '🎮' : t.id === 'cosmic-quest' ? '🪐' : t.id === 'champion-mode' ? '🏆' : '🎉'}
-                      </span>
                     </div>
                   </button>
                 );

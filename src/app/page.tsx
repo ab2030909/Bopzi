@@ -307,17 +307,17 @@ export default function HomePage() {
                 router.push('/quizzes/new?theme=party-pop');
               }
             }}
-            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col justify-between ${
+            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col ${
               themeId === 'party-pop'
                 ? 'ring-4 ring-[#8B5CF6] ring-offset-4 ring-offset-white shadow-xl shadow-purple-500/20'
                 : 'hover:ring-2 hover:ring-purple-300 shadow-md'
             }`}
           >
-            <div className="relative">
+            <div className="relative w-full h-full">
               <img
                 src="/images/themes/party.png"
                 alt="Party Pop Theme"
-                className="w-full h-auto block object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                className="w-full h-full block object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
               {themeId === 'party-pop' && (
                 <div className="absolute top-4 right-4 bg-[#8B5CF6] text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg uppercase tracking-wider flex items-center gap-1.5 z-10 animate-fade-in">
@@ -325,10 +325,6 @@ export default function HomePage() {
                   Active
                 </div>
               )}
-            </div>
-            <div className="p-3 bg-white/95 border-t border-purple-100 flex items-center justify-between">
-              <span className="text-xs font-black text-[#7C3AED]">Create with Party Pop</span>
-              <span className="text-xs font-extrabold text-[#7C3AED] group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </div>
 
@@ -350,17 +346,17 @@ export default function HomePage() {
                 router.push('/quizzes/new?theme=neon-arcade');
               }
             }}
-            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col justify-between ${
+            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col ${
               themeId === 'neon-arcade'
                 ? 'ring-4 ring-[#00F0FF] ring-offset-4 ring-offset-white shadow-xl shadow-cyan-500/20'
                 : 'hover:ring-2 hover:ring-cyan-300 shadow-md'
             }`}
           >
-            <div className="relative">
+            <div className="relative w-full h-full">
               <img
                 src="/images/themes/neon.png"
                 alt="Neon Arcade Theme"
-                className="w-full h-auto block object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                className="w-full h-full block object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
               {themeId === 'neon-arcade' && (
                 <div className="absolute top-4 right-4 bg-[#00F0FF] text-black text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg uppercase tracking-wider flex items-center gap-1.5 z-10 animate-fade-in">
@@ -368,10 +364,6 @@ export default function HomePage() {
                   Active
                 </div>
               )}
-            </div>
-            <div className="p-3 bg-[#060B1E] border-t border-cyan-500/40 flex items-center justify-between">
-              <span className="text-xs font-black text-cyan-300">Create with Neon Arcade</span>
-              <span className="text-xs font-extrabold text-cyan-300 group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </div>
 
@@ -393,17 +385,17 @@ export default function HomePage() {
                 router.push('/quizzes/new?theme=cosmic-quest');
               }
             }}
-            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col justify-between ${
+            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col ${
               themeId === 'cosmic-quest'
                 ? 'ring-4 ring-[#38BDF8] ring-offset-4 ring-offset-white shadow-xl shadow-sky-500/20'
                 : 'hover:ring-2 hover:ring-blue-300 shadow-md'
             }`}
           >
-            <div className="relative">
+            <div className="relative w-full h-full">
               <img
                 src="/images/themes/cosmic.png"
                 alt="Cosmic Quest Theme"
-                className="w-full h-auto block object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                className="w-full h-full block object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
               {themeId === 'cosmic-quest' && (
                 <div className="absolute top-4 right-4 bg-[#38BDF8] text-black text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg uppercase tracking-wider flex items-center gap-1.5 z-10 animate-fade-in">
@@ -411,10 +403,6 @@ export default function HomePage() {
                   Active
                 </div>
               )}
-            </div>
-            <div className="p-3 bg-[#071326] border-t border-cyan-500/40 flex items-center justify-between">
-              <span className="text-xs font-black text-amber-300">Create with Cosmic Quest</span>
-              <span className="text-xs font-extrabold text-amber-300 group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </div>
 
@@ -436,17 +424,17 @@ export default function HomePage() {
                 router.push('/quizzes/new?theme=champion-mode');
               }
             }}
-            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col justify-between ${
+            className={`group relative rounded-[28px] overflow-hidden transition-all duration-300 transform hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer focus:outline-none flex flex-col ${
               themeId === 'champion-mode'
                 ? 'ring-4 ring-[#F59E0B] ring-offset-4 ring-offset-white shadow-xl shadow-amber-500/20'
                 : 'hover:ring-2 hover:ring-amber-300 shadow-md'
             }`}
           >
-            <div className="relative">
+            <div className="relative w-full h-full">
               <img
                 src="/images/themes/champion.png"
                 alt="Champion Mode Theme"
-                className="w-full h-auto block object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+                className="w-full h-full block object-cover transition-transform duration-300 group-hover:scale-[1.02]"
               />
               {themeId === 'champion-mode' && (
                 <div className="absolute top-4 right-4 bg-[#F59E0B] text-black text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg uppercase tracking-wider flex items-center gap-1.5 z-10 animate-fade-in">
@@ -454,10 +442,6 @@ export default function HomePage() {
                   Active
                 </div>
               )}
-            </div>
-            <div className="p-3 bg-amber-50/90 border-t border-amber-200 flex items-center justify-between">
-              <span className="text-xs font-black text-amber-700">Create with Champion Mode</span>
-              <span className="text-xs font-extrabold text-amber-700 group-hover:translate-x-1 transition-transform">→</span>
             </div>
           </div>
         </div>
