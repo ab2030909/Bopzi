@@ -241,8 +241,8 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
       {/* Background Layer: Dynamic based on Selected Theme */}
       {isNeon ? (
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0 opacity-80"
-          style={{ backgroundImage: "url('/images/neon_arcade_bg.jpg')" }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/neon_arcade_bg.png')" }}
         />
       ) : (
         <div
