@@ -308,9 +308,11 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
       <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
         {/* Top Header Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <div>
+          <div className="relative">
             <div className="flex items-center gap-2">
-              <h1 className="text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight">
+              <h1 className={`text-3xl sm:text-4xl lg:text-[40px] font-black tracking-tight ${
+                isChampion ? 'text-[#1E1B4B] drop-shadow-[0_2px_12px_rgba(255,255,255,1)] [text-shadow:_0_1px_8px_rgba(255,255,255,1),_0_2px_16px_rgba(255,255,255,0.9)]' : ''
+              }`}>
                 Create{' '}
                 <span className={
                   isNeon
@@ -318,18 +320,24 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                     : isCosmic
                     ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.5)]'
                     : isChampion
-                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 drop-shadow-sm'
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-500 drop-shadow-[0_2px_8px_rgba(255,255,255,0.9)]'
                     : 'text-[#7C3AED]'
                 }>
                   New Quiz
                 </span>
               </h1>
-              <span className="text-2xl font-black select-none">
+              <span className="text-2xl font-black select-none drop-shadow-md">
                 {isNeon ? '⚡' : isCosmic ? '🪐' : isChampion ? '👑' : '🪄'}
               </span>
             </div>
-            <p className={`text-xs sm:text-sm font-medium mt-1 ${
-              isNeon ? 'text-slate-400' : isCosmic ? 'text-slate-300' : isChampion ? 'text-slate-700 font-semibold' : 'text-slate-500'
+            <p className={`text-xs sm:text-sm font-bold mt-1 ${
+              isNeon
+                ? 'text-slate-400'
+                : isCosmic
+                ? 'text-slate-300'
+                : isChampion
+                ? 'text-[#1E293B] [text-shadow:_0_1px_8px_rgba(255,255,255,1),_0_2px_12px_rgba(255,255,255,0.95)] inline-block px-3 py-1 rounded-full bg-white/70 backdrop-blur-md border border-white/60 shadow-xs'
+                : 'text-slate-500'
             }`}>
               Author questions, configure timers, answer options, and select your visual theme.
             </p>
