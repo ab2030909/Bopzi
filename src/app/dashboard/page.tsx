@@ -144,7 +144,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Container */}
-      <div className="max-w-[1200px] mx-auto px-6 sm:px-10 lg:px-14 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
+      <div className="max-w-[1340px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 w-full relative z-10 flex-1 flex flex-col">
         {/* Top Header Row */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 relative">
           <div>
