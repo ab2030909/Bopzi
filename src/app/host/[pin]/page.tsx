@@ -199,10 +199,11 @@ function HostLiveGameContent() {
   ];
 
   const isNeon = session.theme_id === 'neon-arcade';
+  const isPartyPop = session.theme_id === 'party-pop' || !session.theme_id;
 
   return (
     <div className={`relative min-h-screen w-full flex-1 flex flex-col transition-colors duration-500 overflow-hidden ${
-      isNeon ? 'bg-[#030712] text-white' : ''
+      isNeon ? 'bg-[#030712] text-white' : isPartyPop ? 'bg-[#FCFBFF] text-[#0F172A]' : ''
     }`}>
       {/* Dynamic Background Image for Neon Arcade */}
       {isNeon && (
@@ -212,17 +213,47 @@ function HostLiveGameContent() {
         />
       )}
 
+      {/* Dynamic Background Image for Party Pop */}
+      {isPartyPop && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/bopzi_pastel_bg.png')" }}
+        />
+      )}
+
+      {/* Corner Mascots for Party Pop Host Projector Screen */}
+      {isPartyPop && (
+        <>
+          <div className="hidden lg:block absolute -left-4 sm:-left-2 xl:left-2 top-20 sm:top-24 w-28 sm:w-36 xl:w-40 h-auto z-20 pointer-events-none select-none">
+            <img
+              src="/images/dashboard_mascot_skater.png"
+              alt="Bopzi Skater Mascot"
+              className="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(124,58,237,0.22)] animate-float-slow -rotate-6"
+            />
+          </div>
+          <div className="hidden lg:block absolute -right-6 sm:-right-3 xl:right-1 top-16 sm:top-20 w-36 sm:w-44 xl:w-52 h-auto z-20 pointer-events-none select-none">
+            <img
+              src="/images/dashboard_mascot_cheer.png"
+              alt="Bopzi Cheerleader Mascot"
+              className="w-full h-auto object-contain filter drop-shadow-[0_14px_28px_rgba(236,72,153,0.25)] animate-float-slow rotate-6"
+            />
+          </div>
+        </>
+      )}
+
       {/* Main Content Area */}
       <div className="relative z-10 flex-1 flex flex-col p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
         {/* HOST TOP BAR: PIN, Status, Controls */}
         <header
-          className={`flex items-center justify-between p-4 rounded-2xl border mb-6 backdrop-blur-md shadow-lg transition-all ${
+          className={`flex items-center justify-between p-4 rounded-3xl border mb-6 backdrop-blur-md shadow-lg transition-all ${
             isNeon
               ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
+              : isPartyPop
+              ? 'bg-white/95 border-purple-100 shadow-[0_10px_30px_rgba(124,58,237,0.06)]'
               : ''
           }`}
           style={
-            !isNeon
+            !isNeon && !isPartyPop
               ? {
                   backgroundColor: `${currentTheme.colors.surface}dd`,
                   borderColor: currentTheme.colors.border,
@@ -232,17 +263,21 @@ function HostLiveGameContent() {
         >
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <span className={`text-xs font-black uppercase ${isNeon ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : 'text-slate-300'}`}>
+              <span className={`text-xs font-black uppercase ${
+                isNeon ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-300'
+              }`}>
                 PIN:
               </span>
               <span
-                className={`text-2xl sm:text-3xl font-black font-mono tracking-widest px-3 py-0.5 rounded-xl border-2 transition-all ${
+                className={`text-2xl sm:text-3xl font-black font-mono tracking-widest px-3.5 py-0.5 rounded-2xl border-2 transition-all ${
                   isNeon
                     ? 'text-cyan-300 bg-[#030712]/90 border-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.5)]'
+                    : isPartyPop
+                    ? 'text-[#7C3AED] bg-purple-50/90 border-purple-200 shadow-sm'
                     : 'text-white'
                 }`}
                 style={
-                  !isNeon
+                  !isNeon && !isPartyPop
                     ? {
                         backgroundColor: 'rgba(0,0,0,0.4)',
                         borderColor: currentTheme.colors.primary,
@@ -253,8 +288,8 @@ function HostLiveGameContent() {
                 {session.game_pin}
               </span>
             </div>
-            <div className="hidden sm:flex items-center space-x-2 text-xs font-bold text-slate-300">
-              <Users className="w-4 h-4 text-emerald-400" />
+            <div className={`hidden sm:flex items-center space-x-2 text-xs font-bold ${isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
+              <Users className="w-4 h-4 text-emerald-500" />
               <span>{participants.length} Players</span>
             </div>
           </div>
@@ -269,9 +304,11 @@ function HostLiveGameContent() {
               className={`p-2.5 rounded-xl border hover:scale-105 transition-all ${
                 isNeon
                   ? 'bg-slate-950/80 text-cyan-300 border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                  : isPartyPop
+                  ? 'bg-purple-50 text-[#7C3AED] border-purple-200 hover:bg-purple-100'
                   : 'text-slate-200'
               }`}
-              style={!isNeon ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
+              style={!isNeon && !isPartyPop ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
               title={isMuted ? 'Unmute' : 'Mute'}
             >
               {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
@@ -281,9 +318,11 @@ function HostLiveGameContent() {
               className={`p-2.5 rounded-xl border hover:scale-105 transition-all ${
                 isNeon
                   ? 'bg-slate-950/80 text-cyan-300 border-cyan-500/60 shadow-[0_0_12px_rgba(6,182,212,0.3)]'
+                  : isPartyPop
+                  ? 'bg-purple-50 text-[#7C3AED] border-purple-200 hover:bg-purple-100'
                   : 'text-slate-200'
               }`}
-              style={!isNeon ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
+              style={!isNeon && !isPartyPop ? { backgroundColor: 'rgba(0,0,0,0.3)', borderColor: currentTheme.colors.border } : undefined}
               title="Toggle Projector Fullscreen"
             >
               {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
@@ -300,10 +339,12 @@ function HostLiveGameContent() {
                 className={`md:col-span-5 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col items-center text-center backdrop-blur-xl transition-all ${
                   isNeon
                     ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    : isPartyPop
+                    ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                     : ''
                 }`}
                 style={
-                  !isNeon
+                  !isNeon && !isPartyPop
                     ? {
                         backgroundColor: currentTheme.colors.cardBg,
                         borderColor: currentTheme.colors.border,
@@ -312,12 +353,14 @@ function HostLiveGameContent() {
                 }
               >
                 <span
-                  className={`text-xs font-black uppercase px-3.5 py-1 rounded-full mb-4 transition-all ${
+                  className={`text-xs font-black uppercase px-4 py-1 rounded-full mb-4 transition-all ${
                     isNeon
                       ? 'bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                      : isPartyPop
+                      ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white shadow-md'
                       : 'text-white'
                   }`}
-                  style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+                  style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
                 >
                   Scan or Enter PIN
                 </span>
@@ -326,17 +369,23 @@ function HostLiveGameContent() {
                   <div className={`p-3 rounded-2xl mb-4 transition-all ${
                     isNeon
                       ? 'bg-white border-2 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]'
-                      : 'bg-white shadow-2xl'
+                      : 'bg-white shadow-xl border border-slate-100'
                   }`}>
                     <img src={qrDataUrl} alt="Join Game QR Code" className="w-48 h-48 sm:w-56 sm:h-56 rounded-lg" />
                   </div>
                 )}
 
-                <div className={`text-sm font-bold ${isNeon ? 'text-slate-300' : 'text-slate-300'}`}>
-                  Join at <span className={`underline font-extrabold ${isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'}`}>{typeof window !== 'undefined' ? window.location.host : 'localhost:3000'}/join</span>
+                <div className={`text-sm font-bold ${isNeon ? 'text-slate-300' : isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
+                  Join at <span className={`underline font-extrabold ${
+                    isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
+                  }`}>{typeof window !== 'undefined' ? window.location.host : 'localhost:3000'}/join</span>
                 </div>
                 <div className={`text-3xl sm:text-4xl font-black font-mono tracking-widest mt-1 ${
-                  isNeon ? 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]' : 'text-white'
+                  isNeon
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]'
+                    : isPartyPop
+                    ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899]'
+                    : 'text-white'
                 }`}>
                   {session.game_pin}
                 </div>
@@ -347,10 +396,12 @@ function HostLiveGameContent() {
                 className={`md:col-span-7 p-6 sm:p-8 rounded-3xl border shadow-2xl flex flex-col justify-between h-full backdrop-blur-xl transition-all ${
                   isNeon
                     ? 'bg-[#060B1E]/85 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                    : isPartyPop
+                    ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                     : ''
                 }`}
                 style={
-                  !isNeon
+                  !isNeon && !isPartyPop
                     ? {
                         backgroundColor: currentTheme.colors.cardBg,
                         borderColor: currentTheme.colors.border,
@@ -361,8 +412,10 @@ function HostLiveGameContent() {
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <Users className="w-5 h-5" style={{ color: isNeon ? '#06B6D4' : currentTheme.colors.primary }} />
-                      <h2 className={`text-xl font-black ${isNeon ? 'text-white drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : 'text-white'}`}>
+                      <Users className="w-5 h-5" style={{ color: isNeon ? '#06B6D4' : isPartyPop ? '#7C3AED' : currentTheme.colors.primary }} />
+                      <h2 className={`text-xl font-black ${
+                        isNeon ? 'text-white drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#0F172A]' : 'text-white'
+                      }`}>
                         Waiting for Players ({participants.length})
                       </h2>
                     </div>
@@ -370,21 +423,23 @@ function HostLiveGameContent() {
 
                   {participants.length === 0 ? (
                     <div className="py-16 text-center text-slate-400">
-                      <p className={`text-lg font-bold ${isNeon ? 'text-slate-300' : ''}`}>No players have joined yet!</p>
-                      <p className="text-xs mt-1">Share the PIN or QR code to let people in.</p>
+                      <p className={`text-lg font-bold ${isNeon ? 'text-slate-300' : isPartyPop ? 'text-slate-700' : ''}`}>No players have joined yet!</p>
+                      <p className={`text-xs mt-1 ${isPartyPop ? 'text-slate-500' : ''}`}>Share the PIN or QR code to let people in.</p>
                     </div>
                   ) : (
                     <div className="flex flex-wrap gap-2.5 max-h-72 overflow-y-auto p-1">
                       {participants.map((p) => (
                         <div
                           key={p.id}
-                          className={`px-3.5 py-2 rounded-xl border flex items-center gap-2 shadow-sm animate-pop group transition-all ${
+                          className={`px-4 py-2.5 rounded-2xl border flex items-center gap-2 shadow-sm animate-pop group transition-all ${
                             isNeon
                               ? 'bg-[#030712]/90 border-2 border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.3)] text-cyan-200'
+                              : isPartyPop
+                              ? 'bg-purple-50/90 border-purple-200 text-[#7C3AED] hover:border-purple-300 shadow-xs'
                               : 'text-white'
                           }`}
                           style={
-                            !isNeon
+                            !isNeon && !isPartyPop
                               ? {
                                   backgroundColor: `${currentTheme.colors.surfaceHover}`,
                                   borderColor: currentTheme.colors.border,
@@ -395,7 +450,7 @@ function HostLiveGameContent() {
                           <span className="font-extrabold text-sm">{p.nickname}</span>
                           <button
                             onClick={() => handleHostAction('kick', { participantId: p.id })}
-                            className="opacity-0 group-hover:opacity-100 text-rose-400 hover:text-rose-300 p-0.5 rounded transition-all"
+                            className="opacity-0 group-hover:opacity-100 text-rose-500 hover:text-rose-600 p-0.5 rounded transition-all"
                             title="Kick player"
                           >
                             <X className="w-3.5 h-3.5" />
@@ -407,16 +462,18 @@ function HostLiveGameContent() {
                 </div>
 
                 {/* Start Game Action */}
-                <div className="pt-6 border-t mt-6" style={{ borderColor: isNeon ? 'rgba(6,182,212,0.3)' : `${currentTheme.colors.border}66` }}>
+                <div className="pt-6 border-t mt-6" style={{ borderColor: isNeon ? 'rgba(6,182,212,0.3)' : isPartyPop ? '#F1F5F9' : `${currentTheme.colors.border}66` }}>
                   <button
                     onClick={() => handleHostAction('start')}
                     disabled={participants.length === 0}
                     className={`w-full py-4 rounded-2xl font-black text-lg text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-3 ${
                       isNeon
                         ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_35px_rgba(236,72,153,0.7)] hover:shadow-[0_0_45px_rgba(6,182,212,0.9)]'
+                        : isPartyPop
+                        ? 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] hover:from-[#6D28D9] hover:to-[#7C3AED] shadow-[0_12px_28px_rgba(124,58,237,0.35)]'
                         : 'shadow-2xl'
                     }`}
-                    style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+                    style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
                   >
                     <Play className="w-6 h-6 fill-current" />
                     <span>START GAME NOW</span>
@@ -435,10 +492,12 @@ function HostLiveGameContent() {
             className={`p-6 sm:p-8 rounded-3xl border shadow-2xl text-center relative backdrop-blur-xl transition-all ${
               isNeon
                 ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                : isPartyPop
+                ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                 : ''
             }`}
             style={
-              !isNeon
+              !isNeon && !isPartyPop
                 ? {
                     backgroundColor: currentTheme.colors.cardBg,
                     borderColor: currentTheme.colors.border,
@@ -448,12 +507,14 @@ function HostLiveGameContent() {
           >
             <div className="flex items-center justify-between mb-4">
               <span
-                className={`text-xs font-black uppercase px-3 py-1 rounded-full text-white transition-all ${
+                className={`text-xs font-black uppercase px-4 py-1 rounded-full text-white transition-all ${
                   isNeon
                     ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                    : isPartyPop
+                    ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] shadow-sm'
                     : ''
                 }`}
-                style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+                style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
               >
                 Question {session.current_question_index + 1} of {session.total_questions}
               </span>
@@ -462,27 +523,29 @@ function HostLiveGameContent() {
               <div
                 className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full font-mono text-lg font-black border transition-all ${
                   timeLeft <= 5
-                    ? 'bg-rose-500/20 border-rose-500 text-rose-300 animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.6)]'
+                    ? 'bg-rose-500/20 border-rose-500 text-rose-500 animate-pulse shadow-[0_0_20px_rgba(244,63,94,0.4)]'
                     : isNeon
                     ? 'bg-[#030712] border-cyan-400/80 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                    : isPartyPop
+                    ? 'bg-purple-50 text-[#7C3AED] border-purple-200'
                     : 'bg-black/30 text-white'
                 }`}
-                style={!isNeon && timeLeft > 5 ? { borderColor: currentTheme.colors.border } : undefined}
+                style={!isNeon && !isPartyPop && timeLeft > 5 ? { borderColor: currentTheme.colors.border } : undefined}
               >
                 <Clock className="w-4 h-4" />
                 <span>{timeLeft}s</span>
               </div>
             </div>
 
-            <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-4 ${
-              isNeon ? 'drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]' : ''
+            <h2 className={`text-2xl sm:text-4xl lg:text-5xl font-black leading-tight mb-4 ${
+              isNeon ? 'text-white drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]' : isPartyPop ? 'text-[#0F172A]' : 'text-white'
             }`}>
               {currentQuestion.question_text}
             </h2>
 
             {/* Answer submission count */}
-            <div className="flex items-center justify-center gap-2 text-xs font-bold text-slate-300">
-              <Users className="w-4 h-4 text-emerald-400" />
+            <div className={`flex items-center justify-center gap-2 text-xs font-bold ${isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>
+              <Users className="w-4 h-4 text-emerald-500" />
               <span>
                 {totalAnswersCount} / {participants.length} Answers Submitted
               </span>
@@ -560,10 +623,12 @@ function HostLiveGameContent() {
             className={`p-6 rounded-3xl border shadow-2xl backdrop-blur-xl text-center transition-all ${
               isNeon
                 ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+                : isPartyPop
+                ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                 : ''
             }`}
             style={
-              !isNeon
+              !isNeon && !isPartyPop
                 ? {
                     backgroundColor: currentTheme.colors.cardBg,
                     borderColor: currentTheme.colors.border,
@@ -571,10 +636,14 @@ function HostLiveGameContent() {
                 : undefined
             }
           >
-            <div className={`text-xs font-bold uppercase mb-2 ${isNeon ? 'text-cyan-300' : 'text-slate-400'}`}>
+            <div className={`text-xs font-bold uppercase mb-2 ${
+              isNeon ? 'text-cyan-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'
+            }`}>
               Question {session.current_question_index + 1} Result
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-white">
+            <h2 className={`text-2xl sm:text-3xl font-black ${
+              isNeon ? 'text-white drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]' : isPartyPop ? 'text-[#0F172A]' : 'text-white'
+            }`}>
               {currentQuestion.question_text}
             </h2>
           </div>
@@ -672,15 +741,19 @@ function HostLiveGameContent() {
       {session.state === 'leaderboard' && leaderboard && (
         <div className="flex-1 flex flex-col justify-between space-y-6">
           <div className="text-center">
-            <div className={`inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-black uppercase text-white mb-2 ${
-              isNeon ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300' : ''
+            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-black uppercase text-white mb-2 ${
+              isNeon
+                ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                : isPartyPop
+                ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] shadow-md'
+                : ''
             }`}
-              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+              style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               <Trophy className="w-3.5 h-3.5" />
               <span>Leaderboard Standings</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">Top Contenders</h2>
+            <h2 className={`text-3xl sm:text-4xl font-black ${isPartyPop ? 'text-[#0F172A]' : 'text-white'}`}>Top Contenders</h2>
           </div>
 
           <div className="max-w-3xl mx-auto w-full space-y-3 flex-1 overflow-y-auto">
@@ -692,10 +765,14 @@ function HostLiveGameContent() {
                     ? idx === 0
                       ? 'bg-[#060B1E]/95 border-2 border-amber-400 shadow-[0_0_30px_rgba(251,191,36,0.4)]'
                       : 'bg-[#060B1E]/85 border-2 border-cyan-500/50 shadow-[0_0_20px_rgba(6,182,212,0.25)]'
+                    : isPartyPop
+                    ? idx === 0
+                      ? 'bg-purple-50/95 border-2 border-purple-300 shadow-[0_10px_25px_rgba(124,58,237,0.12)]'
+                      : 'bg-white/95 border-slate-200/80 shadow-sm'
                     : ''
                 }`}
                 style={
-                  !isNeon
+                  !isNeon && !isPartyPop
                     ? {
                         backgroundColor: idx === 0 ? `${currentTheme.colors.primary}33` : currentTheme.colors.cardBg,
                         borderColor: idx === 0 ? currentTheme.colors.primary : currentTheme.colors.border,
@@ -712,26 +789,30 @@ function HostLiveGameContent() {
                           : 'bg-amber-500 shadow-md scale-105'
                         : isNeon
                         ? 'bg-[#030712] border border-cyan-500/60 text-cyan-300'
+                        : isPartyPop
+                        ? 'bg-[#7C3AED] shadow-sm'
                         : 'bg-slate-700'
                     }`}
                   >
                     #{entry.rank}
                   </div>
                   <div>
-                    <div className="font-extrabold text-lg text-white flex items-center gap-2">
+                    <div className={`font-extrabold text-lg flex items-center gap-2 ${
+                      isPartyPop ? 'text-[#0F172A]' : 'text-white'
+                    }`}>
                       <span>{entry.nickname}</span>
                       {entry.streak >= 2 && (
                         <span className={`text-xs px-2 py-0.5 rounded-md font-bold ${
                           isNeon
                             ? 'bg-pink-500/20 text-pink-300 border border-pink-500/40'
-                            : 'bg-amber-500/20 text-amber-300'
+                            : 'bg-amber-500/20 text-amber-500'
                         }`}>
                           🔥 {entry.streak} Streak
                         </span>
                       )}
                     </div>
                     {entry.points_gained > 0 && (
-                      <div className="text-xs font-bold text-emerald-400">
+                      <div className="text-xs font-bold text-emerald-600">
                         +{entry.points_gained} pts this round
                       </div>
                     )}
@@ -739,7 +820,7 @@ function HostLiveGameContent() {
                 </div>
 
                 <div className={`text-2xl font-black font-mono ${
-                  isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : 'text-white'
+                  isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
                 }`}>
                   {entry.score}
                 </div>
@@ -751,12 +832,14 @@ function HostLiveGameContent() {
           <div className="flex justify-end pt-2">
             <button
               onClick={() => handleHostAction('next_question')}
-              className={`px-8 py-3.5 rounded-xl font-black text-sm uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
+              className={`px-8 py-3.5 rounded-2xl font-black text-sm uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 flex items-center gap-2 ${
                 isNeon
                   ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                  : isPartyPop
+                  ? 'bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] hover:from-[#6D28D9] hover:to-[#7C3AED] shadow-[0_12px_24px_rgba(124,58,237,0.3)]'
                   : 'shadow-xl'
               }`}
-              style={!isNeon ? { backgroundColor: currentTheme.colors.primary } : undefined}
+              style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               <span>{session.current_question_index + 1 >= session.total_questions ? 'Final Results' : 'Next Question'}</span>
               <ArrowRight className="w-4 h-4" />
@@ -770,15 +853,17 @@ function HostLiveGameContent() {
         <div className="flex-1 flex flex-col items-center justify-between text-center space-y-8 my-auto">
           <div>
             <span
-              className="text-xs font-black uppercase px-4 py-1.5 rounded-full text-white shadow-lg"
-              style={{ backgroundColor: currentTheme.colors.primary }}
+              className={`text-xs font-black uppercase px-4 py-1.5 rounded-full text-white shadow-lg ${
+                isPartyPop ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899]' : ''
+              }`}
+              style={!isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
             >
               🎉 Tournament Complete
             </span>
-            <h1 className="text-4xl sm:text-6xl font-black text-white mt-3">
+            <h1 className={`text-4xl sm:text-6xl font-black mt-3 ${isPartyPop ? 'text-[#0F172A]' : 'text-white'}`}>
               Victory Podium
             </h1>
-            <p className="text-sm text-slate-300 mt-1">
+            <p className={`text-sm mt-1 ${isPartyPop ? 'text-slate-600 font-medium' : 'text-slate-300'}`}>
               Honoring the sharpest and fastest minds in the arena!
             </p>
           </div>
