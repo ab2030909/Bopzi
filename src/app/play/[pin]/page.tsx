@@ -354,21 +354,55 @@ function PlayerGameContent() {
             Room PIN: {session.game_pin}
           </span>
 
-          {session.quiz_title && (
-            <div className="my-1 px-4 py-1.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20">
-              <span className={`text-sm sm:text-base font-black ${isPartyPop ? 'text-slate-800' : 'text-white'}`}>
-                🎮 {session.quiz_title}
-              </span>
-            </div>
-          )}
+          {/* Cover Photo and Game Details Card */}
+          <div className="w-full max-w-sm my-3 rounded-2xl overflow-hidden border shadow-lg bg-black/20 backdrop-blur-md transition-all">
+            {session.quiz_cover_image ? (
+              <div className="relative w-full aspect-[16/7] overflow-hidden bg-slate-900">
+                <img
+                  src={session.quiz_cover_image}
+                  alt={session.quiz_title}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                <div className="absolute bottom-2 left-3 right-3 text-left">
+                  <div className="text-[10px] font-black uppercase tracking-wider text-amber-300 drop-shadow">
+                    Game Live Room
+                  </div>
+                  <h3 className="text-base font-black text-white leading-tight drop-shadow truncate">
+                    {session.quiz_title}
+                  </h3>
+                </div>
+              </div>
+            ) : (
+              <div className="p-3 text-center border-b border-white/10">
+                <div className="text-[10px] font-black uppercase tracking-wider opacity-70">
+                  Game Live Room
+                </div>
+                <h3 className={`text-base font-black leading-tight ${isPartyPop ? 'text-slate-800' : 'text-white'}`}>
+                  🎮 {session.quiz_title}
+                </h3>
+              </div>
+            )}
 
-          <h2 className={`text-2xl sm:text-3xl font-black mt-2 ${
+            {/* Description */}
+            {session.quiz_description && (
+              <div className="p-3 text-left bg-black/15">
+                <p className={`text-xs font-medium leading-relaxed line-clamp-3 ${
+                  isPartyPop ? 'text-slate-700 font-semibold' : 'text-slate-200'
+                }`}>
+                  {session.quiz_description}
+                </p>
+              </div>
+            )}
+          </div>
+
+          <h2 className={`text-xl sm:text-2xl font-black mt-1 ${
             isPartyPop ? 'text-[#0F172A]' : 'text-white'
           }`}>
             You&apos;re in, {me.nickname}!
           </h2>
 
-          <p className={`text-sm mt-2 max-w-xs leading-relaxed ${
+          <p className={`text-xs mt-1.5 max-w-xs leading-relaxed ${
             isPartyPop ? 'text-slate-600' : 'text-slate-300'
           }`}>
             See your name on the host&apos;s main screen? Get ready, questions will appear automatically!
