@@ -119,36 +119,25 @@ export default function SignupPage() {
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
 
-      {/* Top Header */}
-      <header className="relative z-10 w-full max-w-[1300px] mx-auto px-6 py-6 flex items-center justify-between">
-        <Link href="/" className="flex items-center space-x-2.5 group select-none">
-          <img
-            src="/images/logo.png"
-            alt="Bopzi Logo"
-            className="h-9 sm:h-10 w-auto object-contain hover:scale-105 transition-transform brightness-110"
-          />
-          <span className="font-black text-2xl tracking-wide text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-            BOP<span className="text-[#EC4899]">ZI</span>
-          </span>
-        </Link>
-
-        <div className="flex items-center space-x-3 text-xs sm:text-sm font-semibold">
-          <span className="text-white/80 drop-shadow-sm hidden sm:inline">Already have an account?</span>
+      {/* Top Bar: subtle link to sign in */}
+      <div className="relative z-10 w-full max-w-lg mx-auto px-4 pt-6 pb-2 flex items-center justify-end">
+        <div className="flex items-center space-x-2 text-xs font-semibold">
+          <span className="text-white/80 drop-shadow-sm">Have an account?</span>
           <Link
             href="/signin"
-            className="px-4 py-2 rounded-full font-bold text-white bg-white/20 hover:bg-white/30 transition-all border border-white/30 backdrop-blur-xs hover:scale-105 active:scale-95"
+            className="px-3.5 py-1.5 rounded-full font-bold text-white bg-white/20 hover:bg-white/30 transition-all border border-white/30 backdrop-blur-xs hover:scale-105 active:scale-95"
           >
             Sign in
           </Link>
         </div>
-      </header>
+      </div>
 
-      {/* Main Wizard Card Container */}
-      <main className="relative z-10 w-full max-w-2xl mx-auto px-4 py-6 flex-1 flex flex-col justify-center">
-        <div className="bg-white/94 backdrop-blur-2xl border border-white/80 rounded-[32px] p-6 sm:p-10 shadow-[0_20px_50px_rgba(88,28,135,0.32)] transition-all">
+      {/* Main Wizard Card Container - Compacted from max-w-2xl to max-w-lg */}
+      <main className="relative z-10 w-full max-w-lg mx-auto px-4 py-4 flex-1 flex flex-col justify-center">
+        <div className="bg-white/94 backdrop-blur-2xl border border-white/80 rounded-[28px] p-5 sm:p-7 shadow-[0_20px_50px_rgba(88,28,135,0.32)] transition-all">
           
           {/* Step Progress Pills */}
-          <div className="flex items-center justify-center space-x-2.5 mb-8">
+          <div className="flex items-center justify-center space-x-2 mb-6">
             {[1, 2, 3].map((s) => (
               <div
                 key={s}

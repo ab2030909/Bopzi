@@ -22,6 +22,8 @@ export function Navbar() {
     (pathname === '/wheel' ||
       pathname === '/guess' ||
       pathname === '/join' ||
+      pathname === '/signin' ||
+      pathname === '/signup' ||
       pathname.startsWith('/host') ||
       pathname.startsWith('/play'));
 
