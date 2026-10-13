@@ -145,24 +145,12 @@ export default function GuessLogoPage() {
         ? ['#F59E0B', '#3B82F6', '#8B5CF6', '#10B981']
         : ['#7C3AED', '#EC4899', '#F59E0B', '#10B981'],
     });
-
-    // Check if this was the last question in the game
-    if (currentIndex === items.length - 1 && items.length > 0) {
-      setTimeout(() => {
-        setIsGameFinished(true);
-      }, 1400);
-    }
   };
 
   // Navigation
   const handleNext = () => {
     if (items.length === 0) return;
-    if (currentIndex >= items.length - 1) {
-      // Reached the end of the game
-      setIsGameFinished(true);
-      return;
-    }
-    setCurrentIndex((prev) => prev + 1);
+    setCurrentIndex((prev) => (prev + 1) % items.length);
     if (soundEnabled) sounds.playAnswerSubmitted();
   };
 
@@ -976,33 +964,32 @@ export default function GuessLogoPage() {
                   </button>
 
                   <div className="flex items-center gap-2">
-                    {/* Next or Finish Game button */}
-                    {currentIndex === items.length - 1 ? (
-                      <button
-                        onClick={handleFinishGame}
-                        className="px-5 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black shadow-lg hover:scale-105 animate-pulse"
-                      >
-                        <Trophy className="w-4 h-4" />
-                        <span>Finish Game</span>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleNext}
-                        disabled={items.length <= 1}
-                        className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
-                          isNeon
-                            ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
-                            : isCosmic
-                            ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
-                            : isChampion
-                            ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
-                            : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
-                        }`}
-                      >
-                        <span className="hidden sm:inline">Next</span>
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    )}
+                    <button
+                      onClick={handleNext}
+                      disabled={items.length <= 1}
+                      className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
+                        isNeon
+                          ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
+                          : isCosmic
+                          ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
+                          : isChampion
+                          ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
+                          : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
+                      }`}
+                    >
+                      <span className="hidden sm:inline">Next</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+
+                    {/* Manual Finish Game & Announce Results Button */}
+                    <button
+                      onClick={handleFinishGame}
+                      title="Finish Game and Announce Winner Team"
+                      className="px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 via-orange-500 to-yellow-500 hover:from-amber-600 hover:to-orange-600 text-slate-950 shadow-lg hover:scale-105 active:scale-95"
+                    >
+                      <Trophy className="w-4 h-4" />
+                      <span>Submit Results & Winner</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1055,23 +1042,34 @@ export default function GuessLogoPage() {
                   ))}
                 </div>
 
-                {/* Add Team form */}
-                <form onSubmit={handleAddTeam} className="flex items-center gap-1.5">
-                  <input
-                    type="text"
-                    value={newTeamName}
-                    onChange={(e) => setNewTeamName(e.target.value)}
-                    placeholder="+ New Team"
-                    className="px-2.5 py-1 text-xs rounded-lg bg-black/20 dark:bg-white/10 border border-black/10 dark:border-white/10 text-inherit placeholder-opacity-50 focus:outline-none w-24"
-                  />
+                {/* Scoreboard Actions: Add Team + Submit Results */}
+                <div className="flex items-center gap-2">
+                  <form onSubmit={handleAddTeam} className="flex items-center gap-1.5">
+                    <input
+                      type="text"
+                      value={newTeamName}
+                      onChange={(e) => setNewTeamName(e.target.value)}
+                      placeholder="+ New Team"
+                      className="px-2.5 py-1 text-xs rounded-lg bg-black/20 dark:bg-white/10 border border-black/10 dark:border-white/10 text-inherit placeholder-opacity-50 focus:outline-none w-24"
+                    />
+                    <button
+                      type="submit"
+                      disabled={!newTeamName.trim()}
+                      className="p-1 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition disabled:opacity-40"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                    </button>
+                  </form>
+
                   <button
-                    type="submit"
-                    disabled={!newTeamName.trim()}
-                    className="p-1 rounded-lg bg-purple-600 text-white hover:bg-purple-700 transition disabled:opacity-40"
+                    onClick={handleFinishGame}
+                    className="px-3 py-1 rounded-xl text-xs font-black bg-amber-500 hover:bg-amber-600 text-slate-950 transition flex items-center gap-1 shadow-sm"
+                    title="Calculate final points and announce winner team"
                   >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Trophy className="w-3.5 h-3.5" />
+                    <span>Submit Score & Announce Winner</span>
                   </button>
-                </form>
+                </div>
               </div>
             </div>
 
