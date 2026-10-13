@@ -9,6 +9,7 @@ import { ThemeId, THEMES } from '@/types/theme';
 import { GuessItem, MysteryEffect, ScoreTeam } from '@/types/guess';
 import { GUESS_LIBRARIES } from '@/lib/guess-library';
 import { GuessLibraryModal } from '@/components/guess/GuessLibraryModal';
+import { GameFinishedModal } from '@/components/guess/GameFinishedModal';
 import {
   Sparkles,
   Eye,
@@ -74,6 +75,9 @@ export default function GuessLogoPage() {
   // Teams & Scoreboard
   const [teams, setTeams] = useState<ScoreTeam[]>(INITIAL_TEAMS);
   const [newTeamName, setNewTeamName] = useState('');
+
+  // Game Finished Modal
+  const [isGameFinished, setIsGameFinished] = useState(false);
 
   // Modals & Custom Add
   const [isLibraryOpen, setIsLibraryOpen] = useState(false);
@@ -141,12 +145,24 @@ export default function GuessLogoPage() {
         ? ['#F59E0B', '#3B82F6', '#8B5CF6', '#10B981']
         : ['#7C3AED', '#EC4899', '#F59E0B', '#10B981'],
     });
+
+    // Check if this was the last question in the game
+    if (currentIndex === items.length - 1 && items.length > 0) {
+      setTimeout(() => {
+        setIsGameFinished(true);
+      }, 1400);
+    }
   };
 
   // Navigation
   const handleNext = () => {
     if (items.length === 0) return;
-    setCurrentIndex((prev) => (prev + 1) % items.length);
+    if (currentIndex >= items.length - 1) {
+      // Reached the end of the game
+      setIsGameFinished(true);
+      return;
+    }
+    setCurrentIndex((prev) => prev + 1);
     if (soundEnabled) sounds.playAnswerSubmitted();
   };
 
@@ -154,6 +170,20 @@ export default function GuessLogoPage() {
     if (items.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
     if (soundEnabled) sounds.playAnswerSubmitted();
+  };
+
+  const handleFinishGame = () => {
+    setIsGameFinished(true);
+  };
+
+  const handlePlayAgain = () => {
+    setItems((prev) => prev.map((item) => ({ ...item, revealed: false })));
+    setCurrentIndex(0);
+    setRevealedCurrent(false);
+    setTilesRevealed({});
+    setShowHint(false);
+    setIsGameFinished(false);
+    if (soundEnabled) sounds.playCorrect();
   };
 
   const handleShuffle = () => {
@@ -945,22 +975,35 @@ export default function GuessLogoPage() {
                     <span>{revealedCurrent ? 'REVEALED!' : 'CLICK TO REVEAL NAME'}</span>
                   </button>
 
-                  <button
-                    onClick={handleNext}
-                    disabled={items.length <= 1}
-                    className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
-                      isNeon
-                        ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
-                        : isCosmic
-                        ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
-                        : isChampion
-                        ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
-                        : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
-                    }`}
-                  >
-                    <span className="hidden sm:inline">Next</span>
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    {/* Next or Finish Game button */}
+                    {currentIndex === items.length - 1 ? (
+                      <button
+                        onClick={handleFinishGame}
+                        className="px-5 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-black shadow-lg hover:scale-105 animate-pulse"
+                      >
+                        <Trophy className="w-4 h-4" />
+                        <span>Finish Game</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleNext}
+                        disabled={items.length <= 1}
+                        className={`px-4 py-2.5 rounded-2xl text-xs font-black flex items-center gap-1.5 transition-all ${
+                          isNeon
+                            ? 'bg-slate-900/60 text-cyan-300 border border-cyan-500/30 hover:bg-cyan-500/20'
+                            : isCosmic
+                            ? 'bg-slate-900/60 text-amber-300 border border-amber-500/30 hover:bg-amber-500/20'
+                            : isChampion
+                            ? 'bg-white/80 text-amber-900 border border-amber-300 hover:bg-white'
+                            : 'bg-white/80 text-slate-700 border border-slate-200 hover:bg-white'
+                        }`}
+                      >
+                        <span className="hidden sm:inline">Next</span>
+                        <ChevronRight className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -1282,6 +1325,20 @@ export default function GuessLogoPage() {
           </div>
         </div>
       )}
+
+      {/* 3. Game Finished & Winner Announcement Modal */}
+      <GameFinishedModal
+        isOpen={isGameFinished}
+        totalQuestions={items.length}
+        teams={teams}
+        themeId={themeId}
+        onClose={() => setIsGameFinished(false)}
+        onPlayAgain={handlePlayAgain}
+        onEditGame={() => {
+          setIsGameFinished(false);
+          setViewMode('creator');
+        }}
+      />
     </div>
   );
 }
