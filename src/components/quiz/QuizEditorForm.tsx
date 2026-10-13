@@ -330,13 +330,13 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                 {isNeon ? '⚡' : isCosmic ? '🪐' : isChampion ? '👑' : '🪄'}
               </span>
             </div>
-            <p className={`text-xs sm:text-sm font-semibold mt-1 ${
+            <p className={`text-xs sm:text-sm font-bold mt-1 ${
               isNeon
                 ? 'text-slate-400'
                 : isCosmic
                 ? 'text-slate-300'
                 : isChampion
-                ? 'text-white/90 drop-shadow-sm'
+                ? 'text-black'
                 : 'text-slate-500'
             }`}>
               Author questions, configure timers, answer options, and select your visual theme.
