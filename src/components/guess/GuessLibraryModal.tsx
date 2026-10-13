@@ -104,8 +104,8 @@ export function GuessLibraryModal({ isOpen, themeId = 'party-pop', onClose, onAd
         {/* Header */}
         <div className="p-6 border-b border-white/10 flex items-center justify-between bg-white/5">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-xl">
-              🎨
+            <div className={`w-10 h-10 rounded-2xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText} flex items-center justify-center`}>
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
               <h2 className="text-xl font-bold font-heading">Logo & Picture Library</h2>
@@ -232,7 +232,7 @@ export function GuessLibraryModal({ isOpen, themeId = 'party-pop', onClose, onAd
                     <h4 className="font-bold text-sm text-white line-clamp-1">{item.name}</h4>
                     {item.hint && (
                       <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5" title={item.hint}>
-                        💡 {item.hint}
+                        Hint: {item.hint}
                       </p>
                     )}
 

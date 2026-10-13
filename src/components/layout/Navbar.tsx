@@ -86,7 +86,7 @@ export function Navbar() {
                 : 'text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50'
             }`}
           >
-            <span className="text-base">🎨</span>
+            <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
             <span>Guess Logo</span>
             <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold uppercase bg-emerald-500 text-white">
               New

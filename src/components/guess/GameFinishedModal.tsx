@@ -128,7 +128,7 @@ export function GameFinishedModal({
               : 'bg-amber-100 text-amber-900 border border-amber-300'
           }`}
         >
-          🎉 Game Completed! All {totalQuestions} Questions Revealed
+          Game Completed - All {totalQuestions} Questions Revealed
         </span>
 
         {/* Champion Name Announcement */}
@@ -136,10 +136,10 @@ export function GameFinishedModal({
           {noScores ? (
             <span>Great Game Everyone!</span>
           ) : isTie ? (
-            <span>It&apos;s a Tie! 🤝</span>
+            <span>Game Tied</span>
           ) : (
             <>
-              🏆 Winner:{' '}
+              Winner:{' '}
               <span
                 style={{ color: winningTeams[0].color }}
                 className="underline decoration-wavy decoration-amber-400 drop-shadow-md"
@@ -182,8 +182,8 @@ export function GameFinishedModal({
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
-                      <span className="w-6 text-sm font-black opacity-80">
-                        {idx === 0 && highestScore > 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
+                      <span className="w-6 text-xs font-black opacity-80">
+                        #{idx + 1}
                       </span>
                       <span
                         className="w-3 h-3 rounded-full shrink-0 shadow-xs"

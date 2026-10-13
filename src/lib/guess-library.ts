@@ -13,7 +13,7 @@ export const GUESS_LIBRARIES: LibraryPack[] = [
   {
     id: 'tech-giants',
     name: 'Tech & Apps',
-    icon: '💻',
+    icon: '',
     category: 'Technology',
     description: 'Iconic technology companies, social networks, and software apps.',
     items: [
@@ -82,7 +82,7 @@ export const GUESS_LIBRARIES: LibraryPack[] = [
   {
     id: 'global-brands',
     name: 'Global Mega Brands',
-    icon: '🌐',
+    icon: '',
     category: 'Brands',
     description: 'Instantly recognizable consumer brands, snacks, and retail.',
     items: [
@@ -151,7 +151,7 @@ export const GUESS_LIBRARIES: LibraryPack[] = [
   {
     id: 'automotive',
     name: 'Car & Auto Emblems',
-    icon: '🏎️',
+    icon: '',
     category: 'Automotive',
     description: 'Prestige car makers, supercars, and automotive crests.',
     items: [
@@ -208,7 +208,7 @@ export const GUESS_LIBRARIES: LibraryPack[] = [
   {
     id: 'gaming-consoles',
     name: 'Gaming & Entertainment',
-    icon: '🎮',
+    icon: '',
     category: 'Gaming',
     description: 'Gaming titans, consoles, and beloved game studios.',
     items: [
@@ -259,7 +259,7 @@ export const GUESS_LIBRARIES: LibraryPack[] = [
   {
     id: 'famous-landmarks',
     name: 'Famous World Landmarks',
-    icon: '🏛️',
+    icon: '',
     category: 'Pictures & Landmarks',
     description: 'Iconic world wonders and historical monuments to guess from photos.',
     items: [

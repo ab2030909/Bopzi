@@ -422,10 +422,10 @@ export default function GuessLogoPage() {
           {/* Center: Text-Only Theme Pills */}
           <div className="flex items-center p-1 rounded-2xl bg-black/10 dark:bg-white/10 backdrop-blur-md border border-black/10 dark:border-white/10 shadow-xs self-start lg:self-center">
             {[
-              { id: 'party-pop' as ThemeId, name: 'Party Pop', emoji: '🪄' },
-              { id: 'neon-arcade' as ThemeId, name: 'Neon Arcade', emoji: '⚡' },
-              { id: 'cosmic-quest' as ThemeId, name: 'Cosmic Quest', emoji: '🪐' },
-              { id: 'champion-mode' as ThemeId, name: 'Champion Mode', emoji: '👑' },
+              { id: 'party-pop' as ThemeId, name: 'Party Pop' },
+              { id: 'neon-arcade' as ThemeId, name: 'Neon Arcade' },
+              { id: 'cosmic-quest' as ThemeId, name: 'Cosmic Quest' },
+              { id: 'champion-mode' as ThemeId, name: 'Champion Mode' },
             ].map((t) => {
               const isSelected = themeId === t.id;
               return (
@@ -445,7 +445,6 @@ export default function GuessLogoPage() {
                       : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/10'
                   }`}
                 >
-                  <span className="text-sm">{t.emoji}</span>
                   <span>{t.name}</span>
                 </button>
               );
@@ -536,7 +535,7 @@ export default function GuessLogoPage() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className={`p-2 rounded-xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText}`}>
-                      🛠️
+                      <Settings className="w-5 h-5" />
                     </span>
                     <input
                       type="text"
@@ -628,7 +627,7 @@ export default function GuessLogoPage() {
             >
               <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-base">🖼️</span>
+                  <ImageIcon className="w-4 h-4 text-inherit opacity-80" />
                   <h3 className="font-black text-sm tracking-tight">
                     Current Game Logos & Pictures ({items.length})
                   </h3>
@@ -654,8 +653,8 @@ export default function GuessLogoPage() {
 
               {items.length === 0 ? (
                 <div className="text-center py-16">
-                  <div className={`w-16 h-16 rounded-3xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText} flex items-center justify-center text-3xl mx-auto mb-3`}>
-                    🎨
+                  <div className={`w-16 h-16 rounded-3xl ${ts.scoreBadgeBg} ${ts.scoreBadgeText} flex items-center justify-center mx-auto mb-3`}>
+                    <Sparkles className="w-8 h-8" />
                   </div>
                   <h3 className="text-base font-bold mb-1">Your Game is Currently Empty</h3>
                   <p className="text-xs opacity-70 max-w-md mx-auto mb-5">
@@ -710,7 +709,7 @@ export default function GuessLogoPage() {
                       <h4 className="font-bold text-xs line-clamp-1">{item.name}</h4>
                       {item.hint && (
                         <p className="text-[10px] opacity-60 line-clamp-1 mt-0.5" title={item.hint}>
-                          💡 {item.hint}
+                          Hint: {item.hint}
                         </p>
                       )}
                     </div>
@@ -748,7 +747,7 @@ export default function GuessLogoPage() {
                     </span>
                     {currentItem?.category && (
                       <span className="text-xs font-semibold opacity-70">
-                        📁 {currentItem.category}
+                        {currentItem.category}
                       </span>
                     )}
                   </div>
@@ -1005,7 +1004,7 @@ export default function GuessLogoPage() {
                   {/* Header */}
                   <div className="flex items-center justify-between pb-3 border-b border-black/10 dark:border-white/10 mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-base">📋</span>
+                      <Layers className="w-4 h-4 text-inherit opacity-80" />
                       <h3 className="font-black text-sm tracking-tight">Logo Playlist</h3>
                       <span className="px-2 py-0.5 rounded-full text-[11px] font-bold bg-black/10 dark:bg-white/10">
                         {items.length}
