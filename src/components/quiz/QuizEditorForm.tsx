@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTheme } from '@/components/theme/ThemeProvider';
 import { Quiz, Question, QuestionType, AnswerOption } from '@/types/quiz';
 import { THEMES, ThemeId } from '@/types/theme';
@@ -27,11 +27,21 @@ interface QuizEditorFormProps {
 
 export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFormProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const themeParam = searchParams?.get('theme') as ThemeId | null;
   const { theme } = useTheme();
 
   const [title, setTitle] = useState(initialQuiz?.title || '');
   const [description, setDescription] = useState(initialQuiz?.description || '');
-  const [themeId, setSelectedThemeId] = useState<ThemeId>(initialQuiz?.theme_id || 'party-pop');
+  const [themeId, setSelectedThemeId] = useState<ThemeId>(
+    initialQuiz?.theme_id || (themeParam && THEMES[themeParam] ? themeParam : 'party-pop')
+  );
+
+  useEffect(() => {
+    if (!initialQuiz && themeParam && THEMES[themeParam]) {
+      setSelectedThemeId(themeParam);
+    }
+  }, [themeParam, initialQuiz]);
   const [questions, setQuestions] = useState<Question[]>(
     initialQuiz?.questions || [
       {
@@ -424,44 +434,35 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {[
                 {
-                  id: 'neon-arcade' as ThemeId,
-                  name: 'Neon Arcade',
-                  tag: 'Dark & Futuristic',
-                  bg: isNeon ? 'bg-gradient-to-b from-[#0F172A] to-[#022C22]' : 'bg-gradient-to-b from-slate-900 to-teal-950',
-                  icon: '🎮',
-                  accent: '#06B6D4',
-                  darkText: false,
-                },
-                {
                   id: 'party-pop' as ThemeId,
                   name: 'Party Pop',
                   tag: 'Big Fun!',
-                  bg: 'bg-gradient-to-b from-purple-50 to-pink-50',
-                  icon: '🎉',
+                  img: '/images/themes/party.png',
                   accent: '#7C3AED',
-                  darkText: true,
+                },
+                {
+                  id: 'neon-arcade' as ThemeId,
+                  name: 'Neon Arcade',
+                  tag: 'Dark & Futuristic',
+                  img: '/images/themes/neon.png',
+                  accent: '#06B6D4',
                 },
                 {
                   id: 'cosmic-quest' as ThemeId,
                   name: 'Cosmic Quest',
                   tag: 'Out of This World',
-                  bg: 'bg-gradient-to-b from-indigo-950 to-purple-950',
-                  icon: '🪐',
-                  accent: '#8B5CF6',
-                  darkText: false,
+                  img: '/images/themes/cosmic.png',
+                  accent: '#F59E0B',
                 },
                 {
                   id: 'champion-mode' as ThemeId,
                   name: 'Champion Mode',
                   tag: 'For Winners',
-                  bg: 'bg-gradient-to-b from-amber-50 to-orange-100',
-                  icon: '🏆',
+                  img: '/images/themes/champion.png',
                   accent: '#F59E0B',
-                  darkText: true,
                 },
               ].map((t) => {
                 const isSelected = themeId === t.id;
-                const isLightCard = t.darkText;
 
                 return (
                   <button
@@ -471,41 +472,58 @@ export function QuizEditorForm({ initialQuiz, isEditing = false }: QuizEditorFor
                       setSelectedThemeId(t.id);
                       sounds.playCountdownTick();
                     }}
-                    className={`relative p-3 rounded-2xl text-center transition-all flex flex-col items-center justify-between min-h-[110px] overflow-hidden ${
-                      t.bg
-                    } ${
+                    className={`relative rounded-2xl overflow-hidden text-center transition-all flex flex-col group cursor-pointer ${
                       isSelected
                         ? isNeon && t.id === 'neon-arcade'
-                          ? 'border-2 border-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.9),inset_0_0_15px_rgba(6,182,212,0.4)] ring-2 ring-cyan-400 scale-[1.03]'
+                          ? 'border-2 border-cyan-300 shadow-[0_0_25px_rgba(6,182,212,0.9)] ring-2 ring-cyan-400 scale-[1.03]'
                           : isCosmic && t.id === 'cosmic-quest'
-                          ? 'border-2 border-amber-300 shadow-[0_0_25px_rgba(251,191,36,0.8),inset_0_0_15px_rgba(251,191,36,0.3)] ring-2 ring-amber-400/80 scale-[1.03]'
-                          : 'border-2 border-[#7C3AED] shadow-md ring-2 ring-purple-400/30 scale-[1.02]'
+                          ? 'border-2 border-amber-300 shadow-[0_0_25px_rgba(251,191,36,0.8)] ring-2 ring-amber-400 scale-[1.03]'
+                          : 'border-2 border-[#7C3AED] shadow-xl ring-2 ring-purple-400/40 scale-[1.03]'
                         : isNeon || isCosmic
-                          ? 'border-2 border-slate-700/80 hover:border-cyan-500/60 shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:shadow-[0_0_15px_rgba(6,182,212,0.3)] hover:scale-105 opacity-80 hover:opacity-100'
-                          : 'border border-slate-200/80 hover:scale-105 opacity-90 hover:opacity-100'
+                          ? 'border-2 border-slate-700/80 hover:border-cyan-500/60 shadow-[0_0_10px_rgba(0,0,0,0.5)] hover:scale-105 opacity-80 hover:opacity-100'
+                          : 'border border-slate-200 hover:border-purple-300 shadow-sm hover:shadow-md hover:scale-105 opacity-85 hover:opacity-100'
                     }`}
                   >
-                    {/* Selected Checkmark in Top Right */}
-                    {isSelected && (
-                      <span className={`absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center text-xs font-black shadow-sm ${
-                        isNeon && t.id === 'neon-arcade'
-                          ? 'bg-cyan-400 text-slate-950 shadow-[0_0_15px_rgba(6,182,212,1)]'
-                          : isCosmic && t.id === 'cosmic-quest'
-                          ? 'bg-amber-400 text-slate-950 shadow-[0_0_15px_rgba(251,191,36,1)]'
-                          : 'bg-[#7C3AED] text-white'
-                      }`}>
-                        ✓
-                      </span>
-                    )}
+                    {/* Theme Preview Image */}
+                    <div className="relative w-full aspect-[16/11] bg-black/20 overflow-hidden">
+                      <img
+                        src={t.img}
+                        alt={t.name}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      {/* Active Indicator Pill */}
+                      {isSelected && (
+                        <div className={`absolute top-2 right-2 text-[10px] font-black px-2 py-0.5 rounded-full shadow-md flex items-center gap-1 ${
+                          isNeon && t.id === 'neon-arcade'
+                            ? 'bg-cyan-400 text-slate-950'
+                            : isCosmic && t.id === 'cosmic-quest'
+                            ? 'bg-amber-400 text-slate-950'
+                            : 'bg-[#7C3AED] text-white'
+                        }`}>
+                          <span>✓</span> Active
+                        </div>
+                      )}
+                    </div>
 
-                    <div className="text-2xl mt-1 select-none filter drop-shadow-sm">{t.icon}</div>
-                    <div className="mt-2">
-                      <div className={`text-xs font-black ${isLightCard ? 'text-[#0F172A]' : 'text-white'}`}>
-                        {t.name}
+                    {/* Bottom Label Bar */}
+                    <div className={`p-2 w-full text-left flex items-center justify-between ${
+                      isNeon
+                        ? 'bg-[#030712] border-t border-cyan-500/40'
+                        : isCosmic
+                        ? 'bg-[#040C1A] border-t border-cyan-500/30'
+                        : 'bg-white border-t border-slate-100'
+                    }`}>
+                      <div>
+                        <div className={`text-xs font-black leading-tight ${isNeon || isCosmic ? 'text-white' : 'text-[#0F172A]'}`}>
+                          {t.name}
+                        </div>
+                        <div className={`text-[10px] font-medium leading-tight ${isNeon || isCosmic ? 'text-slate-400' : 'text-slate-500'}`}>
+                          {t.tag}
+                        </div>
                       </div>
-                      <div className={`text-[10px] font-bold ${isLightCard ? 'text-slate-500' : 'text-slate-300'}`}>
-                        {t.tag}
-                      </div>
+                      <span className="text-xs">
+                        {t.id === 'neon-arcade' ? '🎮' : t.id === 'cosmic-quest' ? '🪐' : t.id === 'champion-mode' ? '🏆' : '🎉'}
+                      </span>
                     </div>
                   </button>
                 );
