@@ -202,17 +202,32 @@ function PlayerGameContent() {
   ];
 
   const isNeon = session.theme_id === 'neon-arcade';
-  const isPartyPop = session.theme_id === 'party-pop' || !session.theme_id;
+  const isCosmic = session.theme_id === 'cosmic-quest';
+  const isPartyPop = session.theme_id === 'party-pop' || (!session.theme_id && !isCosmic && !isNeon);
 
   return (
     <div className={`relative min-h-screen w-full flex-1 flex flex-col transition-colors duration-500 overflow-hidden ${
-      isNeon ? 'bg-[#030712] text-white' : isPartyPop ? 'bg-[#FCFBFF] text-[#0F172A]' : ''
+      isNeon
+        ? 'bg-[#030712] text-white'
+        : isCosmic
+        ? 'bg-[#050C1A] text-white'
+        : isPartyPop
+        ? 'bg-[#FCFBFF] text-[#0F172A]'
+        : ''
     }`}>
       {/* Dynamic Background Image for Neon Arcade */}
       {isNeon && (
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
           style={{ backgroundImage: "url('/images/neon_arcade_bg.png')" }}
+        />
+      )}
+
+      {/* Dynamic Background Image for Cosmic Quest */}
+      {isCosmic && (
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none select-none z-0"
+          style={{ backgroundImage: "url('/images/cosmic_quest_bg.jpg')" }}
         />
       )}
 
@@ -231,12 +246,14 @@ function PlayerGameContent() {
           className={`flex items-center justify-between p-3.5 rounded-2xl border backdrop-blur-md shadow-md mb-4 transition-all ${
             isNeon
               ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(6,182,212,0.3)]'
+              : isCosmic
+              ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_25px_rgba(6,182,212,0.25)]'
               : isPartyPop
               ? 'bg-white/95 border-purple-100 shadow-[0_8px_20px_rgba(124,58,237,0.06)]'
               : ''
           }`}
         style={
-          !isNeon && !isPartyPop
+          !isNeon && !isCosmic && !isPartyPop
             ? {
                 backgroundColor: `${currentTheme.colors.surface}ee`,
                 borderColor: currentTheme.colors.border,
@@ -254,7 +271,11 @@ function PlayerGameContent() {
             </div>
             {me.streak >= 2 && (
               <div className={`text-[10px] font-bold flex items-center gap-1 ${
-                isNeon ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : 'text-amber-500'
+                isNeon
+                  ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]'
+                  : isCosmic
+                  ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]'
+                  : 'text-amber-500'
               }`}>
                 <Flame className="w-3 h-3 fill-current" /> {me.streak} Streak
               </div>
@@ -263,9 +284,17 @@ function PlayerGameContent() {
         </div>
 
         <div className="text-right">
-          <div className={`text-xs font-bold ${isNeon ? 'text-cyan-300' : isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>Score</div>
+          <div className={`text-xs font-bold ${
+            isNeon ? 'text-cyan-300' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-slate-500' : 'text-slate-300'
+          }`}>Score</div>
           <div className={`text-xl font-black font-mono leading-none ${
-            isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
+            isNeon
+              ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+              : isCosmic
+              ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]'
+              : isPartyPop
+              ? 'text-[#7C3AED]'
+              : 'text-white'
           }`}>
             {me.score}
           </div>
@@ -278,12 +307,14 @@ function PlayerGameContent() {
           className={`flex-1 flex flex-col items-center justify-center text-center p-6 sm:p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl transition-all ${
             isNeon
               ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              : isCosmic
+              ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25),inset_0_0_20px_rgba(6,182,212,0.08)]'
               : isPartyPop
               ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
               : ''
           }`}
           style={
-            !isNeon && !isPartyPop
+            !isNeon && !isCosmic && !isPartyPop
               ? {
                   backgroundColor: currentTheme.colors.cardBg,
                   borderColor: currentTheme.colors.border,
@@ -299,11 +330,13 @@ function PlayerGameContent() {
             className={`text-xs font-black uppercase px-4 py-1.5 rounded-full text-white mb-2 shadow-sm ${
               isNeon
                 ? 'bg-gradient-to-r from-pink-500 to-purple-600 shadow-[0_0_15px_rgba(236,72,153,0.7)] border border-pink-300'
+                : isCosmic
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_15px_rgba(251,191,36,0.7)] border border-amber-300'
                 : isPartyPop
                 ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899]'
                 : ''
             }`}
-            style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
+            style={!isNeon && !isCosmic && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
           >
             Room PIN: {session.game_pin}
           </span>
@@ -321,7 +354,7 @@ function PlayerGameContent() {
           </p>
 
           <div className={`mt-8 flex items-center gap-2 text-xs font-bold animate-pulse ${
-            isNeon ? 'text-cyan-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'
+            isNeon ? 'text-cyan-300' : isCosmic ? 'text-cyan-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'
           }`}>
             <Sparkles className="w-4 h-4 text-amber-400" />
             <span>Waiting for host to start the game...</span>
@@ -337,12 +370,14 @@ function PlayerGameContent() {
             className={`p-5 rounded-2xl border shadow-lg text-center backdrop-blur-md transition-all ${
               isNeon
                 ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_25px_rgba(6,182,212,0.35),inset_0_0_15px_rgba(6,182,212,0.1)]'
+                : isCosmic
+                ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_25px_rgba(6,182,212,0.25),inset_0_0_15px_rgba(6,182,212,0.08)]'
                 : isPartyPop
                 ? 'bg-white/95 border-purple-100 shadow-[0_10px_30px_rgba(124,58,237,0.08)]'
                 : ''
             }`}
             style={
-              !isNeon && !isPartyPop
+              !isNeon && !isCosmic && !isPartyPop
                 ? {
                     backgroundColor: currentTheme.colors.cardBg,
                     borderColor: currentTheme.colors.border,
@@ -352,7 +387,13 @@ function PlayerGameContent() {
           >
             <div className="flex items-center justify-between mb-2">
               <span className={`text-xs font-bold uppercase ${
-                isNeon ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'
+                isNeon
+                  ? 'text-pink-400 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]'
+                  : isCosmic
+                  ? 'text-amber-300 drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]'
+                  : isPartyPop
+                  ? 'text-[#7C3AED]'
+                  : 'text-slate-400'
               }`}>
                 Q {session.current_question_index + 1} / {session.total_questions}
               </span>
@@ -362,6 +403,8 @@ function PlayerGameContent() {
                     ? 'bg-rose-500/20 text-rose-500 border-rose-500 animate-pulse shadow-[0_0_15px_rgba(244,63,94,0.4)]'
                     : isNeon
                     ? 'bg-[#030712] border-cyan-400/80 text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.4)]'
+                    : isCosmic
+                    ? 'bg-[#040C1A] border-amber-400 text-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.4)]'
                     : isPartyPop
                     ? 'bg-purple-50 text-[#7C3AED] border-purple-200'
                     : 'text-white border-white/20'
@@ -373,7 +416,13 @@ function PlayerGameContent() {
             </div>
 
             <h3 className={`text-lg sm:text-xl font-black leading-snug ${
-              isNeon ? 'text-white drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]' : isPartyPop ? 'text-[#0F172A]' : 'text-white'
+              isNeon
+                ? 'text-white drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                : isCosmic
+                ? 'text-white drop-shadow-[0_0_10px_rgba(56,189,248,0.4)]'
+                : isPartyPop
+                ? 'text-[#0F172A]'
+                : 'text-white'
             }`}>
               {currentQuestion.question_text}
             </h3>
@@ -385,12 +434,14 @@ function PlayerGameContent() {
               className={`flex-1 flex flex-col items-center justify-center p-8 rounded-3xl border shadow-xl text-center backdrop-blur-md my-4 animate-pop transition-all ${
                 isNeon
                   ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_30px_rgba(6,182,212,0.35)]'
+                  : isCosmic
+                  ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_30px_rgba(6,182,212,0.25)]'
                   : isPartyPop
                   ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
                   : ''
               }`}
               style={
-                !isNeon && !isPartyPop
+                !isNeon && !isCosmic && !isPartyPop
                   ? {
                       backgroundColor: `${currentTheme.colors.surface}dd`,
                       borderColor: currentTheme.colors.border,
@@ -399,7 +450,11 @@ function PlayerGameContent() {
               }
             >
               <CheckCircle2 className={`w-16 h-16 mb-3 animate-bounce-gentle ${
-                isNeon ? 'text-cyan-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]' : 'text-emerald-500'
+                isNeon
+                  ? 'text-cyan-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]'
+                  : isCosmic
+                  ? 'text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]'
+                  : 'text-emerald-500'
               }`} />
               <h3 className={`text-2xl font-black ${isPartyPop ? 'text-[#0F172A]' : 'text-white'}`}>Answer Locked In!</h3>
               <p className={`text-xs mt-1 max-w-xs ${isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>
@@ -429,7 +484,25 @@ function PlayerGameContent() {
                     shape: 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]',
                   },
                 ];
-                const neonOptionStyle = neonStyles[idx] || neonStyles[0];
+                const cosmicStyles = [
+                  {
+                    card: 'bg-gradient-to-r from-[#59101C] to-[#2B080E] border-2 border-rose-500/90 shadow-[0_0_22px_rgba(244,63,94,0.4),inset_0_0_10px_rgba(244,63,94,0.15)] text-rose-300 hover:shadow-[0_0_30px_rgba(244,63,94,0.7)]',
+                    shape: 'text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,0.9)]',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#0C355E] to-[#061B30] border-2 border-cyan-400/90 shadow-[0_0_22px_rgba(6,182,212,0.4),inset_0_0_10px_rgba(6,182,212,0.15)] text-cyan-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.7)]',
+                    shape: 'text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,0.9)]',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#5E3808] to-[#2E1B04] border-2 border-amber-400/90 shadow-[0_0_22px_rgba(245,158,11,0.4),inset_0_0_10px_rgba(245,158,11,0.15)] text-amber-300 hover:shadow-[0_0_30px_rgba(245,158,11,0.7)]',
+                    shape: 'text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,0.9)]',
+                  },
+                  {
+                    card: 'bg-gradient-to-r from-[#0B4527] to-[#052314] border-2 border-emerald-400/90 shadow-[0_0_22px_rgba(16,185,129,0.4),inset_0_0_10px_rgba(16,185,129,0.15)] text-emerald-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.7)]',
+                    shape: 'text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]',
+                  },
+                ];
+                const optionStyle = isNeon ? neonStyles[idx] || neonStyles[0] : isCosmic ? cosmicStyles[idx] || cosmicStyles[0] : null;
 
                 return (
                   <button
@@ -437,18 +510,18 @@ function PlayerGameContent() {
                     onClick={() => handleSubmitAnswer(opt.id)}
                     disabled={submitting || timeLeft <= 0}
                     className={`p-6 rounded-2xl flex items-center justify-center sm:justify-start gap-4 font-black text-xl transition-all hover:scale-[1.02] active:scale-95 disabled:opacity-50 ${
-                      isNeon
-                        ? `${neonOptionStyle.card}`
+                      optionStyle
+                        ? `${optionStyle.card}`
                         : 'text-white shadow-xl'
                     }`}
-                    style={!isNeon ? { backgroundColor: btn.color } : undefined}
+                    style={!optionStyle ? { backgroundColor: btn.color } : undefined}
                   >
                     <span className={`text-3xl select-none ${
-                      isNeon ? neonOptionStyle.shape : 'drop-shadow'
+                      optionStyle ? optionStyle.shape : 'drop-shadow'
                     }`}>
                       {btn.shape}
                     </span>
-                    <span className={`text-base sm:text-lg leading-tight text-left ${isNeon ? 'text-white' : ''}`}>
+                    <span className={`text-base sm:text-lg leading-tight text-left ${optionStyle ? 'text-white' : ''}`}>
                       {opt.answer_text}
                     </span>
                   </button>
@@ -467,6 +540,10 @@ function PlayerGameContent() {
               ? lastAnswerResult.is_correct
                 ? 'bg-[#041B12]/95 border-2 border-emerald-400 shadow-[0_0_35px_rgba(16,185,129,0.5),inset_0_0_15px_rgba(16,185,129,0.2)]'
                 : 'bg-[#18070D]/95 border-2 border-rose-500 shadow-[0_0_35px_rgba(244,63,94,0.5),inset_0_0_15px_rgba(244,63,94,0.2)]'
+              : isCosmic
+              ? lastAnswerResult.is_correct
+                ? 'bg-[#042017]/95 border-2 border-emerald-400 shadow-[0_0_35px_rgba(52,211,153,0.4)]'
+                : 'bg-[#220713]/95 border-2 border-rose-500 shadow-[0_0_35px_rgba(244,63,94,0.4)]'
               : isPartyPop
               ? lastAnswerResult.is_correct
                 ? 'bg-emerald-50/95 border-2 border-emerald-200 shadow-[0_15px_40px_rgba(16,185,129,0.1)]'
@@ -479,46 +556,46 @@ function PlayerGameContent() {
           {lastAnswerResult.is_correct ? (
             <>
               <CheckCircle2 className={`w-20 h-20 mb-2 animate-bounce-gentle ${
-                isNeon ? 'text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.9)]' : 'text-emerald-500'
+                isNeon ? 'text-emerald-400 drop-shadow-[0_0_20px_rgba(52,211,153,0.9)]' : isCosmic ? 'text-emerald-400 drop-shadow-[0_0_16px_rgba(52,211,153,0.7)]' : 'text-emerald-500'
               }`} />
               <h2 className={`text-3xl sm:text-4xl font-black ${
-                isNeon ? 'text-white drop-shadow-[0_0_15px_rgba(52,211,153,0.6)]' : isPartyPop ? 'text-emerald-700' : 'text-white'
+                isNeon ? 'text-white drop-shadow-[0_0_15px_rgba(52,211,153,0.6)]' : isCosmic ? 'text-emerald-300 drop-shadow-[0_0_14px_rgba(110,231,183,0.6)]' : isPartyPop ? 'text-emerald-700' : 'text-white'
               }`}>CORRECT!</h2>
               <div className={`text-2xl font-black font-mono mt-2 ${
-                isNeon ? 'text-emerald-300 drop-shadow-[0_0_10px_rgba(110,231,183,0.8)]' : isPartyPop ? 'text-emerald-600' : 'text-emerald-300'
+                isNeon ? 'text-emerald-300 drop-shadow-[0_0_10px_rgba(110,231,183,0.8)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_10px_rgba(251,191,36,0.6)]' : isPartyPop ? 'text-emerald-600' : 'text-emerald-300'
               }`}>
                 +{lastAnswerResult.points_awarded} pts
               </div>
-              <p className={`text-xs mt-1 ${isPartyPop ? 'text-emerald-700 font-bold' : 'text-emerald-200'}`}>Lightning fast answer bonus awarded!</p>
+              <p className={`text-xs mt-1 ${isCosmic ? 'text-cyan-200 font-medium' : isPartyPop ? 'text-emerald-700 font-bold' : 'text-emerald-200'}`}>Lightning fast answer bonus awarded!</p>
             </>
           ) : (
             <>
               <XCircle className={`w-20 h-20 mb-2 animate-wiggle ${
-                isNeon ? 'text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.9)]' : 'text-rose-500'
+                isNeon ? 'text-rose-400 drop-shadow-[0_0_20px_rgba(244,63,94,0.9)]' : isCosmic ? 'text-rose-400 drop-shadow-[0_0_16px_rgba(244,63,94,0.7)]' : 'text-rose-500'
               }`} />
               <h2 className={`text-3xl sm:text-4xl font-black ${
-                isNeon ? 'text-white drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]' : isPartyPop ? 'text-rose-700' : 'text-white'
+                isNeon ? 'text-white drop-shadow-[0_0_15px_rgba(244,63,94,0.6)]' : isCosmic ? 'text-rose-300' : isPartyPop ? 'text-rose-700' : 'text-white'
               }`}>INCORRECT</h2>
               <div className={`text-lg font-bold mt-2 ${isPartyPop ? 'text-rose-600' : 'text-rose-300'}`}>+0 pts</div>
-              <p className={`text-xs mt-1 ${isPartyPop ? 'text-rose-600' : 'text-rose-200'}`}>Keep your focus for the next round!</p>
+              <p className={`text-xs mt-1 ${isCosmic ? 'text-slate-300' : isPartyPop ? 'text-rose-600' : 'text-rose-200'}`}>Keep your focus for the next round!</p>
             </>
           )}
 
           <div className={`mt-8 pt-4 border-t w-full flex items-center justify-around ${
-            isPartyPop ? 'border-purple-200/60' : 'border-white/10'
+            isCosmic ? 'border-cyan-500/30' : isPartyPop ? 'border-purple-200/60' : 'border-white/10'
           }`}>
             <div>
-              <div className={`text-xs font-bold uppercase ${isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>Current Rank</div>
+              <div className={`text-xs font-bold uppercase ${isCosmic ? 'text-slate-400' : isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>Current Rank</div>
               <div className={`text-xl font-black ${
-                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
+                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
               }`}>
                 #{lastAnswerResult.rank}
               </div>
             </div>
             <div>
-              <div className={`text-xs font-bold uppercase ${isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>Total Score</div>
+              <div className={`text-xs font-bold uppercase ${isCosmic ? 'text-slate-400' : isPartyPop ? 'text-slate-500' : 'text-slate-300'}`}>Total Score</div>
               <div className={`text-xl font-black font-mono ${
-                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
+                isNeon ? 'text-cyan-300 drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]' : isCosmic ? 'text-cyan-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
               }`}>
                 {lastAnswerResult.total_score}
               </div>
@@ -533,12 +610,14 @@ function PlayerGameContent() {
           className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl transition-all ${
             isNeon
               ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              : isCosmic
+              ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25)]'
               : isPartyPop
               ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
               : ''
           }`}
           style={
-            !isNeon && !isPartyPop
+            !isNeon && !isCosmic && !isPartyPop
               ? {
                   backgroundColor: currentTheme.colors.cardBg,
                   borderColor: currentTheme.colors.border,
@@ -547,10 +626,10 @@ function PlayerGameContent() {
           }
         >
           <Trophy className={`w-14 h-14 mb-2 ${
-            isNeon ? 'text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]' : 'text-amber-400'
+            isNeon ? 'text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.8)]' : isCosmic ? 'text-amber-300 drop-shadow-[0_0_14px_rgba(251,191,36,0.5)]' : 'text-amber-400'
           }`} />
           <h2 className={`text-2xl sm:text-3xl font-black ${isPartyPop ? 'text-[#0F172A]' : 'text-white'}`}>Look at the Big Screen!</h2>
-          <p className={`text-xs mt-1 max-w-xs ${isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
+          <p className={`text-xs mt-1 max-w-xs ${isCosmic ? 'text-cyan-200/80' : isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
             Leaderboard standings are rolling on the projector display.
           </p>
 
@@ -558,15 +637,17 @@ function PlayerGameContent() {
             className={`mt-8 p-4 rounded-2xl border w-full max-w-xs ${
               isNeon
                 ? 'bg-[#030712]/90 border-cyan-500/70 shadow-[0_0_20px_rgba(6,182,212,0.35)]'
+                : isCosmic
+                ? 'bg-[#0a1a36]/90 border-amber-400/70 shadow-[0_0_20px_rgba(251,191,36,0.25)]'
                 : isPartyPop
                 ? 'bg-purple-50/90 border-purple-200 shadow-sm'
                 : 'bg-black/30'
             }`}
-            style={!isNeon && !isPartyPop ? { borderColor: currentTheme.colors.border } : undefined}
+            style={!isNeon && !isCosmic && !isPartyPop ? { borderColor: currentTheme.colors.border } : undefined}
           >
-            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'}`}>Your Position</div>
+            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-slate-400'}`}>Your Position</div>
             <div className={`text-3xl font-black mt-1 ${
-              isNeon ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.7)]' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
+              isNeon ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.7)]' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-[#7C3AED]' : 'text-white'
             }`}>
               {me.score} pts
             </div>
@@ -580,12 +661,14 @@ function PlayerGameContent() {
           className={`flex-1 flex flex-col items-center justify-center text-center p-8 rounded-3xl border shadow-2xl my-auto backdrop-blur-xl transition-all ${
             isNeon
               ? 'bg-[#060B1E]/90 border-2 border-cyan-400/80 shadow-[0_0_35px_rgba(6,182,212,0.35),inset_0_0_20px_rgba(6,182,212,0.1)]'
+              : isCosmic
+              ? 'bg-[#071326]/90 border-2 border-cyan-500/60 shadow-[0_0_35px_rgba(6,182,212,0.25)]'
               : isPartyPop
               ? 'bg-white/95 border-purple-100 shadow-[0_15px_40px_rgba(124,58,237,0.08)]'
               : ''
           }`}
           style={
-            !isNeon && !isPartyPop
+            !isNeon && !isCosmic && !isPartyPop
               ? {
                   backgroundColor: currentTheme.colors.cardBg,
                   borderColor: currentTheme.colors.border,
@@ -598,7 +681,7 @@ function PlayerGameContent() {
           </div>
 
           <h2 className={`text-3xl sm:text-4xl font-black ${isPartyPop ? 'text-[#0F172A]' : 'text-white'}`}>Game Over!</h2>
-          <p className={`text-sm mt-1 ${isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
+          <p className={`text-sm mt-1 ${isCosmic ? 'text-cyan-200/80' : isPartyPop ? 'text-slate-600' : 'text-slate-300'}`}>
             Great competition! Check the main podium for the champion honors.
           </p>
 
@@ -606,15 +689,17 @@ function PlayerGameContent() {
             className={`mt-6 p-4 rounded-2xl border w-full max-w-xs ${
               isNeon
                 ? 'bg-[#030712]/90 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)]'
+                : isCosmic
+                ? 'bg-[#0a1a36]/90 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.35)]'
                 : isPartyPop
                 ? 'bg-amber-50/90 border-amber-200 shadow-sm'
                 : 'bg-black/40'
             }`}
-            style={!isNeon && !isPartyPop ? { borderColor: currentTheme.colors.border } : undefined}
+            style={!isNeon && !isCosmic && !isPartyPop ? { borderColor: currentTheme.colors.border } : undefined}
           >
-            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : isPartyPop ? 'text-amber-600' : 'text-slate-400'}`}>Your Final Score</div>
+            <div className={`text-xs font-bold uppercase ${isNeon ? 'text-pink-400' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-amber-600' : 'text-slate-400'}`}>Your Final Score</div>
             <div className={`text-3xl font-black font-mono mt-1 ${
-              isNeon ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]' : isPartyPop ? 'text-amber-600' : 'text-amber-300'
+              isNeon ? 'text-amber-300 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)]' : isCosmic ? 'text-amber-300' : isPartyPop ? 'text-amber-600' : 'text-amber-300'
             }`}>
               {me.score} pts
             </div>
@@ -625,11 +710,13 @@ function PlayerGameContent() {
             className={`mt-8 px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider text-white transition-all hover:scale-105 active:scale-95 ${
               isNeon
                 ? 'bg-gradient-to-r from-pink-500 to-cyan-500 border-2 border-cyan-300 shadow-[0_0_25px_rgba(236,72,153,0.7)] hover:shadow-[0_0_35px_rgba(6,182,212,0.9)]'
+                : isCosmic
+                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black shadow-[0_0_25px_rgba(245,158,11,0.5)] hover:shadow-[0_0_35px_rgba(245,158,11,0.8)]'
                 : isPartyPop
                 ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#6D28D9] hover:to-[#DB2777] shadow-[0_10px_25px_rgba(124,58,237,0.3)]'
                 : 'shadow-xl'
             }`}
-            style={!isNeon && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
+            style={!isNeon && !isCosmic && !isPartyPop ? { backgroundColor: currentTheme.colors.primary } : undefined}
           >
             Back to Home
           </button>
