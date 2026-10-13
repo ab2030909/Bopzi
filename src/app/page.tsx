@@ -34,6 +34,7 @@ import {
   Flame,
   Quote,
   BarChart3,
+  Sparkles,
 } from 'lucide-react';
 
 export default function HomePage() {

@@ -1,15 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Gamepad2, ArrowRight, User } from 'lucide-react';
+import { Gamepad2, ArrowRight, User, Sparkles } from 'lucide-react';
 import { sounds } from '@/lib/audio';
 
 export function Navbar() {
   const pathname = usePathname();
-  const isGameOrProjector = pathname === '/join' || pathname.startsWith('/host') || pathname.startsWith('/play');
+  const [mounted, setMounted] = useState(false);
   const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isGameOrProjector =
+    mounted &&
+    (pathname === '/wheel' ||
+      pathname === '/join' ||
+      pathname.startsWith('/host') ||
+      pathname.startsWith('/play'));
 
   return (
     <>
@@ -47,12 +58,30 @@ export function Navbar() {
         <nav className="hidden md:flex items-center space-x-1 sm:space-x-2">
           <Link
             href="/"
-            className="px-4 py-2 rounded-full text-sm font-bold bg-[#F3E8FF] text-[#7C3AED] hover:opacity-90 transition-all"
+            className={`px-4 py-2 rounded-full text-sm font-bold transition-all ${
+              mounted && pathname === '/'
+                ? 'bg-[#F3E8FF] text-[#7C3AED]'
+                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+            }`}
           >
             Home
           </Link>
+          <Link
+            href="/wheel"
+            className={`px-3.5 py-2 rounded-full text-sm font-bold transition-all flex items-center space-x-1.5 ${
+              mounted && pathname === '/wheel'
+                ? 'bg-[#F3E8FF] text-[#7C3AED]'
+                : 'text-slate-600 hover:text-[#7C3AED] hover:bg-slate-50'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#7C3AED]" />
+            <span>Spin Wheel</span>
+            <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold uppercase bg-[#7C3AED] text-white">
+              New
+            </span>
+          </Link>
           <a
-            href="#features"
+            href="/#features"
             className="px-4 py-2 rounded-full text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all"
           >
             Features

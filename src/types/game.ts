@@ -56,6 +56,8 @@ export interface GameSession {
   id: string;
   quiz_id: string;
   quiz_title: string;
+  quiz_description?: string;
+  quiz_cover_image?: string;
   host_id: string | null;
   game_pin: string;
   state: GameState;
@@ -72,6 +74,12 @@ export interface GameSession {
 // Client View Models
 export interface HostGameView {
   session: GameSession;
+  quiz?: {
+    title: string;
+    description: string;
+    cover_image?: string;
+    theme_id: ThemeId;
+  };
   participants: Participant[];
   currentQuestion?: Question; // Host sees full question including answers & correctness
   distribution?: AnswerDistribution[];

@@ -129,6 +129,41 @@ class SoundEngine {
     this.playTone(700, 'triangle', 0.1, 0.03);
     this.playTone(1200, 'sine', 0.18, 0.06);
   }
+
+  // 11. Spin the Wheel peg tick (crisp wooden/plastic peg click)
+  public playWheelTick(freqRatio: number = 1.0) {
+    if (this.isMuted) return;
+    this.initContext();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'triangle';
+      const baseFreq = 880 * freqRatio;
+      osc.frequency.setValueAtTime(baseFreq, now);
+      osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.4, now + 0.035);
+
+      gain.gain.setValueAtTime(this.volume * 0.35, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    } catch (e) {}
+  }
+
+  // 12. Wheel Winner Fanfare
+  public playWheelWinner() {
+    this.playTone(523.25, 'triangle', 0.18, 0); // C5
+    this.playTone(659.25, 'triangle', 0.18, 0.1); // E5
+    this.playTone(783.99, 'triangle', 0.22, 0.2); // G5
+    this.playTone(1046.5, 'sine', 0.5, 0.3); // C6
+    this.playTone(1318.51, 'sine', 0.7, 0.45); // E6
+  }
 }
 
 export const sounds = new SoundEngine();

@@ -464,6 +464,33 @@ function HostLiveGameContent() {
                   }`}>
                   {session.game_pin}
                 </div>
+
+                {/* Host Lobby Game Card Details (Cover Photo & Description) */}
+                {(session.quiz_cover_image || session.quiz_description) && (
+                  <div className="w-full mt-4 rounded-2xl overflow-hidden border border-white/20 bg-black/25 backdrop-blur-md shadow-md text-left">
+                    {session.quiz_cover_image && (
+                      <div className="relative w-full aspect-[16/7] overflow-hidden bg-slate-900">
+                        <img
+                          src={session.quiz_cover_image}
+                          alt={session.quiz_title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    )}
+                    {session.quiz_description && (
+                      <div className="p-3">
+                        <div className="text-[10px] font-black uppercase tracking-wider text-amber-300 mb-0.5">
+                          Game Overview
+                        </div>
+                        <p className={`text-xs font-semibold leading-relaxed line-clamp-3 ${
+                          isChampion ? 'text-amber-950 font-bold' : isPartyPop ? 'text-slate-700 font-bold' : 'text-slate-200'
+                        }`}>
+                          {session.quiz_description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Right: Participant Roster */}

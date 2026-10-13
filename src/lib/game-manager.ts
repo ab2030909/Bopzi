@@ -67,6 +67,8 @@ class GameManager {
       id: sessionId,
       quiz_id: quiz.id,
       quiz_title: quiz.title,
+      quiz_description: quiz.description,
+      quiz_cover_image: quiz.cover_image,
       host_id: hostId || 'host-local',
       game_pin: pin,
       state: 'lobby',
@@ -406,6 +408,12 @@ class GameManager {
 
     return {
       session: { ...game.session },
+      quiz: {
+        title: game.quiz.title,
+        description: game.quiz.description,
+        cover_image: game.quiz.cover_image,
+        theme_id: game.quiz.theme_id,
+      },
       participants: Array.from(game.participants.values()),
       currentQuestion,
       distribution,
