@@ -112,9 +112,9 @@ function SignupContent() {
 
   return (
     <div className="min-h-screen w-full relative flex flex-col justify-between overflow-x-hidden font-sans">
-      {/* Immersive World Selection Arena Background Image */}
+      {/* Immersive Cyberpunk Arena Background Image (Matching Sign In) */}
       <img
-        src="/images/world_selection_bg.png"
+        src="/images/join-bg.jpg"
         alt="Bopzi Arena Background"
         className="absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none z-0"
       />
