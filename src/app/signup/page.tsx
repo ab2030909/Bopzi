@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/auth/AuthProvider';
@@ -48,7 +48,7 @@ const WORKPLACE_OPTIONS: Record<
   },
 };
 
-export default function SignupPage() {
+function SignupContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect') || '/dashboard';
@@ -428,5 +428,19 @@ export default function SignupPage() {
         © 2026 BOPZI. Free Real-Time Multiplayer Quiz Arena.
       </footer>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen w-full flex items-center justify-center bg-slate-900 text-white font-bold text-sm">
+          Loading Bopzi Sign Up...
+        </div>
+      }
+    >
+      <SignupContent />
+    </Suspense>
   );
 }
